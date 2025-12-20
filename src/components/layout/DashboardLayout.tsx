@@ -46,18 +46,16 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
   const studentNav: NavItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/student" },
     { icon: Calendar, label: "Attendance", href: "/student/attendance" },
-    { icon: BarChart3, label: "Marks", href: "/student/marks" },
     { icon: FileText, label: "Assignments", href: "/student/assignments" },
-    { icon: BookOpen, label: "Lab Manual", href: "/student/lab" },
+    { icon: BookOpen, label: "Lab Sessions", href: "/student/labs" },
     { icon: Code, label: "Contests", href: "/student/contests" },
-    { icon: Briefcase, label: "Career", href: "/student/career" },
   ];
 
   const facultyNav: NavItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/faculty" },
     { icon: Calendar, label: "Attendance", href: "/faculty/attendance" },
     { icon: ClipboardList, label: "Assignments", href: "/faculty/assignments" },
-    { icon: BookOpen, label: "Lab Sessions", href: "/faculty/lab" },
+    { icon: BookOpen, label: "Lab Sessions", href: "/faculty/labs" },
     { icon: Trophy, label: "Contests", href: "/faculty/contests" },
     { icon: BarChart3, label: "Analytics", href: "/faculty/analytics" },
     { icon: Users, label: "Students", href: "/faculty/students" },
@@ -66,10 +64,9 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
   const adminNav: NavItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/admin" },
     { icon: Users, label: "Users", href: "/admin/users" },
-    { icon: BookOpen, label: "Classes", href: "/admin/classes" },
-    { icon: Calendar, label: "Calendar", href: "/admin/calendar" },
+    { icon: BookOpen, label: "Departments", href: "/admin/departments" },
     { icon: BarChart3, label: "Analytics", href: "/admin/analytics" },
-    { icon: Award, label: "Achievements", href: "/admin/achievements" },
+    { icon: ClipboardList, label: "Audit Logs", href: "/admin/audit-logs" },
     { icon: Settings, label: "Settings", href: "/admin/settings" },
   ];
 

@@ -7,6 +7,9 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentAttendance from "./pages/student/StudentAttendance";
+import StudentAssignments from "./pages/student/StudentAssignments";
+import StudentLabs from "./pages/student/StudentLabs";
+import StudentContests from "./pages/student/StudentContests";
 import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 import FacultyAttendance from "./pages/faculty/FacultyAttendance";
 import FacultyAssignments from "./pages/faculty/FacultyAssignments";
@@ -15,6 +18,10 @@ import FacultyContests from "./pages/faculty/FacultyContests";
 import FacultyAnalytics from "./pages/faculty/FacultyAnalytics";
 import FacultyStudents from "./pages/faculty/FacultyStudents";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminDepartments from "./pages/admin/AdminDepartments";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
+import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,8 +35,13 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
+          {/* Student Routes */}
           <Route path="/student" element={<StudentDashboard />} />
           <Route path="/student/attendance" element={<StudentAttendance />} />
+          <Route path="/student/assignments" element={<StudentAssignments />} />
+          <Route path="/student/labs" element={<StudentLabs />} />
+          <Route path="/student/contests" element={<StudentContests />} />
+          {/* Faculty Routes */}
           <Route path="/faculty" element={<FacultyDashboard />} />
           <Route path="/faculty/attendance" element={<FacultyAttendance />} />
           <Route path="/faculty/assignments" element={<FacultyAssignments />} />
@@ -37,7 +49,12 @@ const App = () => (
           <Route path="/faculty/contests" element={<FacultyContests />} />
           <Route path="/faculty/analytics" element={<FacultyAnalytics />} />
           <Route path="/faculty/students" element={<FacultyStudents />} />
+          {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/departments" element={<AdminDepartments />} />
+          <Route path="/admin/analytics" element={<AdminAnalytics />} />
+          <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
