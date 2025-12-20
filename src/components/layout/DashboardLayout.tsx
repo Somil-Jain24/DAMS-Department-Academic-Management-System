@@ -49,6 +49,7 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
     { icon: FileText, label: "Assignments", href: "/student/assignments" },
     { icon: BookOpen, label: "Lab Sessions", href: "/student/labs" },
     { icon: Code, label: "Contests", href: "/student/contests" },
+    { icon: Award, label: "Marks", href: "/student/marks" },
   ];
 
   const facultyNav: NavItem[] = [
