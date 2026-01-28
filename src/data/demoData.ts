@@ -423,13 +423,14 @@ const generateLabSubmissions = (): LabSubmission[] => {
             labSessionId: lab.id,
             studentId: student.id,
             submittedAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
-            answers: lab.questions.map((q) => ({
+            answers: lab.questions.map((q, qIdx) => ({
               questionId: q.id,
-              answer: `Answer for question ${q.id}`,
-              code: `// Code solution for ${q.question}`,
+              answer: `The problem asks us to ${q.question.toLowerCase()}. I will approach this by analyzing the input format first, understanding the constraints, and then implementing a solution that handles all edge cases mentioned in the examples.`,
+              code: `# Solution for ${q.question}\ndef solve(input_data):\n    # Parse input\n    # Implement logic\n    result = process(input_data)\n    return result\n\nif __name__ == "__main__":\n    result = solve(input())\n    print(result)`,
+              language: "python",
             })),
             marks: isGraded ? Math.floor(Math.random() * 20 + 80) : undefined,
-            feedback: isGraded ? "Well done!" : undefined,
+            feedback: isGraded ? "Good attempt! Your approach is sound. Consider optimizing edge case handling." : undefined,
             status: isGraded ? "graded" : "completed",
           });
         } else {
