@@ -28,7 +28,8 @@ import {
   LabSession,
   LabSubmission,
 } from "@/data/demoData";
-import LabEnvironment from "@/components/lab/LabEnvironment";
+import LabEnvironmentNew from "@/components/lab/LabEnvironmentNew";
+import LabReviewMode from "@/components/lab/LabReviewMode";
 
 const navigationItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/student" },
