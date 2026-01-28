@@ -262,23 +262,34 @@ const StudentLabs = () => {
                   {completedLabs.map((lab) => {
                     const submission = getSubmission(lab.id);
                     return (
-                      <Card key={lab.id}>
+                      <Card key={lab.id} className="hover:shadow-md transition-shadow cursor-pointer">
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 flex-1">
                               <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
                                 <CheckCircle2 className="h-5 w-5 text-green-600" />
                               </div>
-                              <div>
+                              <div className="flex-1">
                                 <h3 className="font-semibold">{lab.title}</h3>
                                 <p className="text-sm text-muted-foreground">{getSubjectName(lab.subjectId)}</p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 flex-shrink-0">
                               {submission?.marks && (
                                 <span className="text-lg font-semibold text-green-600">{submission.marks}%</span>
                               )}
                               {getStatusBadge(submission?.status || "")}
+                              {submission && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() =>
+                                    setReviewingLab({ lab, submission })
+                                  }
+                                >
+                                  View
+                                </Button>
+                              )}
                             </div>
                           </div>
                           {submission?.feedback && (
