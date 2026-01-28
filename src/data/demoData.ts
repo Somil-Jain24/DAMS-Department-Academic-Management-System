@@ -182,6 +182,9 @@ export const demoAssignments: Assignment[] = [
   },
 ];
 
+// Current student (for student view)
+export const currentStudent = demoStudents[0];
+
 // Generate assignment submissions
 const generateAssignmentSubmissions = (): AssignmentSubmission[] => {
   const submissions: AssignmentSubmission[] = [];
