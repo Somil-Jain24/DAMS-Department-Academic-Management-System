@@ -4,10 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 import {
   Calendar,
@@ -20,9 +17,7 @@ import {
   LogOut,
   LayoutDashboard,
   ClipboardList,
-  Code,
   Play,
-  BookOpen,
   Target,
 } from "lucide-react";
 import {
@@ -33,6 +28,7 @@ import {
   LabSession,
   LabSubmission,
 } from "@/data/demoData";
+import LabEnvironment from "@/components/lab/LabEnvironment";
 
 const navigationItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/student" },
