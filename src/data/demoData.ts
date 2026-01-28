@@ -396,29 +396,11 @@ export const demoLabSessions: LabSession[] = [
 // Generate lab submissions
 const generateLabSubmissions = (): LabSubmission[] => {
   const submissions: LabSubmission[] = [];
-  
-  demoLabSessions.forEach((lab) => {
+
+  demoLabSessions.forEach((lab, labIdx) => {
     demoStudents.forEach((student) => {
-      const rand = Math.random();
-      const isCompleted = rand > 0.2;
-      
-      if (isCompleted) {
-        const isGraded = rand > 0.5;
-        submissions.push({
-          id: `labsub-${lab.id}-${student.id}`,
-          labSessionId: lab.id,
-          studentId: student.id,
-          submittedAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
-          answers: lab.questions.map((q) => ({
-            questionId: q.id,
-            answer: `Answer for question ${q.id}`,
-            code: `// Code solution for ${q.question}`,
-          })),
-          marks: isGraded ? Math.floor(Math.random() * 20 + 80) : undefined,
-          feedback: isGraded ? "Well done!" : undefined,
-          status: isGraded ? "graded" : "completed",
-        });
-      } else {
+      // First lab is always pending for current student (to test new interface)
+      if (student.id === currentStudent.id && labIdx === 0) {
         submissions.push({
           id: `labsub-${lab.id}-${student.id}`,
           labSessionId: lab.id,
@@ -427,10 +409,40 @@ const generateLabSubmissions = (): LabSubmission[] => {
           answers: [],
           status: "pending",
         });
+      } else {
+        const rand = Math.random();
+        const isCompleted = rand > 0.2;
+
+        if (isCompleted) {
+          const isGraded = rand > 0.5;
+          submissions.push({
+            id: `labsub-${lab.id}-${student.id}`,
+            labSessionId: lab.id,
+            studentId: student.id,
+            submittedAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+            answers: lab.questions.map((q) => ({
+              questionId: q.id,
+              answer: `Answer for question ${q.id}`,
+              code: `// Code solution for ${q.question}`,
+            })),
+            marks: isGraded ? Math.floor(Math.random() * 20 + 80) : undefined,
+            feedback: isGraded ? "Well done!" : undefined,
+            status: isGraded ? "graded" : "completed",
+          });
+        } else {
+          submissions.push({
+            id: `labsub-${lab.id}-${student.id}`,
+            labSessionId: lab.id,
+            studentId: student.id,
+            submittedAt: "",
+            answers: [],
+            status: "pending",
+          });
+        }
       }
     });
   });
-  
+
   return submissions;
 };
 
