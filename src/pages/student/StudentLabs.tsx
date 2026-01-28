@@ -43,6 +43,10 @@ const StudentLabs = () => {
   const location = useLocation();
   const { toast } = useToast();
   const [selectedLab, setSelectedLab] = useState<LabSession | null>(null);
+  const [reviewingLab, setReviewingLab] = useState<{
+    lab: LabSession;
+    submission: LabSubmission;
+  } | null>(null);
 
   const getSubmission = (labId: string): LabSubmission | undefined => {
     return demoLabSubmissions.find(
