@@ -356,10 +356,10 @@ export default function LabEnvironmentNew({
 
         {/* RIGHT PANEL - Solution Writing */}
         {currentQuestion && currentState && (
-          <div className="w-1/2 flex flex-col border rounded-lg bg-card overflow-hidden">
+          <div className="w-1/2 flex flex-col border rounded-lg bg-card overflow-hidden min-h-0">
             {/* Tabs */}
-            <Tabs defaultValue="theory" className="flex flex-col h-full">
-              <div className="border-b px-4 pt-3">
+            <Tabs defaultValue="theory" className="flex-1 flex flex-col min-h-0">
+              <div className="border-b px-4 pt-3 flex-shrink-0">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="theory" className="gap-2">
                     <BookOpen className="h-4 w-4" />
@@ -406,21 +406,25 @@ export default function LabEnvironmentNew({
               </TabsContent>
 
               {/* Code Mode */}
-              <TabsContent value="code" className="flex flex-col flex-1 overflow-hidden">
-                <CodePanel
-                  code={currentState.code}
-                  language={currentState.language}
-                  onChange={handleCodeChange}
-                  onLanguageChange={handleLanguageChange}
-                  onRun={handleRunCode}
-                  isRunning={isRunning}
-                />
+              <TabsContent value="code" className="flex-1 flex flex-col min-h-0 overflow-hidden p-0 m-0 data-[state=active]:flex">
+                <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                  <CodePanel
+                    code={currentState.code}
+                    language={currentState.language}
+                    onChange={handleCodeChange}
+                    onLanguageChange={handleLanguageChange}
+                    onRun={handleRunCode}
+                    isRunning={isRunning}
+                  />
+                </div>
 
                 {currentState.testResults && (
-                  <ResultPanel
-                    testResults={currentState.testResults}
-                    testCases={currentQuestion.testCases || []}
-                  />
+                  <div className="flex-shrink-0 max-h-[200px] overflow-auto border-t">
+                    <ResultPanel
+                      testResults={currentState.testResults}
+                      testCases={currentQuestion.testCases || []}
+                    />
+                  </div>
                 )}
               </TabsContent>
             </Tabs>
