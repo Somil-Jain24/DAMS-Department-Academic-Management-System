@@ -42,8 +42,6 @@ const StudentLabs = () => {
   const location = useLocation();
   const { toast } = useToast();
   const [selectedLab, setSelectedLab] = useState<LabSession | null>(null);
-  const [answers, setAnswers] = useState<Record<string, { answer: string; code: string }>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const getSubmission = (labId: string): LabSubmission | undefined => {
     return demoLabSubmissions.find(
@@ -63,37 +61,14 @@ const StudentLabs = () => {
 
   const handleStartLab = (lab: LabSession) => {
     setSelectedLab(lab);
-    const initialAnswers: Record<string, { answer: string; code: string }> = {};
-    lab.questions.forEach((q) => {
-      initialAnswers[q.id] = { answer: "", code: "" };
-    });
-    setAnswers(initialAnswers);
   };
 
-  const handleSubmit = () => {
-    const allAnswered = selectedLab?.questions.every(
-      (q) => answers[q.id]?.answer.trim() || answers[q.id]?.code.trim()
-    );
-
-    if (!allAnswered) {
-      toast({
-        title: "Incomplete Submission",
-        description: "Please answer all questions before submitting.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSelectedLab(null);
-      setAnswers({});
-      toast({
-        title: "Lab Submitted!",
-        description: "Your lab work has been submitted successfully.",
-      });
-    }, 1000);
+  const handleSubmitLab = (answers: Record<string, { answer: string; code: string; language: string }>) => {
+    setSelectedLab(null);
+    toast({
+      title: "Lab Submitted!",
+      description: "Your lab work has been submitted successfully.",
+    });
   };
 
   const getStatusBadge = (status: string) => {
