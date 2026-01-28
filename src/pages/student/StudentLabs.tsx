@@ -68,7 +68,7 @@ const StudentLabs = () => {
     setSelectedLab(lab);
   };
 
-  const handleSubmitLab = (answers: Record<string, { answer: string; code: string; language: string }>) => {
+  const handleSubmitLab = (answers: Record<string, { theory: string; code: string; language: string }>) => {
     setSelectedLab(null);
     toast({
       title: "Lab Submitted!",

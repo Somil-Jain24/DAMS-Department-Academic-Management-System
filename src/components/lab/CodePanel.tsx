@@ -104,9 +104,9 @@ export default function CodePanel({
   };
 
   return (
-    <div className="flex flex-col h-full px-4 pb-4">
-      {/* Toolbar */}
-      <div className="mt-3 mb-3 flex items-center justify-between gap-4 pb-3 border-b">
+    <div className="flex flex-col flex-1 min-h-0 h-full">
+      {/* Toolbar - Fixed Height */}
+      <div className="flex-shrink-0 px-4 py-3 flex items-center justify-between gap-4 border-b bg-card">
         <div className="flex items-center gap-2">
           <label className="text-sm font-medium">Language:</label>
           <Select value={language} onValueChange={handleLanguageChange}>
@@ -152,10 +152,10 @@ export default function CodePanel({
         </div>
       </div>
 
-      {/* Code Editor */}
-      <div className="flex-1 flex overflow-hidden gap-2">
+      {/* Code Editor - Fills Remaining Space */}
+      <div className="flex-1 flex min-h-0 overflow-hidden">
         {/* Line numbers */}
-        <div className="bg-muted w-10 flex flex-col items-end px-1.5 py-2 overflow-hidden text-right text-xs text-muted-foreground">
+        <div className="bg-muted w-10 flex-shrink-0 overflow-y-auto px-1.5 py-2 text-right text-xs text-muted-foreground">
           {code.split("\n").map((_, idx) => (
             <div key={idx} className="h-6 leading-6">
               {idx + 1}
@@ -168,7 +168,7 @@ export default function CodePanel({
           value={code}
           onChange={(e) => onChange(e.target.value)}
           placeholder={LANGUAGE_TEMPLATES[language] || "// Write your code here..."}
-          className="flex-1 py-2 font-mono text-sm bg-background text-foreground resize-none focus:outline-none border-none"
+          className="flex-1 py-2 px-3 font-mono text-sm bg-background text-foreground resize-none focus:outline-none border-none min-h-0"
           spellCheck="false"
           style={{
             lineHeight: "1.5rem",
