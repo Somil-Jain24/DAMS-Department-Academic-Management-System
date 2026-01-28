@@ -291,6 +291,15 @@ const StudentLabs = () => {
           </Tabs>
         </div>
       </main>
+
+      {/* Lab Environment Modal */}
+      {selectedLab && (
+        <LabEnvironment
+          lab={selectedLab}
+          onClose={() => setSelectedLab(null)}
+          onSubmit={handleSubmitLab}
+        />
+      )}
     </div>
   );
 };
