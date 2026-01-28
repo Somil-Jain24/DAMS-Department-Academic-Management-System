@@ -74,7 +74,7 @@ export interface LabSubmission {
   labSessionId: string;
   studentId: string;
   submittedAt: string;
-  answers: { questionId: string; answer: string; code?: string }[];
+  answers: { questionId: string; answer: string; code?: string; language?: string }[];
   marks?: number;
   feedback?: string;
   status: "completed" | "pending" | "graded";
