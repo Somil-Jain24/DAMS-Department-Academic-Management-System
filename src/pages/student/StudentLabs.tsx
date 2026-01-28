@@ -231,82 +231,10 @@ const StudentLabs = () => {
                         </div>
 
                         <div className="flex justify-end">
-                          <Dialog open={selectedLab?.id === lab.id} onOpenChange={(open) => !open && setSelectedLab(null)}>
-                            <DialogTrigger asChild>
-                              <Button onClick={() => handleStartLab(lab)}>
-                                <Play className="h-4 w-4 mr-2" />
-                                Start Lab
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                              <DialogHeader>
-                                <DialogTitle>{lab.title}</DialogTitle>
-                                <DialogDescription>{getSubjectName(lab.subjectId)}</DialogDescription>
-                              </DialogHeader>
-
-                              <div className="space-y-6">
-                                {/* Theory Section */}
-                                <div className="p-4 bg-muted rounded-lg">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <BookOpen className="h-4 w-4" />
-                                    <h4 className="font-medium">Theory</h4>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">{lab.theory}</p>
-                                </div>
-
-                                {/* Questions */}
-                                <div className="space-y-4">
-                                  <h4 className="font-medium">Questions</h4>
-                                  <Accordion type="single" collapsible defaultValue="q0">
-                                    {lab.questions.map((q, idx) => (
-                                      <AccordionItem key={q.id} value={`q${idx}`}>
-                                        <AccordionTrigger>
-                                          <span className="text-left">
-                                            Q{idx + 1}. {q.question}
-                                          </span>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="space-y-4 pt-4">
-                                          <div>
-                                            <label className="text-sm font-medium mb-2 block">Your Answer</label>
-                                            <Textarea
-                                              placeholder="Explain your approach..."
-                                              value={answers[q.id]?.answer || ""}
-                                              onChange={(e) => setAnswers((prev) => ({
-                                                ...prev,
-                                                [q.id]: { ...prev[q.id], answer: e.target.value },
-                                              }))}
-                                            />
-                                          </div>
-                                          <div>
-                                            <label className="text-sm font-medium mb-2 block flex items-center gap-2">
-                                              <Code className="h-4 w-4" />
-                                              Code
-                                            </label>
-                                            <Textarea
-                                              placeholder="// Write your code here..."
-                                              className="font-mono min-h-[150px]"
-                                              value={answers[q.id]?.code || ""}
-                                              onChange={(e) => setAnswers((prev) => ({
-                                                ...prev,
-                                                [q.id]: { ...prev[q.id], code: e.target.value },
-                                              }))}
-                                            />
-                                          </div>
-                                        </AccordionContent>
-                                      </AccordionItem>
-                                    ))}
-                                  </Accordion>
-                                </div>
-
-                                <div className="flex justify-end gap-2 pt-4 border-t">
-                                  <Button variant="outline" onClick={() => setSelectedLab(null)}>Cancel</Button>
-                                  <Button onClick={handleSubmit} disabled={isSubmitting}>
-                                    {isSubmitting ? "Submitting..." : "Submit Lab"}
-                                  </Button>
-                                </div>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
+                          <Button onClick={() => handleStartLab(lab)}>
+                            <Play className="h-4 w-4 mr-2" />
+                            Start Lab
+                          </Button>
                         </div>
                       </CardContent>
                     </Card>
