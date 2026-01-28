@@ -679,9 +679,6 @@ export const getContestLeaderboard = (contestId: string): { student: Student; to
     .sort((a, b) => b.totalScore - a.totalScore);
 };
 
-// Current student (for student view)
-export const currentStudent = demoStudents[0];
-
 // Helper to get subject name
 export const getSubjectName = (subjectId: string): string => {
   return demoSubjects.find((s) => s.id === subjectId)?.name || "Unknown";
