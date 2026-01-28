@@ -310,10 +310,19 @@ const StudentLabs = () => {
 
       {/* Lab Environment Modal */}
       {selectedLab && (
-        <LabEnvironment
+        <LabEnvironmentNew
           lab={selectedLab}
           onClose={() => setSelectedLab(null)}
           onSubmit={handleSubmitLab}
+        />
+      )}
+
+      {/* Lab Review Modal */}
+      {reviewingLab && (
+        <LabReviewMode
+          lab={reviewingLab.lab}
+          submission={reviewingLab.submission}
+          onClose={() => setReviewingLab(null)}
         />
       )}
     </div>
