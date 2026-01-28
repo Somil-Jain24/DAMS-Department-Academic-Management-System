@@ -62,6 +62,10 @@ export interface LabSession {
 export interface LabQuestion {
   id: string;
   question: string;
+  description?: string;
+  constraints?: string;
+  examples?: { input: string; output: string }[];
+  testCases?: { input: string; output: string; isHidden?: boolean }[];
   expectedOutput?: string;
 }
 
@@ -70,7 +74,7 @@ export interface LabSubmission {
   labSessionId: string;
   studentId: string;
   submittedAt: string;
-  answers: { questionId: string; answer: string; code?: string }[];
+  answers: { questionId: string; answer: string; code?: string; language?: string }[];
   marks?: number;
   feedback?: string;
   status: "completed" | "pending" | "graded";
@@ -178,6 +182,9 @@ export const demoAssignments: Assignment[] = [
   },
 ];
 
+// Current student (for student view)
+export const currentStudent = demoStudents[0];
+
 // Generate assignment submissions
 const generateAssignmentSubmissions = (): AssignmentSubmission[] => {
   const submissions: AssignmentSubmission[] = [];
@@ -230,37 +237,159 @@ export const demoLabSessions: LabSession[] = [
     objectives: "Understand and implement singly linked list operations",
     theory: "A linked list is a linear data structure where elements are stored in nodes, each containing data and a reference to the next node.",
     questions: [
-      { id: "q1", question: "Implement a function to insert a node at the beginning of a linked list" },
-      { id: "q2", question: "Implement a function to delete a node by value" },
-      { id: "q3", question: "Implement a function to reverse the linked list" },
+      {
+        id: "q1",
+        question: "Insert at Beginning",
+        description: "Implement a function to insert a node at the beginning of a linked list and return the new head.",
+        constraints: "The linked list can be empty. Node values are integers.",
+        examples: [
+          { input: "list = [2,3], value = 1", output: "[1,2,3]" },
+          { input: "list = [], value = 5", output: "[5]" },
+        ],
+        testCases: [
+          { input: "1,2,3|0", output: "0,1,2,3", isHidden: false },
+          { input: "5,6|4", output: "4,5,6", isHidden: false },
+          { input: "|10", output: "10", isHidden: true },
+        ],
+      },
+      {
+        id: "q2",
+        question: "Delete Node by Value",
+        description: "Implement a function to delete a node with a specific value from the linked list.",
+        constraints: "If the node is not found, return the original list.",
+        examples: [
+          { input: "list = [1,2,3], value = 2", output: "[1,3]" },
+          { input: "list = [1,2,1], value = 1", output: "[2]" },
+        ],
+        testCases: [
+          { input: "1,2,3,4|2", output: "1,3,4", isHidden: false },
+          { input: "5|5", output: "", isHidden: false },
+          { input: "1,1,1|1", output: "", isHidden: true },
+        ],
+      },
+      {
+        id: "q3",
+        question: "Reverse Linked List",
+        description: "Implement a function to reverse the entire linked list.",
+        constraints: "Use constant extra space (modify in-place when possible).",
+        examples: [
+          { input: "list = [1,2,3,4,5]", output: "[5,4,3,2,1]" },
+          { input: "list = [1]", output: "[1]" },
+        ],
+        testCases: [
+          { input: "1,2,3,4,5", output: "5,4,3,2,1", isHidden: false },
+          { input: "10,20", output: "20,10", isHidden: false },
+          { input: "1", output: "1", isHidden: true },
+        ],
+      },
     ],
     createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
     class: "IT 3rd Year",
   },
   {
     id: "lab2",
-    title: "Stack and Queue Operations",
+    title: "Stack Operations",
     subjectId: "sub1",
-    objectives: "Implement stack and queue using arrays and linked lists",
-    theory: "Stack follows LIFO (Last In First Out) while Queue follows FIFO (First In First Out) principle.",
+    objectives: "Implement stack operations and understand LIFO principle",
+    theory: "Stack follows LIFO (Last In First Out) principle. Common operations are push (add), pop (remove), and peek (view top).",
     questions: [
-      { id: "q1", question: "Implement a stack using an array with push and pop operations" },
-      { id: "q2", question: "Implement a queue using linked list" },
-      { id: "q3", question: "Implement a function to check balanced parentheses using stack" },
+      {
+        id: "q1",
+        question: "Implement Stack Push",
+        description: "Implement a stack class with a push operation that adds elements to the top.",
+        constraints: "Stack size can be unlimited.",
+        examples: [
+          { input: "push 1, push 2, push 3, getStack()", output: "[1,2,3]" },
+        ],
+        testCases: [
+          { input: "push:5|push:10|push:3|peek", output: "3", isHidden: false },
+          { input: "push:1|size", output: "1", isHidden: false },
+          { input: "push:7|push:8|pop|peek", output: "7", isHidden: true },
+        ],
+      },
+      {
+        id: "q2",
+        question: "Check Balanced Parentheses",
+        description: "Implement a function to check if parentheses in a string are balanced using a stack.",
+        constraints: "Consider only (), {}, [] as valid pairs.",
+        examples: [
+          { input: '"{[()]}"', output: "true" },
+          { input: '"[})"', output: "false" },
+        ],
+        testCases: [
+          { input: "()", output: "true", isHidden: false },
+          { input: "([{}])", output: "true", isHidden: false },
+          { input: "[{]}", output: "false", isHidden: true },
+        ],
+      },
+      {
+        id: "q3",
+        question: "Evaluate Postfix Expression",
+        description: "Evaluate a postfix expression using a stack. Operators: +, -, *, /",
+        constraints: "All numbers are single digits. Return integer result.",
+        examples: [
+          { input: '"2 3 +"', output: "5" },
+          { input: '"15 7 1 1 + - / 3 * 2 1 1 + + -"', output: "5" },
+        ],
+        testCases: [
+          { input: "3 4 +", output: "7", isHidden: false },
+          { input: "10 5 -", output: "5", isHidden: false },
+          { input: "6 2 / 3 +", output: "6", isHidden: true },
+        ],
+      },
     ],
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
     class: "IT 3rd Year",
   },
   {
     id: "lab3",
-    title: "SQL Queries Practice",
+    title: "SQL Query Practice",
     subjectId: "sub3",
-    objectives: "Practice complex SQL queries including joins and subqueries",
-    theory: "SQL (Structured Query Language) is used to manage and manipulate relational databases.",
+    objectives: "Practice complex SQL queries including joins and aggregation",
+    theory: "SQL (Structured Query Language) is used to query and manipulate data in relational databases using SELECT, JOIN, WHERE clauses.",
     questions: [
-      { id: "q1", question: "Write a query to find employees earning more than their managers" },
-      { id: "q2", question: "Write a query using INNER JOIN to get student grades with subject names" },
-      { id: "q3", question: "Write a query to find the second highest salary" },
+      {
+        id: "q1",
+        question: "Select Students with High Marks",
+        description: "Write a query to select all students with marks >= 80.",
+        constraints: "Use table 'students' with columns: id, name, marks.",
+        examples: [
+          { input: "SELECT * FROM students WHERE marks >= 80;", output: "Returns students with marks >= 80" },
+        ],
+        testCases: [
+          { input: "marks_threshold:80", output: "Alice,Bob,Charlie", isHidden: false },
+          { input: "marks_threshold:90", output: "Bob", isHidden: false },
+          { input: "marks_threshold:75", output: "Alice,Bob,Charlie,David", isHidden: true },
+        ],
+      },
+      {
+        id: "q2",
+        question: "Inner Join Students and Subjects",
+        description: "Write a query using INNER JOIN to get student names with their subject enrollments.",
+        constraints: "Tables: students (id, name), enrollments (student_id, subject_id), subjects (id, name).",
+        examples: [
+          { input: "SELECT s.name, sub.name FROM students s JOIN enrollments e ON s.id = e.student_id JOIN subjects sub ON e.subject_id = sub.id;", output: "Student-Subject pairs" },
+        ],
+        testCases: [
+          { input: "student:Alice", output: "Mathematics,Physics", isHidden: false },
+          { input: "subject:Mathematics", output: "Alice,Bob,David", isHidden: false },
+          { input: "all", output: "Complete enrollment list", isHidden: true },
+        ],
+      },
+      {
+        id: "q3",
+        question: "Find Second Highest Salary",
+        description: "Write a query to find the second highest salary from the employees table.",
+        constraints: "Handle edge cases where there might not be a second highest.",
+        examples: [
+          { input: "Table with salaries: 1000, 2000, 3000, 3000", output: "2000" },
+        ],
+        testCases: [
+          { input: "salaries:1000,2000,3000,4000", output: "3000", isHidden: false },
+          { input: "salaries:5000,5000", output: "null", isHidden: false },
+          { input: "salaries:100,200,300,400,500", output: "400", isHidden: true },
+        ],
+      },
     ],
     createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
     class: "IT 3rd Year",
@@ -270,29 +399,11 @@ export const demoLabSessions: LabSession[] = [
 // Generate lab submissions
 const generateLabSubmissions = (): LabSubmission[] => {
   const submissions: LabSubmission[] = [];
-  
-  demoLabSessions.forEach((lab) => {
+
+  demoLabSessions.forEach((lab, labIdx) => {
     demoStudents.forEach((student) => {
-      const rand = Math.random();
-      const isCompleted = rand > 0.2;
-      
-      if (isCompleted) {
-        const isGraded = rand > 0.5;
-        submissions.push({
-          id: `labsub-${lab.id}-${student.id}`,
-          labSessionId: lab.id,
-          studentId: student.id,
-          submittedAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
-          answers: lab.questions.map((q) => ({
-            questionId: q.id,
-            answer: `Answer for question ${q.id}`,
-            code: `// Code solution for ${q.question}`,
-          })),
-          marks: isGraded ? Math.floor(Math.random() * 20 + 80) : undefined,
-          feedback: isGraded ? "Well done!" : undefined,
-          status: isGraded ? "graded" : "completed",
-        });
-      } else {
+      // First lab is always pending for current student (to test new interface)
+      if (student.id === currentStudent.id && labIdx === 0) {
         submissions.push({
           id: `labsub-${lab.id}-${student.id}`,
           labSessionId: lab.id,
@@ -301,10 +412,41 @@ const generateLabSubmissions = (): LabSubmission[] => {
           answers: [],
           status: "pending",
         });
+      } else {
+        const rand = Math.random();
+        const isCompleted = rand > 0.2;
+
+        if (isCompleted) {
+          const isGraded = rand > 0.5;
+          submissions.push({
+            id: `labsub-${lab.id}-${student.id}`,
+            labSessionId: lab.id,
+            studentId: student.id,
+            submittedAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+            answers: lab.questions.map((q, qIdx) => ({
+              questionId: q.id,
+              answer: `The problem asks us to ${q.question.toLowerCase()}. I will approach this by analyzing the input format first, understanding the constraints, and then implementing a solution that handles all edge cases mentioned in the examples.`,
+              code: `# Solution for ${q.question}\ndef solve(input_data):\n    # Parse input\n    # Implement logic\n    result = process(input_data)\n    return result\n\nif __name__ == "__main__":\n    result = solve(input())\n    print(result)`,
+              language: "python",
+            })),
+            marks: isGraded ? Math.floor(Math.random() * 20 + 80) : undefined,
+            feedback: isGraded ? "Good attempt! Your approach is sound. Consider optimizing edge case handling." : undefined,
+            status: isGraded ? "graded" : "completed",
+          });
+        } else {
+          submissions.push({
+            id: `labsub-${lab.id}-${student.id}`,
+            labSessionId: lab.id,
+            studentId: student.id,
+            submittedAt: "",
+            answers: [],
+            status: "pending",
+          });
+        }
       }
     });
   });
-  
+
   return submissions;
 };
 
@@ -537,9 +679,6 @@ export const getContestLeaderboard = (contestId: string): { student: Student; to
     .filter((entry) => entry.student)
     .sort((a, b) => b.totalScore - a.totalScore);
 };
-
-// Current student (for student view)
-export const currentStudent = demoStudents[0];
 
 // Helper to get subject name
 export const getSubjectName = (subjectId: string): string => {

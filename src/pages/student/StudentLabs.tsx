@@ -4,10 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 import {
   Calendar,
@@ -20,9 +17,7 @@ import {
   LogOut,
   LayoutDashboard,
   ClipboardList,
-  Code,
   Play,
-  BookOpen,
   Target,
 } from "lucide-react";
 import {
@@ -33,6 +28,8 @@ import {
   LabSession,
   LabSubmission,
 } from "@/data/demoData";
+import LabEnvironmentNew from "@/components/lab/LabEnvironmentNew";
+import LabReviewMode from "@/components/lab/LabReviewMode";
 
 const navigationItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/student" },
@@ -46,8 +43,10 @@ const StudentLabs = () => {
   const location = useLocation();
   const { toast } = useToast();
   const [selectedLab, setSelectedLab] = useState<LabSession | null>(null);
-  const [answers, setAnswers] = useState<Record<string, { answer: string; code: string }>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reviewingLab, setReviewingLab] = useState<{
+    lab: LabSession;
+    submission: LabSubmission;
+  } | null>(null);
 
   const getSubmission = (labId: string): LabSubmission | undefined => {
     return demoLabSubmissions.find(
@@ -67,37 +66,14 @@ const StudentLabs = () => {
 
   const handleStartLab = (lab: LabSession) => {
     setSelectedLab(lab);
-    const initialAnswers: Record<string, { answer: string; code: string }> = {};
-    lab.questions.forEach((q) => {
-      initialAnswers[q.id] = { answer: "", code: "" };
-    });
-    setAnswers(initialAnswers);
   };
 
-  const handleSubmit = () => {
-    const allAnswered = selectedLab?.questions.every(
-      (q) => answers[q.id]?.answer.trim() || answers[q.id]?.code.trim()
-    );
-
-    if (!allAnswered) {
-      toast({
-        title: "Incomplete Submission",
-        description: "Please answer all questions before submitting.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSelectedLab(null);
-      setAnswers({});
-      toast({
-        title: "Lab Submitted!",
-        description: "Your lab work has been submitted successfully.",
-      });
-    }, 1000);
+  const handleSubmitLab = (answers: Record<string, { answer: string; code: string; language: string }>) => {
+    setSelectedLab(null);
+    toast({
+      title: "Lab Submitted!",
+      description: "Your lab work has been submitted successfully.",
+    });
   };
 
   const getStatusBadge = (status: string) => {
@@ -260,82 +236,10 @@ const StudentLabs = () => {
                         </div>
 
                         <div className="flex justify-end">
-                          <Dialog open={selectedLab?.id === lab.id} onOpenChange={(open) => !open && setSelectedLab(null)}>
-                            <DialogTrigger asChild>
-                              <Button onClick={() => handleStartLab(lab)}>
-                                <Play className="h-4 w-4 mr-2" />
-                                Start Lab
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                              <DialogHeader>
-                                <DialogTitle>{lab.title}</DialogTitle>
-                                <DialogDescription>{getSubjectName(lab.subjectId)}</DialogDescription>
-                              </DialogHeader>
-
-                              <div className="space-y-6">
-                                {/* Theory Section */}
-                                <div className="p-4 bg-muted rounded-lg">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <BookOpen className="h-4 w-4" />
-                                    <h4 className="font-medium">Theory</h4>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground">{lab.theory}</p>
-                                </div>
-
-                                {/* Questions */}
-                                <div className="space-y-4">
-                                  <h4 className="font-medium">Questions</h4>
-                                  <Accordion type="single" collapsible defaultValue="q0">
-                                    {lab.questions.map((q, idx) => (
-                                      <AccordionItem key={q.id} value={`q${idx}`}>
-                                        <AccordionTrigger>
-                                          <span className="text-left">
-                                            Q{idx + 1}. {q.question}
-                                          </span>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="space-y-4 pt-4">
-                                          <div>
-                                            <label className="text-sm font-medium mb-2 block">Your Answer</label>
-                                            <Textarea
-                                              placeholder="Explain your approach..."
-                                              value={answers[q.id]?.answer || ""}
-                                              onChange={(e) => setAnswers((prev) => ({
-                                                ...prev,
-                                                [q.id]: { ...prev[q.id], answer: e.target.value },
-                                              }))}
-                                            />
-                                          </div>
-                                          <div>
-                                            <label className="text-sm font-medium mb-2 block flex items-center gap-2">
-                                              <Code className="h-4 w-4" />
-                                              Code
-                                            </label>
-                                            <Textarea
-                                              placeholder="// Write your code here..."
-                                              className="font-mono min-h-[150px]"
-                                              value={answers[q.id]?.code || ""}
-                                              onChange={(e) => setAnswers((prev) => ({
-                                                ...prev,
-                                                [q.id]: { ...prev[q.id], code: e.target.value },
-                                              }))}
-                                            />
-                                          </div>
-                                        </AccordionContent>
-                                      </AccordionItem>
-                                    ))}
-                                  </Accordion>
-                                </div>
-
-                                <div className="flex justify-end gap-2 pt-4 border-t">
-                                  <Button variant="outline" onClick={() => setSelectedLab(null)}>Cancel</Button>
-                                  <Button onClick={handleSubmit} disabled={isSubmitting}>
-                                    {isSubmitting ? "Submitting..." : "Submit Lab"}
-                                  </Button>
-                                </div>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
+                          <Button onClick={() => handleStartLab(lab)}>
+                            <Play className="h-4 w-4 mr-2" />
+                            Start Lab
+                          </Button>
                         </div>
                       </CardContent>
                     </Card>
@@ -358,23 +262,34 @@ const StudentLabs = () => {
                   {completedLabs.map((lab) => {
                     const submission = getSubmission(lab.id);
                     return (
-                      <Card key={lab.id}>
+                      <Card key={lab.id} className="hover:shadow-md transition-shadow cursor-pointer">
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 flex-1">
                               <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
                                 <CheckCircle2 className="h-5 w-5 text-green-600" />
                               </div>
-                              <div>
+                              <div className="flex-1">
                                 <h3 className="font-semibold">{lab.title}</h3>
                                 <p className="text-sm text-muted-foreground">{getSubjectName(lab.subjectId)}</p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 flex-shrink-0">
                               {submission?.marks && (
                                 <span className="text-lg font-semibold text-green-600">{submission.marks}%</span>
                               )}
                               {getStatusBadge(submission?.status || "")}
+                              {submission && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() =>
+                                    setReviewingLab({ lab, submission })
+                                  }
+                                >
+                                  View
+                                </Button>
+                              )}
                             </div>
                           </div>
                           {submission?.feedback && (
@@ -392,6 +307,24 @@ const StudentLabs = () => {
           </Tabs>
         </div>
       </main>
+
+      {/* Lab Environment Modal */}
+      {selectedLab && (
+        <LabEnvironmentNew
+          lab={selectedLab}
+          onClose={() => setSelectedLab(null)}
+          onSubmit={handleSubmitLab}
+        />
+      )}
+
+      {/* Lab Review Modal */}
+      {reviewingLab && (
+        <LabReviewMode
+          lab={reviewingLab.lab}
+          submission={reviewingLab.submission}
+          onClose={() => setReviewingLab(null)}
+        />
+      )}
     </div>
   );
 };
