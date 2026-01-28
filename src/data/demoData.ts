@@ -62,6 +62,10 @@ export interface LabSession {
 export interface LabQuestion {
   id: string;
   question: string;
+  description?: string;
+  constraints?: string;
+  examples?: { input: string; output: string }[];
+  testCases?: { input: string; output: string; isHidden?: boolean }[];
   expectedOutput?: string;
 }
 
