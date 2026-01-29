@@ -1,25 +1,17 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import {
-  Calendar,
-  Trophy,
   FlaskConical,
-  GraduationCap,
   Clock,
   CheckCircle2,
-  User,
-  LogOut,
-  LayoutDashboard,
-  ClipboardList,
   Play,
   Target,
 } from "lucide-react";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import {
   currentStudent,
   demoLabSessions,
@@ -30,14 +22,6 @@ import {
 } from "@/data/demoData";
 import LabEnvironmentNew from "@/components/lab/LabEnvironmentNew";
 import LabReviewMode from "@/components/lab/LabReviewMode";
-
-const navigationItems = [
-  { label: "Dashboard", icon: LayoutDashboard, path: "/student" },
-  { label: "Attendance", icon: Calendar, path: "/student/attendance" },
-  { label: "Assignments", icon: ClipboardList, path: "/student/assignments" },
-  { label: "Lab Sessions", icon: FlaskConical, path: "/student/labs" },
-  { label: "Contests", icon: Trophy, path: "/student/contests" },
-];
 
 const StudentLabs = () => {
   const location = useLocation();
