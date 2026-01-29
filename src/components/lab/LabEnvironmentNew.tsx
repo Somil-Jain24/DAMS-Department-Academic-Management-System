@@ -359,7 +359,7 @@ export default function LabEnvironmentNew({
           <div className="w-1/2 flex flex-col border rounded-lg bg-card overflow-hidden min-h-0">
             {/* Tabs */}
             <Tabs defaultValue="theory" className="flex-1 flex flex-col min-h-0">
-              <div className="border-b px-4 pt-3 flex-shrink-0">
+              <div className="border-b px-4 py-0 flex-shrink-0">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="theory" className="gap-2">
                     <BookOpen className="h-4 w-4" />
