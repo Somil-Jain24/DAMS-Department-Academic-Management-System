@@ -1,35 +1,27 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import {
-  Calendar,
   Trophy,
-  FlaskConical,
-  GraduationCap,
   Clock,
   CheckCircle2,
-  User,
-  LogOut,
-  LayoutDashboard,
-  ClipboardList,
   Code,
   Play,
   Target,
   Medal,
   Timer,
-  ChevronRight,
   AlertCircle,
   XCircle,
+  Calendar,
 } from "lucide-react";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import {
   currentStudent,
   demoContests,
@@ -39,16 +31,7 @@ import {
   ContestProblem,
 } from "@/data/demoData";
 
-const navigationItems = [
-  { label: "Dashboard", icon: LayoutDashboard, path: "/student" },
-  { label: "Attendance", icon: Calendar, path: "/student/attendance" },
-  { label: "Assignments", icon: ClipboardList, path: "/student/assignments" },
-  { label: "Lab Sessions", icon: FlaskConical, path: "/student/labs" },
-  { label: "Contests", icon: Trophy, path: "/student/contests" },
-];
-
 const StudentContests = () => {
-  const location = useLocation();
   const { toast } = useToast();
   const [selectedContest, setSelectedContest] = useState<Contest | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<ContestProblem | null>(null);
@@ -232,66 +215,9 @@ const StudentContests = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <aside className="w-64 border-r bg-card flex flex-col">
-        <div className="p-6 border-b">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-              <GraduationCap className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <h2 className="font-semibold">Student Portal</h2>
-              <p className="text-xs text-muted-foreground">Academic Management</p>
-            </div>
-          </div>
-        </div>
-
-        <ScrollArea className="flex-1 px-3 py-4">
-          <nav className="space-y-1">
-            {navigationItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  }`}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span className="text-sm font-medium">{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        </ScrollArea>
-
-        <div className="p-4 border-t">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-              <User className="h-4 w-4" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{currentStudent.name}</p>
-              <p className="text-xs text-muted-foreground truncate">{currentStudent.rollNumber}</p>
-            </div>
-          </div>
-          <Link to="/login">
-            <Button variant="outline" size="sm" className="w-full">
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
-          </Link>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        {selectedContest ? (
-          <div className="p-6 max-w-6xl mx-auto">
+    <DashboardLayout role="student">
+      {selectedContest ? (
+          <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-2 mb-6">
               <Button variant="ghost" size="sm" onClick={() => { setSelectedContest(null); setSelectedProblem(null); }}>
                 ← Back to Contests
@@ -450,7 +376,7 @@ const StudentContests = () => {
             </div>
           </div>
         ) : (
-          <div className="p-6 max-w-6xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="mb-8">
               <h1 className="text-3xl font-bold">Coding Contests</h1>
               <p className="text-muted-foreground mt-1">Participate in contests and compete with peers</p>
@@ -569,8 +495,7 @@ const StudentContests = () => {
             </Tabs>
           </div>
         )}
-      </main>
-    </div>
+    </DashboardLayout>
   );
 };
 

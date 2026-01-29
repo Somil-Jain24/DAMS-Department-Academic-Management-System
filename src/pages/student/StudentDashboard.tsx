@@ -12,8 +12,6 @@ import {
   FileText,
   Clock,
   ArrowRight,
-  CheckCircle2,
-  AlertCircle,
   TrendingUp,
 } from "lucide-react";
 
@@ -29,27 +27,6 @@ const StudentDashboard = () => {
     { title: "DSA Assignment 3", subject: "Data Structures", due: "2 days", type: "assignment" },
     { title: "DBMS Lab 5", subject: "Database Systems", due: "4 days", type: "lab" },
     { title: "CN Quiz 2", subject: "Computer Networks", due: "1 week", type: "quiz" },
-  ];
-
-  const announcements = [
-    {
-      title: "MST 2 Schedule Released",
-      description: "Mid-semester test 2 will be held from Dec 20-24",
-      time: "2 hours ago",
-      priority: "high",
-    },
-    {
-      title: "Hackathon Registration Open",
-      description: "Register for the annual department hackathon",
-      time: "1 day ago",
-      priority: "medium",
-    },
-    {
-      title: "Lab Hours Extended",
-      description: "Computer lab now open till 8 PM on weekdays",
-      time: "3 days ago",
-      priority: "low",
-    },
   ];
 
   return (
@@ -184,58 +161,6 @@ const StudentDashboard = () => {
           </motion.div>
         </div>
 
-        {/* Announcements */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle>Announcements</CardTitle>
-                <CardDescription>Latest updates from your department</CardDescription>
-              </div>
-              <Button variant="ghost" size="sm">
-                View All
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {announcements.map((announcement, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-4 rounded-xl border p-4 transition-colors hover:bg-muted/30"
-                  >
-                    <div
-                      className={`mt-0.5 rounded-full p-1.5 ${
-                        announcement.priority === "high"
-                          ? "bg-destructive/10 text-destructive"
-                          : announcement.priority === "medium"
-                          ? "bg-warning/10 text-warning"
-                          : "bg-muted text-muted-foreground"
-                      }`}
-                    >
-                      {announcement.priority === "high" ? (
-                        <AlertCircle className="h-4 w-4" />
-                      ) : (
-                        <CheckCircle2 className="h-4 w-4" />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold">{announcement.title}</h4>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {announcement.description}
-                      </p>
-                    </div>
-                    <p className="shrink-0 text-xs text-muted-foreground">{announcement.time}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
 
         {/* Quick Actions */}
         <motion.div

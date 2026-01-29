@@ -15,16 +15,15 @@ import {
   LogOut,
   Menu,
   X,
-  Bell,
   Search,
-  ChevronDown,
-  User,
   ClipboardList,
   Code,
   Award,
   Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NotificationDropdown from "@/components/notifications/NotificationDropdown";
+import ProfilePanel from "@/components/profile/ProfilePanel";
 
 interface NavItem {
   icon: React.ElementType;
@@ -270,19 +269,10 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
 
           <div className="flex items-center gap-2 ml-auto">
             {/* Notifications */}
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-destructive" />
-            </Button>
+            <NotificationDropdown />
 
-            {/* User Menu */}
-            <Button variant="ghost" className="gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <User className="h-4 w-4" />
-              </div>
-              <span className="hidden sm:inline">John Doe</span>
-              <ChevronDown className="h-4 w-4" />
-            </Button>
+            {/* User Profile Panel */}
+            <ProfilePanel />
           </div>
         </header>
 
