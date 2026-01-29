@@ -217,7 +217,7 @@ const StudentContests = () => {
   return (
     <DashboardLayout role="student">
         {selectedContest ? (
-          <div className="p-6 max-w-6xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-2 mb-6">
               <Button variant="ghost" size="sm" onClick={() => { setSelectedContest(null); setSelectedProblem(null); }}>
                 ← Back to Contests
@@ -376,7 +376,7 @@ const StudentContests = () => {
             </div>
           </div>
         ) : (
-          <div className="p-6 max-w-6xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="mb-8">
               <h1 className="text-3xl font-bold">Coding Contests</h1>
               <p className="text-muted-foreground mt-1">Participate in contests and compete with peers</p>
