@@ -197,177 +197,119 @@ const StudentAssignments = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <aside className="w-64 border-r bg-card flex flex-col">
-        <div className="p-6 border-b">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-              <GraduationCap className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <h2 className="font-semibold">Student Portal</h2>
-              <p className="text-xs text-muted-foreground">Academic Management</p>
-            </div>
-          </div>
+    <DashboardLayout role="student">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold">Assignments</h1>
+          <p className="text-muted-foreground mt-1">View and submit your assignments</p>
         </div>
 
-        <ScrollArea className="flex-1 px-3 py-4">
-          <nav className="space-y-1">
-            {navigationItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  }`}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span className="text-sm font-medium">{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        </ScrollArea>
-
-        <div className="p-4 border-t">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-              <User className="h-4 w-4" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{currentStudent.name}</p>
-              <p className="text-xs text-muted-foreground truncate">{currentStudent.rollNumber}</p>
-            </div>
-          </div>
-          <Link to="/login">
-            <Button variant="outline" size="sm" className="w-full">
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
-          </Link>
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <Card>
+            <CardContent className="p-4 flex items-center gap-4">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <FileText className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{demoAssignments.length}</p>
+                <p className="text-xs text-muted-foreground">Total</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 flex items-center gap-4">
+              <div className="p-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+                <Clock className="h-5 w-5 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{pendingAssignments.length}</p>
+                <p className="text-xs text-muted-foreground">Pending</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 flex items-center gap-4">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+                <Upload className="h-5 w-5 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{submittedAssignments.filter((a) => getSubmission(a.id)?.status !== "graded").length}</p>
+                <p className="text-xs text-muted-foreground">Submitted</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 flex items-center gap-4">
+              <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{submittedAssignments.filter((a) => getSubmission(a.id)?.status === "graded").length}</p>
+                <p className="text-xs text-muted-foreground">Graded</p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        <div className="p-6 max-w-6xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold">Assignments</h1>
-            <p className="text-muted-foreground mt-1">View and submit your assignments</p>
-          </div>
+        <Tabs defaultValue="pending">
+          <TabsList>
+            <TabsTrigger value="pending" className="gap-2">
+              <Clock className="h-4 w-4" />
+              Pending ({pendingAssignments.length})
+            </TabsTrigger>
+            <TabsTrigger value="submitted" className="gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              Submitted ({submittedAssignments.length})
+            </TabsTrigger>
+          </TabsList>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <Card>
-              <CardContent className="p-4 flex items-center gap-4">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <FileText className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{demoAssignments.length}</p>
-                  <p className="text-xs text-muted-foreground">Total</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-4">
-                <div className="p-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
-                  <Clock className="h-5 w-5 text-orange-600" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{pendingAssignments.length}</p>
-                  <p className="text-xs text-muted-foreground">Pending</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-4">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                  <Upload className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{submittedAssignments.filter((a) => getSubmission(a.id)?.status !== "graded").length}</p>
-                  <p className="text-xs text-muted-foreground">Submitted</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-4">
-                <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
-                  <CheckCircle2 className="h-5 w-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{submittedAssignments.filter((a) => getSubmission(a.id)?.status === "graded").length}</p>
-                  <p className="text-xs text-muted-foreground">Graded</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <TabsContent value="pending" className="mt-6">
+            {pendingAssignments.length === 0 ? (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <CheckCircle2 className="h-12 w-12 mx-auto mb-4 text-green-500" />
+                  <h3 className="text-lg font-semibold">All caught up!</h3>
+                  <p className="text-muted-foreground">You have no pending assignments.</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4">
+                {pendingAssignments.map((assignment) => (
+                  <AssignmentCard
+                    key={assignment.id}
+                    assignment={assignment}
+                    submission={getSubmission(assignment.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </TabsContent>
 
-          <Tabs defaultValue="pending">
-            <TabsList>
-              <TabsTrigger value="pending" className="gap-2">
-                <Clock className="h-4 w-4" />
-                Pending ({pendingAssignments.length})
-              </TabsTrigger>
-              <TabsTrigger value="submitted" className="gap-2">
-                <CheckCircle2 className="h-4 w-4" />
-                Submitted ({submittedAssignments.length})
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="pending" className="mt-6">
-              {pendingAssignments.length === 0 ? (
-                <Card>
-                  <CardContent className="p-12 text-center">
-                    <CheckCircle2 className="h-12 w-12 mx-auto mb-4 text-green-500" />
-                    <h3 className="text-lg font-semibold">All caught up!</h3>
-                    <p className="text-muted-foreground">You have no pending assignments.</p>
-                  </CardContent>
-                </Card>
-              ) : (
-                <div className="grid gap-4">
-                  {pendingAssignments.map((assignment) => (
-                    <AssignmentCard
-                      key={assignment.id}
-                      assignment={assignment}
-                      submission={getSubmission(assignment.id)}
-                    />
-                  ))}
-                </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="submitted" className="mt-6">
-              {submittedAssignments.length === 0 ? (
-                <Card>
-                  <CardContent className="p-12 text-center">
-                    <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-yellow-500" />
-                    <h3 className="text-lg font-semibold">No submissions yet</h3>
-                    <p className="text-muted-foreground">Start submitting your assignments.</p>
-                  </CardContent>
-                </Card>
-              ) : (
-                <div className="grid gap-4">
-                  {submittedAssignments.map((assignment) => (
-                    <AssignmentCard
-                      key={assignment.id}
-                      assignment={assignment}
-                      submission={getSubmission(assignment.id)}
-                    />
-                  ))}
-                </div>
-              )}
-            </TabsContent>
-          </Tabs>
-        </div>
-      </main>
-    </div>
+          <TabsContent value="submitted" className="mt-6">
+            {submittedAssignments.length === 0 ? (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-yellow-500" />
+                  <h3 className="text-lg font-semibold">No submissions yet</h3>
+                  <p className="text-muted-foreground">Start submitting your assignments.</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4">
+                {submittedAssignments.map((assignment) => (
+                  <AssignmentCard
+                    key={assignment.id}
+                    assignment={assignment}
+                    submission={getSubmission(assignment.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DashboardLayout>
   );
 };
 
