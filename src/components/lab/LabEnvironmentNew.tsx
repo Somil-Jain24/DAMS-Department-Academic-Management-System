@@ -373,7 +373,7 @@ export default function LabEnvironmentNew({
               </div>
 
               {/* Theory Mode */}
-              <TabsContent value="theory" className="flex-1 flex flex-col min-h-0 overflow-hidden p-0 m-0 data-[state=active]:flex data-[state=active]:px-4 data-[state=active]:pb-4">
+              <TabsContent value="theory" className="flex-1 flex flex-col min-h-0 overflow-hidden data-[state=active]:px-4 data-[state=active]:pb-4">
                 <div className="flex-1 flex flex-col">
                   <div className="mt-3">
                     <label className="text-sm font-semibold text-foreground mb-2 block">
