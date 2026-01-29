@@ -24,7 +24,6 @@ import LabEnvironmentNew from "@/components/lab/LabEnvironmentNew";
 import LabReviewMode from "@/components/lab/LabReviewMode";
 
 const StudentLabs = () => {
-  const location = useLocation();
   const { toast } = useToast();
   const [selectedLab, setSelectedLab] = useState<LabSession | null>(null);
   const [reviewingLab, setReviewingLab] = useState<{
