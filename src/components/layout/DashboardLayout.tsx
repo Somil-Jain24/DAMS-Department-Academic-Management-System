@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotificationDropdown from "@/components/notifications/NotificationDropdown";
-import ProfilePanel from "@/components/profile/ProfilePanel";
 
 interface NavItem {
   icon: React.ElementType;
@@ -271,8 +270,17 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
             {/* Notifications */}
             <NotificationDropdown />
 
-            {/* User Profile Panel */}
-            <ProfilePanel />
+            {/* User Profile Button */}
+            <Button
+              variant="ghost"
+              className="gap-2"
+              onClick={() => navigate("/student/profile")}
+            >
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                <User className="h-4 w-4" />
+              </div>
+              <span className="hidden sm:inline">Profile</span>
+            </Button>
           </div>
         </header>
 
