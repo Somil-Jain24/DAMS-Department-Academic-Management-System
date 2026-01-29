@@ -359,7 +359,7 @@ export default function LabEnvironmentNew({
           <div className="w-1/2 flex flex-col border rounded-lg bg-card overflow-hidden min-h-0">
             {/* Tabs */}
             <Tabs defaultValue="theory" className="flex-1 flex flex-col min-h-0">
-              <div className="border-b px-4 pt-3 flex-shrink-0">
+              <div className="border-b px-4 py-0 flex-shrink-0">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="theory" className="gap-2">
                     <BookOpen className="h-4 w-4" />
@@ -373,7 +373,7 @@ export default function LabEnvironmentNew({
               </div>
 
               {/* Theory Mode */}
-              <TabsContent value="theory" className="flex flex-col flex-1 px-4 pb-4">
+              <TabsContent value="theory" className="flex-1 flex flex-col min-h-0 overflow-hidden p-0 m-0 px-4 pb-4">
                 <div className="flex-1 flex flex-col">
                   <div className="mt-3">
                     <label className="text-sm font-semibold text-foreground mb-2 block">
@@ -407,7 +407,7 @@ export default function LabEnvironmentNew({
 
               {/* Code Mode */}
               <TabsContent value="code" className="flex-1 flex flex-col min-h-0 overflow-hidden p-0 m-0 data-[state=active]:flex">
-                <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                <div className="flex-1 h-full flex flex-col min-h-0 overflow-hidden">
                   <CodePanel
                     code={currentState.code}
                     language={currentState.language}
