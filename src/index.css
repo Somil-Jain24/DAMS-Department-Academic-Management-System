@@ -117,9 +117,9 @@
     @apply font-semibold tracking-tight;
   }
 
-  /* Ensure hidden tab panels properly hide */
+  /* Ensure hidden tab panels properly hide with display: none and no spacing */
   [role="tabpanel"][hidden] {
-    @apply hidden;
+    display: none !important;
   }
 }
 
