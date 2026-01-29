@@ -407,7 +407,7 @@ export default function LabEnvironmentNew({
 
               {/* Code Mode */}
               <TabsContent value="code" className="flex-1 flex flex-col min-h-0 overflow-hidden p-0 m-0 data-[state=active]:flex">
-                <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                <div className="flex-1 h-full flex flex-col min-h-0 overflow-hidden">
                   <CodePanel
                     code={currentState.code}
                     language={currentState.language}
