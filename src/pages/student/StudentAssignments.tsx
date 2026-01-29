@@ -26,7 +26,6 @@ import {
 } from "@/data/demoData";
 
 const StudentAssignments = () => {
-  const location = useLocation();
   const { toast } = useToast();
   const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
   const [submissionContent, setSubmissionContent] = useState("");
