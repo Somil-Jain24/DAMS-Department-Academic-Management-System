@@ -31,27 +31,6 @@ const StudentDashboard = () => {
     { title: "CN Quiz 2", subject: "Computer Networks", due: "1 week", type: "quiz" },
   ];
 
-  const announcements = [
-    {
-      title: "MST 2 Schedule Released",
-      description: "Mid-semester test 2 will be held from Dec 20-24",
-      time: "2 hours ago",
-      priority: "high",
-    },
-    {
-      title: "Hackathon Registration Open",
-      description: "Register for the annual department hackathon",
-      time: "1 day ago",
-      priority: "medium",
-    },
-    {
-      title: "Lab Hours Extended",
-      description: "Computer lab now open till 8 PM on weekdays",
-      time: "3 days ago",
-      priority: "low",
-    },
-  ];
-
   return (
     <DashboardLayout role="student">
       <div className="space-y-6">
