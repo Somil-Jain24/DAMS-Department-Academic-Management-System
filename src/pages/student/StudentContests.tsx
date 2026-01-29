@@ -1,35 +1,26 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import {
-  Calendar,
   Trophy,
-  FlaskConical,
-  GraduationCap,
   Clock,
   CheckCircle2,
-  User,
-  LogOut,
-  LayoutDashboard,
-  ClipboardList,
   Code,
   Play,
   Target,
   Medal,
   Timer,
-  ChevronRight,
   AlertCircle,
   XCircle,
 } from "lucide-react";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import {
   currentStudent,
   demoContests,
@@ -38,14 +29,6 @@ import {
   Contest,
   ContestProblem,
 } from "@/data/demoData";
-
-const navigationItems = [
-  { label: "Dashboard", icon: LayoutDashboard, path: "/student" },
-  { label: "Attendance", icon: Calendar, path: "/student/attendance" },
-  { label: "Assignments", icon: ClipboardList, path: "/student/assignments" },
-  { label: "Lab Sessions", icon: FlaskConical, path: "/student/labs" },
-  { label: "Contests", icon: Trophy, path: "/student/contests" },
-];
 
 const StudentContests = () => {
   const location = useLocation();
