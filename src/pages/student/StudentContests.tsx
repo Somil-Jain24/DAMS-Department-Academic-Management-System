@@ -31,7 +31,6 @@ import {
 } from "@/data/demoData";
 
 const StudentContests = () => {
-  const location = useLocation();
   const { toast } = useToast();
   const [selectedContest, setSelectedContest] = useState<Contest | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<ContestProblem | null>(null);
