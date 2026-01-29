@@ -12,8 +12,6 @@ import {
   FileText,
   Clock,
   ArrowRight,
-  CheckCircle2,
-  AlertCircle,
   TrendingUp,
 } from "lucide-react";
 
