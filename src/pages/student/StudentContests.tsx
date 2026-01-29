@@ -215,7 +215,7 @@ const StudentContests = () => {
 
   return (
     <DashboardLayout role="student">
-        {selectedContest ? (
+      {selectedContest ? (
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-2 mb-6">
               <Button variant="ghost" size="sm" onClick={() => { setSelectedContest(null); setSelectedProblem(null); }}>
