@@ -15,16 +15,15 @@ import {
   LogOut,
   Menu,
   X,
-  Bell,
   Search,
-  ChevronDown,
-  User,
   ClipboardList,
   Code,
   Award,
   Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NotificationDropdown from "@/components/notifications/NotificationDropdown";
+import ProfilePanel from "@/components/profile/ProfilePanel";
 
 interface NavItem {
   icon: React.ElementType;
