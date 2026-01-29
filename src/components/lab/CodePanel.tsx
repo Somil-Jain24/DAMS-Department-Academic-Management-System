@@ -104,7 +104,7 @@ export default function CodePanel({
   };
 
   return (
-    <div className="flex flex-col flex-1 min-h-0 h-full">
+    <div className="flex flex-col h-full w-full">
       {/* Toolbar - Fixed Height */}
       <div className="flex-shrink-0 px-4 py-3 flex items-center justify-between gap-4 border-b bg-card">
         <div className="flex items-center gap-2">
@@ -153,7 +153,7 @@ export default function CodePanel({
       </div>
 
       {/* Code Editor - Fills Remaining Space */}
-      <div className="flex-1 flex min-h-0 overflow-hidden">
+      <div className="flex-grow overflow-hidden flex h-full">
         {/* Line numbers */}
         <div className="bg-muted w-10 flex-shrink-0 overflow-y-auto px-1.5 py-2 text-right text-xs text-muted-foreground">
           {code.split("\n").map((_, idx) => (
@@ -168,7 +168,7 @@ export default function CodePanel({
           value={code}
           onChange={(e) => onChange(e.target.value)}
           placeholder={LANGUAGE_TEMPLATES[language] || "// Write your code here..."}
-          className="flex-1 py-2 px-3 font-mono text-sm bg-background text-foreground resize-none focus:outline-none border-none min-h-0"
+          className="flex-1 py-2 px-3 font-mono text-sm bg-background text-foreground resize-none focus:outline-none border-none h-full"
           spellCheck="false"
           style={{
             lineHeight: "1.5rem",
