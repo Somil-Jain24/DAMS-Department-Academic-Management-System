@@ -15,9 +15,29 @@ import {
   BookOpen,
   AlertTriangle,
   PlusCircle,
+  ChevronRight,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useClass } from "@/contexts/ClassContext";
+import { demoClasses } from "@/data/demoData";
 
 const FacultyDashboard = () => {
+  const navigate = useNavigate();
+  const { setSelectedClass } = useClass();
+
+  const handleClassSelect = (classId: string) => {
+    const classData = demoClasses.find((c) => c.id === classId);
+    if (classData) {
+      setSelectedClass({
+        id: classData.id,
+        name: classData.name,
+        department: classData.department,
+        year: classData.year,
+      });
+      navigate(`/faculty/class/${classId}/attendance`);
+    }
+  };
+
   const classes = [
     { name: "IT 3rd Year A", subject: "Data Structures", students: 60, nextClass: "10:00 AM" },
     { name: "IT 3rd Year B", subject: "Data Structures", students: 58, nextClass: "11:30 AM" },
