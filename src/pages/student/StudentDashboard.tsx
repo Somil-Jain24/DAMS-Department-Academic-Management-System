@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import StatCard from "@/components/dashboard/StatCard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,15 +15,41 @@ import {
   Clock,
   ArrowRight,
   TrendingUp,
+  BarChart3,
+  ClipboardList,
+  FlaskConical,
+  Target,
 } from "lucide-react";
+import { useSubject } from "@/contexts/SubjectContext";
+import { demoSubjects, currentStudent, demoAssignments, demoLabSessions, demoContests } from "@/data/demoData";
 
 const StudentDashboard = () => {
-  const courses = [
-    { name: "Data Structures", code: "CS301", faculty: "Dr. Smith", progress: 75 },
-    { name: "Database Systems", code: "CS302", faculty: "Prof. Johnson", progress: 60 },
-    { name: "Computer Networks", code: "CS303", faculty: "Dr. Williams", progress: 85 },
-    { name: "Software Engineering", code: "CS304", faculty: "Prof. Brown", progress: 45 },
-  ];
+  const navigate = useNavigate();
+  const { setSelectedSubject, selectedSubject } = useSubject();
+  const [expandedSubject, setExpandedSubject] = useState<string | null>(null);
+
+  const handleSubjectClick = (subjectId: string) => {
+    setExpandedSubject(expandedSubject === subjectId ? null : subjectId);
+    const subject = demoSubjects.find(s => s.id === subjectId);
+    if (subject) {
+      setSelectedSubject(subject);
+    }
+  };
+
+  const navigateWithSubject = (path: string, subjectId: string) => {
+    const subject = demoSubjects.find(s => s.id === subjectId);
+    if (subject) {
+      setSelectedSubject(subject);
+    }
+    navigate(path);
+  };
+
+  const getSubjectStats = (subjectId: string) => {
+    const assignments = demoAssignments.filter(a => a.subjectId === subjectId).length;
+    const labs = demoLabSessions.filter(l => l.subjectId === subjectId).length;
+    const contests = demoContests.filter(c => c.subjectId === subjectId).length;
+    return { assignments, labs, contests };
+  };
 
   const upcomingDeadlines = [
     { title: "DSA Assignment 3", subject: "Data Structures", due: "2 days", type: "assignment" },
