@@ -45,6 +45,7 @@ import {
 
 const FacultyAttendance = () => {
   const { toast } = useToast();
+  const { selectedClass, isInClassContext } = useClass();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedSubject, setSelectedSubject] = useState(demoSubjects[0].id);
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(demoAttendanceRecords);
@@ -52,6 +53,11 @@ const FacultyAttendance = () => {
   const [hasChanges, setHasChanges] = useState(false);
 
   const dateString = selectedDate.toISOString().split("T")[0];
+
+  // Filter students by class if in class context
+  const filteredStudents = isInClassContext
+    ? demoStudents.filter((s) => s.class === selectedClass?.name)
+    : demoStudents;
 
   // Load attendance for selected date and subject
   useMemo(() => {
