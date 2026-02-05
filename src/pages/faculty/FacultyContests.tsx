@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
 import { useClass } from "@/contexts/ClassContext";
