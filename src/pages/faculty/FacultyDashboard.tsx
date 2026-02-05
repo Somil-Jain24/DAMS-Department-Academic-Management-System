@@ -127,95 +127,50 @@ const FacultyDashboard = () => {
           />
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          {/* Today's Classes */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="lg:col-span-2"
-          >
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle>Today's Schedule</CardTitle>
-                  <CardDescription>Your classes for today</CardDescription>
-                </div>
-                <Button variant="ghost" size="sm">
-                  View Calendar
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {classes.map((cls, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between rounded-xl border bg-muted/30 p-4 transition-colors hover:bg-muted/50"
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-semibold">{cls.name}</h4>
-                          <Badge variant="secondary">{cls.subject}</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          {cls.students} students
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="text-right">
-                          <p className="text-sm font-medium">Next Class</p>
-                          <p className="text-lg font-bold text-success">{cls.nextClass}</p>
-                        </div>
-                        <Button size="sm" variant="outline">
-                          <CheckCircle className="mr-2 h-4 w-4" />
-                          Mark
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Pending Tasks */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-warning" />
-                  Pending Tasks
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {pendingTasks.map((task, index) => (
-                    <div
-                      key={index}
-                      className="rounded-lg border-l-4 border-warning bg-warning/5 p-3"
-                    >
+        {/* Classes Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle>Your Classes</CardTitle>
+              <CardDescription>Click on a class to manage attendance, assignments, and more</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {demoClasses.map((cls, index) => (
+                  <motion.button
+                    key={cls.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.05 }}
+                    onClick={() => handleClassSelect(cls.id)}
+                    className="group relative overflow-hidden rounded-xl border bg-card p-6 text-left transition-all duration-300 hover:border-primary hover:shadow-lg hover:shadow-primary/10"
+                  >
+                    <div className="space-y-3">
                       <div className="flex items-start justify-between">
-                        <div className="space-y-1">
-                          <p className="font-medium">{task.title}</p>
-                          <p className="text-sm text-muted-foreground">{task.class}</p>
+                        <div>
+                          <h3 className="font-semibold text-lg">{cls.name}</h3>
+                          <p className="text-sm text-muted-foreground">{cls.department}</p>
                         </div>
-                        {task.count && (
-                          <Badge variant="secondary">{task.count}</Badge>
-                        )}
+                        <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
+                      </div>
+                      <div className="flex items-center gap-4 pt-2">
+                        <div className="flex items-center gap-2">
+                          <Users className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">{cls.students} students</span>
+                        </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
+                    <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                  </motion.button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
 
         {/* Bottom Grid */}
         <div className="grid gap-6 lg:grid-cols-2">
