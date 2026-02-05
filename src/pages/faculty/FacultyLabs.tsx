@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
+import { useClass } from "@/contexts/ClassContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -33,6 +35,7 @@ import {
 
 const FacultyLabs = () => {
   const { toast } = useToast();
+  const { selectedClass, isInClassContext } = useClass();
   const [labSessions, setLabSessions] = useState(demoLabSessions);
   const [submissions, setSubmissions] = useState(demoLabSubmissions);
   const [selectedLab, setSelectedLab] = useState<LabSession | null>(null);
@@ -115,14 +118,21 @@ const FacultyLabs = () => {
     toast({ title: "Success", description: "Lab graded successfully" });
   };
 
-  const filteredLabs = labSessions.filter(
+  const classFilteredLabs = isInClassContext
+    ? labSessions.filter((lab) => lab.class === selectedClass?.name)
+    : labSessions;
+
+  const filteredLabs = classFilteredLabs.filter(
     (lab) =>
       lab.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       getSubjectName(lab.subjectId).toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <motion.div
@@ -384,7 +394,7 @@ const FacultyLabs = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 
