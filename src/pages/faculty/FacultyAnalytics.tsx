@@ -42,13 +42,30 @@ import {
   demoLabSubmissions,
   demoContests,
   demoContestSubmissions,
+  demoClasses,
   calculateAttendancePercentage,
   getLowAttendanceStudents,
   getSubjectName,
 } from "@/data/demoData";
 
 const FacultyAnalytics = () => {
-  const { selectedClass, isInClassContext } = useClass();
+  const { classId } = useParams<{ classId?: string }>();
+  const { selectedClass, setSelectedClass, isInClassContext } = useClass();
+
+  // Set selected class from URL if not already set
+  useEffect(() => {
+    if (classId && !selectedClass) {
+      const classData = demoClasses.find((c) => c.id === classId);
+      if (classData) {
+        setSelectedClass({
+          id: classData.id,
+          name: classData.name,
+          department: classData.department,
+          year: classData.year,
+        });
+      }
+    }
+  }, [classId, selectedClass, setSelectedClass]);
 
   // Filter students by class if in class context
   const filteredStudents = isInClassContext
