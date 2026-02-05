@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
 import { useClass } from "@/contexts/ClassContext";
@@ -37,6 +38,7 @@ import {
   demoStudents,
   demoSubjects,
   demoAttendanceRecords,
+  demoClasses,
   getAttendanceForDate,
   getLowAttendanceStudents,
   calculateAttendancePercentage,
@@ -45,7 +47,23 @@ import {
 
 const FacultyAttendance = () => {
   const { toast } = useToast();
-  const { selectedClass, isInClassContext } = useClass();
+  const { classId } = useParams<{ classId?: string }>();
+  const { selectedClass, setSelectedClass, isInClassContext } = useClass();
+
+  // Set selected class from URL if not already set
+  useEffect(() => {
+    if (classId && !selectedClass) {
+      const classData = demoClasses.find((c) => c.id === classId);
+      if (classData) {
+        setSelectedClass({
+          id: classData.id,
+          name: classData.name,
+          department: classData.department,
+          year: classData.year,
+        });
+      }
+    }
+  }, [classId, selectedClass, setSelectedClass]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedSubject, setSelectedSubject] = useState(demoSubjects[0].id);
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(demoAttendanceRecords);
