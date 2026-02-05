@@ -527,7 +527,7 @@ export const demoContests: Contest[] = [
     startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     endDate: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
     duration: 180,
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
     status: "upcoming",
     problems: [],
   },
