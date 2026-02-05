@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
 import { useClass } from "@/contexts/ClassContext";
@@ -29,6 +31,7 @@ import {
   demoAssignmentSubmissions,
   demoStudents,
   demoSubjects,
+  demoClasses,
   getSubjectName,
   getStudentName,
   Assignment,
@@ -37,7 +40,23 @@ import {
 
 const FacultyAssignments = () => {
   const { toast } = useToast();
-  const { selectedClass, isInClassContext } = useClass();
+  const { classId } = useParams<{ classId?: string }>();
+  const { selectedClass, setSelectedClass, isInClassContext } = useClass();
+
+  // Set selected class from URL if not already set
+  useEffect(() => {
+    if (classId && !selectedClass) {
+      const classData = demoClasses.find((c) => c.id === classId);
+      if (classData) {
+        setSelectedClass({
+          id: classData.id,
+          name: classData.name,
+          department: classData.department,
+          year: classData.year,
+        });
+      }
+    }
+  }, [classId, selectedClass, setSelectedClass]);
   const [assignments, setAssignments] = useState(demoAssignments);
   const [submissions, setSubmissions] = useState(demoAssignmentSubmissions);
   const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
