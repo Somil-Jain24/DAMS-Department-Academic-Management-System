@@ -123,9 +123,12 @@ export interface ContestSubmission {
 
 // Demo Classes
 export const demoClasses: ClassRecord[] = [
-  { id: "IT_2ND", name: "IT 2nd Year", department: "Information Technology", year: 2, students: 45 },
-  { id: "IT_3RD", name: "IT 3rd Year", department: "Information Technology", year: 3, students: 60 },
-  { id: "IT_FINAL", name: "IT Final Year", department: "Information Technology", year: 4, students: 55 },
+  { id: "IT1_2ND", name: "IT-1 2nd Year", department: "Information Technology", year: 2, students: 45 },
+  { id: "IT2_2ND", name: "IT-2 2nd Year", department: "Information Technology", year: 2, students: 48 },
+  { id: "IT1_3RD", name: "IT-1 3rd Year", department: "Information Technology", year: 3, students: 50 },
+  { id: "IT2_3RD", name: "IT-2 3rd Year", department: "Information Technology", year: 3, students: 52 },
+  { id: "IT1_FINAL", name: "IT-1 Final Year", department: "Information Technology", year: 4, students: 43 },
+  { id: "IT2_FINAL", name: "IT-2 Final Year", department: "Information Technology", year: 4, students: 47 },
   { id: "DS_2ND", name: "DS 2nd Year", department: "Data Science", year: 2, students: 40 },
   { id: "DS_3RD", name: "DS 3rd Year", department: "Data Science", year: 3, students: 48 },
   { id: "DS_FINAL", name: "DS Final Year", department: "Data Science", year: 4, students: 42 },
