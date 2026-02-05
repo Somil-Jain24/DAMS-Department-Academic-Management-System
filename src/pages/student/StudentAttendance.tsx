@@ -363,7 +363,7 @@ const StudentAttendance = () => {
                 className={`cursor-pointer transition-all hover:shadow-md ${
                   percentage < 75 ? "border-destructive/50" : ""
                 }`}
-                onClick={() => setSelectedSubject(subject.id)}
+                onClick={() => setSelectedSubjectFilter(subject.id)}
               >
                 <CardContent className="pt-4">
                   <div className="text-center">
