@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
+import { useClass } from "@/contexts/ClassContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -35,10 +37,15 @@ import {
 } from "@/data/demoData";
 
 const FacultyStudents = () => {
+  const { selectedClass, isInClassContext } = useClass();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
-  const filteredStudents = demoStudents.filter(
+  const classFilteredStudents = isInClassContext
+    ? demoStudents.filter((s) => s.class === selectedClass?.name)
+    : demoStudents;
+
+  const filteredStudents = classFilteredStudents.filter(
     (student) =>
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.rollNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -106,8 +113,11 @@ const FacultyStudents = () => {
     return { attendanceBySubject, assignmentGrades, labGrades, contestScores };
   };
 
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <motion.div
@@ -361,7 +371,7 @@ const FacultyStudents = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 
