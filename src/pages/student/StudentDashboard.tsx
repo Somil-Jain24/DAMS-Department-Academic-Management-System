@@ -236,39 +236,6 @@ const StudentDashboard = () => {
             </div>
           </motion.div>
 
-          {/* Upcoming Deadlines */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-warning" />
-                  Upcoming Deadlines
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {upcomingDeadlines.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start gap-3 rounded-lg border-l-4 border-warning bg-warning/5 p-3"
-                    >
-                      <div className="flex-1 space-y-1">
-                        <p className="font-medium">{item.title}</p>
-                        <p className="text-sm text-muted-foreground">{item.subject}</p>
-                      </div>
-                      <Badge variant="outline" className="shrink-0">
-                        {item.due}
-                      </Badge>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
 
 
