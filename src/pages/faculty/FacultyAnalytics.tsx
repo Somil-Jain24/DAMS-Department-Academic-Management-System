@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
+import { useClass } from "@/contexts/ClassContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -44,6 +46,13 @@ import {
 } from "@/data/demoData";
 
 const FacultyAnalytics = () => {
+  const { selectedClass, isInClassContext } = useClass();
+
+  // Filter students by class if in class context
+  const filteredStudents = isInClassContext
+    ? demoStudents.filter((s) => s.class === selectedClass?.name)
+    : demoStudents;
+
   // Attendance Analytics
   const attendanceBySubject = demoSubjects.map((subject) => {
     const subjectRecords = demoAttendanceRecords.filter((r) => r.subject === subject.id);
@@ -108,8 +117,11 @@ const FacultyAnalytics = () => {
     { week: "Week 4", attendance: 88, submissions: 85 },
   ];
 
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <motion.div
@@ -388,7 +400,7 @@ const FacultyAnalytics = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 
