@@ -218,7 +218,7 @@ const StudentAssignments = () => {
                 <FileText className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{demoAssignments.length}</p>
+                <p className="text-2xl font-bold">{filteredAssignments.length}</p>
                 <p className="text-xs text-muted-foreground">Total</p>
               </div>
             </CardContent>
