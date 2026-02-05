@@ -119,8 +119,11 @@ const FacultyAttendance = () => {
   const absentCount = Array.from(attendance.values()).filter((s) => s === "absent").length;
   const leaveCount = Array.from(attendance.values()).filter((s) => s === "leave").length;
 
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -314,7 +317,7 @@ const FacultyAttendance = () => {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 
