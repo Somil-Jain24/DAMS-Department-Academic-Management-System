@@ -169,7 +169,7 @@ export const demoAssignments: Assignment[] = [
     dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
     maxMarks: 100,
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
   },
   {
     id: "asg2",
@@ -179,7 +179,7 @@ export const demoAssignments: Assignment[] = [
     dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
     maxMarks: 100,
     createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
   },
   {
     id: "asg3",
@@ -189,7 +189,7 @@ export const demoAssignments: Assignment[] = [
     dueDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     maxMarks: 50,
     createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 3rd Year",
   },
   {
     id: "asg4",
@@ -199,7 +199,7 @@ export const demoAssignments: Assignment[] = [
     dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     maxMarks: 75,
     createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 3rd Year",
   },
 ];
 
