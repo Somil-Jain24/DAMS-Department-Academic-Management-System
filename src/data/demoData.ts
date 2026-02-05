@@ -150,13 +150,12 @@ export const demoStudents: Student[] = [
   { id: "s12", name: "Pooja Saxena", rollNumber: "IT2021012", email: "pooja@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 8.3, phone: "9876543221" },
 ];
 
-// Demo subjects
+// Demo subjects - Single Class (IT-6th Sem) with 4 subjects
 export const demoSubjects: Subject[] = [
-  { id: "sub1", name: "Data Structures", code: "CS301" },
-  { id: "sub2", name: "Operating Systems", code: "CS302" },
-  { id: "sub3", name: "Database Management", code: "CS303" },
-  { id: "sub4", name: "Computer Networks", code: "CS304" },
-  { id: "sub5", name: "Web Development", code: "CS305" },
+  { id: "IT601", name: "Computer Graphics and Multimedia", code: "IT-601" },
+  { id: "IT602", name: "Wireless and Mobile Computing", code: "IT-602" },
+  { id: "IT603B", name: "Data Mining", code: "IT-603(B)" },
+  { id: "IT604B", name: "Software Engineering", code: "IT-604(B)" },
 ];
 
 // Demo Assignments
