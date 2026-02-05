@@ -394,7 +394,7 @@ const StudentAttendance = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Attendance History</CardTitle>
-            <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+            <Select value={selectedSubjectFilter} onValueChange={setSelectedSubjectFilter}>
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="All Subjects" />
               </SelectTrigger>
