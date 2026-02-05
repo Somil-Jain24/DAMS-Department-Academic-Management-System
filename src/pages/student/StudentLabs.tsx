@@ -82,7 +82,12 @@ const StudentLabs = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Lab Sessions</h1>
-          <p className="text-muted-foreground mt-1">Complete lab exercises and submit your work</p>
+          <p className="text-muted-foreground mt-1">
+            {selectedSubject
+              ? `Complete lab exercises for ${selectedSubject.code} - ${selectedSubject.name}`
+              : "Complete lab exercises and submit your work"
+            }
+          </p>
         </div>
 
         {/* Stats */}
@@ -93,7 +98,7 @@ const StudentLabs = () => {
                 <FlaskConical className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{demoLabSessions.length}</p>
+                <p className="text-2xl font-bold">{filteredLabs.length}</p>
                 <p className="text-xs text-muted-foreground">Total Labs</p>
               </div>
             </CardContent>
