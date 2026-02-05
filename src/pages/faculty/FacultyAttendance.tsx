@@ -249,7 +249,7 @@ const FacultyAttendance = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {demoStudents.map((student, index) => {
+                    {filteredStudents.map((student, index) => {
                       const status = attendance.get(student.id);
                       const overallPercentage = calculateAttendancePercentage(student.id, attendanceRecords);
 
