@@ -37,7 +37,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ClassProvider>
-          <Routes>
+          <SubjectProvider>
+            <Routes>
             <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           {/* Student Routes */}
@@ -72,7 +73,8 @@ const App = () => (
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
-          </Routes>
+            </Routes>
+          </SubjectProvider>
         </ClassProvider>
       </BrowserRouter>
     </TooltipProvider>
