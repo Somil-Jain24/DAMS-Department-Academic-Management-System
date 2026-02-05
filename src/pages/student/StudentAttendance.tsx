@@ -84,11 +84,11 @@ const StudentAttendance = () => {
       .filter(
         (r) =>
           r.studentId === currentStudent.id &&
-          (selectedSubject === "all" || r.subject === selectedSubject)
+          (selectedSubjectFilter === "all" || r.subject === selectedSubjectFilter)
       )
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 20);
-  }, [selectedSubject]);
+  }, [selectedSubjectFilter]);
 
   // Pie chart data
   const pieData = useMemo(() => {
