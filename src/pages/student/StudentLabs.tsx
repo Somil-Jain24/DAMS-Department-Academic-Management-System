@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,7 @@ import {
   Target,
 } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useSubject } from "@/contexts/SubjectContext";
 import {
   currentStudent,
   demoLabSessions,
@@ -25,11 +26,17 @@ import LabReviewMode from "@/components/lab/LabReviewMode";
 
 const StudentLabs = () => {
   const { toast } = useToast();
+  const { selectedSubject } = useSubject();
   const [selectedLab, setSelectedLab] = useState<LabSession | null>(null);
   const [reviewingLab, setReviewingLab] = useState<{
     lab: LabSession;
     submission: LabSubmission;
   } | null>(null);
+
+  // Filter labs based on selected subject
+  const filteredLabs = selectedSubject
+    ? demoLabSessions.filter(lab => lab.subjectId === selectedSubject.id)
+    : demoLabSessions;
 
   const getSubmission = (labId: string): LabSubmission | undefined => {
     return demoLabSubmissions.find(
@@ -37,12 +44,12 @@ const StudentLabs = () => {
     );
   };
 
-  const pendingLabs = demoLabSessions.filter((lab) => {
+  const pendingLabs = filteredLabs.filter((lab) => {
     const sub = getSubmission(lab.id);
     return !sub || sub.status === "pending";
   });
 
-  const completedLabs = demoLabSessions.filter((lab) => {
+  const completedLabs = filteredLabs.filter((lab) => {
     const sub = getSubmission(lab.id);
     return sub && sub.status !== "pending";
   });
