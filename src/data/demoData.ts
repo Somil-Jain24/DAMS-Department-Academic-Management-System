@@ -97,6 +97,7 @@ export interface Contest {
   duration: number; // in minutes
   problems: ContestProblem[];
   class: string;
+  subjectId: string;
   status: "upcoming" | "active" | "ended";
 }
 
