@@ -1,5 +1,13 @@
 // Demo data for the academic management system
 
+export interface ClassRecord {
+  id: string;
+  name: string;
+  department: string;
+  year: number;
+  students: number;
+}
+
 export interface Student {
   id: string;
   name: string;
