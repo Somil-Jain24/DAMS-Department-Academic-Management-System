@@ -136,18 +136,18 @@ export const demoClasses: ClassRecord[] = [
 
 // Demo students
 export const demoStudents: Student[] = [
-  { id: "s1", name: "Aarav Sharma", rollNumber: "IT2021001", email: "aarav@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.5, phone: "9876543210" },
-  { id: "s2", name: "Priya Patel", rollNumber: "IT2021002", email: "priya@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 9.2, phone: "9876543211" },
-  { id: "s3", name: "Rohan Gupta", rollNumber: "IT2021003", email: "rohan@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 7.8, phone: "9876543212" },
-  { id: "s4", name: "Ananya Singh", rollNumber: "IT2021004", email: "ananya@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.9, phone: "9876543213" },
-  { id: "s5", name: "Vikram Reddy", rollNumber: "IT2021005", email: "vikram@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 6.5, phone: "9876543214" },
-  { id: "s6", name: "Neha Verma", rollNumber: "IT2021006", email: "neha@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.1, phone: "9876543215" },
-  { id: "s7", name: "Arjun Kumar", rollNumber: "IT2021007", email: "arjun@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 7.5, phone: "9876543216" },
-  { id: "s8", name: "Kavya Iyer", rollNumber: "IT2021008", email: "kavya@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 9.0, phone: "9876543217" },
-  { id: "s9", name: "Rahul Joshi", rollNumber: "IT2021009", email: "rahul@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 6.8, phone: "9876543218" },
-  { id: "s10", name: "Sneha Agarwal", rollNumber: "IT2021010", email: "sneha@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.7, phone: "9876543219" },
-  { id: "s11", name: "Aditya Mishra", rollNumber: "IT2021011", email: "aditya@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 7.2, phone: "9876543220" },
-  { id: "s12", name: "Pooja Saxena", rollNumber: "IT2021012", email: "pooja@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.3, phone: "9876543221" },
+  { id: "s1", name: "Aarav Sharma", rollNumber: "IT2021001", email: "aarav@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 8.5, phone: "9876543210" },
+  { id: "s2", name: "Priya Patel", rollNumber: "IT2021002", email: "priya@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 9.2, phone: "9876543211" },
+  { id: "s3", name: "Rohan Gupta", rollNumber: "IT2021003", email: "rohan@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 7.8, phone: "9876543212" },
+  { id: "s4", name: "Ananya Singh", rollNumber: "IT2021004", email: "ananya@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 8.9, phone: "9876543213" },
+  { id: "s5", name: "Vikram Reddy", rollNumber: "IT2021005", email: "vikram@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 6.5, phone: "9876543214" },
+  { id: "s6", name: "Neha Verma", rollNumber: "IT2021006", email: "neha@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 8.1, phone: "9876543215" },
+  { id: "s7", name: "Arjun Kumar", rollNumber: "IT2021007", email: "arjun@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 7.5, phone: "9876543216" },
+  { id: "s8", name: "Kavya Iyer", rollNumber: "IT2021008", email: "kavya@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 9.0, phone: "9876543217" },
+  { id: "s9", name: "Rahul Joshi", rollNumber: "IT2021009", email: "rahul@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 6.8, phone: "9876543218" },
+  { id: "s10", name: "Sneha Agarwal", rollNumber: "IT2021010", email: "sneha@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 8.7, phone: "9876543219" },
+  { id: "s11", name: "Aditya Mishra", rollNumber: "IT2021011", email: "aditya@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 7.2, phone: "9876543220" },
+  { id: "s12", name: "Pooja Saxena", rollNumber: "IT2021012", email: "pooja@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 8.3, phone: "9876543221" },
 ];
 
 // Demo subjects
