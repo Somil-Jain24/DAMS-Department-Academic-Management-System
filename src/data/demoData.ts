@@ -121,6 +121,16 @@ export interface ContestSubmission {
   score: number;
 }
 
+// Demo Classes
+export const demoClasses: ClassRecord[] = [
+  { id: "IT_2ND", name: "IT 2nd Year", department: "Information Technology", year: 2, students: 45 },
+  { id: "IT_3RD", name: "IT 3rd Year", department: "Information Technology", year: 3, students: 60 },
+  { id: "IT_FINAL", name: "IT Final Year", department: "Information Technology", year: 4, students: 55 },
+  { id: "DS_2ND", name: "DS 2nd Year", department: "Data Science", year: 2, students: 40 },
+  { id: "DS_3RD", name: "DS 3rd Year", department: "Data Science", year: 3, students: 48 },
+  { id: "DS_FINAL", name: "DS Final Year", department: "Data Science", year: 4, students: 42 },
+];
+
 // Demo students
 export const demoStudents: Student[] = [
   { id: "s1", name: "Aarav Sharma", rollNumber: "IT2021001", email: "aarav@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.5, phone: "9876543210" },
