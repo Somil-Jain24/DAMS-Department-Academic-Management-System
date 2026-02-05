@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +22,7 @@ import {
   Calendar,
 } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useSubject } from "@/contexts/SubjectContext";
 import {
   currentStudent,
   demoContests,
@@ -33,15 +34,21 @@ import {
 
 const StudentContests = () => {
   const { toast } = useToast();
+  const { selectedSubject } = useSubject();
   const [selectedContest, setSelectedContest] = useState<Contest | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<ContestProblem | null>(null);
   const [code, setCode] = useState("");
   const [language, setLanguage] = useState("python");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const activeContests = demoContests.filter((c) => c.status === "active");
-  const upcomingContests = demoContests.filter((c) => c.status === "upcoming");
-  const endedContests = demoContests.filter((c) => c.status === "ended");
+  // Filter contests based on selected subject
+  const filteredContests = selectedSubject
+    ? demoContests.filter(c => c.subjectId === selectedSubject.id)
+    : demoContests;
+
+  const activeContests = filteredContests.filter((c) => c.status === "active");
+  const upcomingContests = filteredContests.filter((c) => c.status === "upcoming");
+  const endedContests = filteredContests.filter((c) => c.status === "ended");
 
   const getMySubmission = (contestId: string, problemId: string) => {
     return demoContestSubmissions.find(
