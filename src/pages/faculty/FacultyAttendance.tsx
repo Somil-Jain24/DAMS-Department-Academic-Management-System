@@ -80,7 +80,7 @@ const FacultyAttendance = () => {
 
   const markAllPresent = () => {
     const newAttendance = new Map<string, "present" | "absent" | "leave">();
-    demoStudents.forEach((s) => newAttendance.set(s.id, "present"));
+    filteredStudents.forEach((s) => newAttendance.set(s.id, "present"));
     setAttendance(newAttendance);
     setHasChanges(true);
   };
