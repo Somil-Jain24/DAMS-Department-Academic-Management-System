@@ -305,7 +305,7 @@ export const demoLabSessions: LabSession[] = [
       },
     ],
     createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
   },
   {
     id: "lab2",
@@ -360,7 +360,7 @@ export const demoLabSessions: LabSession[] = [
       },
     ],
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
   },
   {
     id: "lab3",
@@ -413,7 +413,7 @@ export const demoLabSessions: LabSession[] = [
       },
     ],
     createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 3rd Year",
   },
 ];
 
