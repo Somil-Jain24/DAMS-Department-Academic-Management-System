@@ -207,7 +207,12 @@ const StudentAssignments = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Assignments</h1>
-          <p className="text-muted-foreground mt-1">View and submit your assignments</p>
+          <p className="text-muted-foreground mt-1">
+            {selectedSubject
+              ? `View and submit your assignments for ${selectedSubject.code} - ${selectedSubject.name}`
+              : "View and submit your assignments"
+            }
+          </p>
         </div>
 
         {/* Stats */}
