@@ -95,7 +95,7 @@ const StudentAttendance = () => {
     const records = demoAttendanceRecords.filter(
       (r) =>
         r.studentId === currentStudent.id &&
-        (selectedSubject === "all" || r.subject === selectedSubject)
+        (selectedSubjectFilter === "all" || r.subject === selectedSubjectFilter)
     );
     const present = records.filter((r) => r.status === "present").length;
     const absent = records.filter((r) => r.status === "absent").length;
@@ -106,7 +106,7 @@ const StudentAttendance = () => {
       { name: "Absent", value: absent, color: "hsl(var(--destructive))" },
       { name: "Leave", value: leave, color: "hsl(var(--warning))" },
     ];
-  }, [selectedSubject]);
+  }, [selectedSubjectFilter]);
 
   // Bar chart data for subject-wise
   const barData = subjectAttendance.map((sa) => ({
