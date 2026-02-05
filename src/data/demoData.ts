@@ -1,5 +1,13 @@
 // Demo data for the academic management system
 
+export interface ClassRecord {
+  id: string;
+  name: string;
+  department: string;
+  year: number;
+  students: number;
+}
+
 export interface Student {
   id: string;
   name: string;
@@ -113,20 +121,33 @@ export interface ContestSubmission {
   score: number;
 }
 
+// Demo Classes
+export const demoClasses: ClassRecord[] = [
+  { id: "IT1_2ND", name: "IT-1 2nd Year", department: "Information Technology", year: 2, students: 45 },
+  { id: "IT2_2ND", name: "IT-2 2nd Year", department: "Information Technology", year: 2, students: 48 },
+  { id: "IT1_3RD", name: "IT-1 3rd Year", department: "Information Technology", year: 3, students: 50 },
+  { id: "IT2_3RD", name: "IT-2 3rd Year", department: "Information Technology", year: 3, students: 52 },
+  { id: "IT1_FINAL", name: "IT-1 Final Year", department: "Information Technology", year: 4, students: 43 },
+  { id: "IT2_FINAL", name: "IT-2 Final Year", department: "Information Technology", year: 4, students: 47 },
+  { id: "DS_2ND", name: "DS 2nd Year", department: "Data Science", year: 2, students: 40 },
+  { id: "DS_3RD", name: "DS 3rd Year", department: "Data Science", year: 3, students: 48 },
+  { id: "DS_FINAL", name: "DS Final Year", department: "Data Science", year: 4, students: 42 },
+];
+
 // Demo students
 export const demoStudents: Student[] = [
-  { id: "s1", name: "Aarav Sharma", rollNumber: "IT2021001", email: "aarav@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.5, phone: "9876543210" },
-  { id: "s2", name: "Priya Patel", rollNumber: "IT2021002", email: "priya@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 9.2, phone: "9876543211" },
-  { id: "s3", name: "Rohan Gupta", rollNumber: "IT2021003", email: "rohan@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 7.8, phone: "9876543212" },
-  { id: "s4", name: "Ananya Singh", rollNumber: "IT2021004", email: "ananya@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.9, phone: "9876543213" },
-  { id: "s5", name: "Vikram Reddy", rollNumber: "IT2021005", email: "vikram@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 6.5, phone: "9876543214" },
-  { id: "s6", name: "Neha Verma", rollNumber: "IT2021006", email: "neha@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.1, phone: "9876543215" },
-  { id: "s7", name: "Arjun Kumar", rollNumber: "IT2021007", email: "arjun@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 7.5, phone: "9876543216" },
-  { id: "s8", name: "Kavya Iyer", rollNumber: "IT2021008", email: "kavya@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 9.0, phone: "9876543217" },
-  { id: "s9", name: "Rahul Joshi", rollNumber: "IT2021009", email: "rahul@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 6.8, phone: "9876543218" },
-  { id: "s10", name: "Sneha Agarwal", rollNumber: "IT2021010", email: "sneha@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.7, phone: "9876543219" },
-  { id: "s11", name: "Aditya Mishra", rollNumber: "IT2021011", email: "aditya@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 7.2, phone: "9876543220" },
-  { id: "s12", name: "Pooja Saxena", rollNumber: "IT2021012", email: "pooja@aitr.edu", class: "IT 3rd Year", section: "A", gpa: 8.3, phone: "9876543221" },
+  { id: "s1", name: "Aarav Sharma", rollNumber: "IT2021001", email: "aarav@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 8.5, phone: "9876543210" },
+  { id: "s2", name: "Priya Patel", rollNumber: "IT2021002", email: "priya@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 9.2, phone: "9876543211" },
+  { id: "s3", name: "Rohan Gupta", rollNumber: "IT2021003", email: "rohan@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 7.8, phone: "9876543212" },
+  { id: "s4", name: "Ananya Singh", rollNumber: "IT2021004", email: "ananya@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 8.9, phone: "9876543213" },
+  { id: "s5", name: "Vikram Reddy", rollNumber: "IT2021005", email: "vikram@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 6.5, phone: "9876543214" },
+  { id: "s6", name: "Neha Verma", rollNumber: "IT2021006", email: "neha@aitr.edu", class: "IT-1 2nd Year", section: "A", gpa: 8.1, phone: "9876543215" },
+  { id: "s7", name: "Arjun Kumar", rollNumber: "IT2021007", email: "arjun@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 7.5, phone: "9876543216" },
+  { id: "s8", name: "Kavya Iyer", rollNumber: "IT2021008", email: "kavya@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 9.0, phone: "9876543217" },
+  { id: "s9", name: "Rahul Joshi", rollNumber: "IT2021009", email: "rahul@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 6.8, phone: "9876543218" },
+  { id: "s10", name: "Sneha Agarwal", rollNumber: "IT2021010", email: "sneha@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 8.7, phone: "9876543219" },
+  { id: "s11", name: "Aditya Mishra", rollNumber: "IT2021011", email: "aditya@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 7.2, phone: "9876543220" },
+  { id: "s12", name: "Pooja Saxena", rollNumber: "IT2021012", email: "pooja@aitr.edu", class: "IT-1 3rd Year", section: "A", gpa: 8.3, phone: "9876543221" },
 ];
 
 // Demo subjects
@@ -148,7 +169,7 @@ export const demoAssignments: Assignment[] = [
     dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
     maxMarks: 100,
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
   },
   {
     id: "asg2",
@@ -158,7 +179,7 @@ export const demoAssignments: Assignment[] = [
     dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
     maxMarks: 100,
     createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
   },
   {
     id: "asg3",
@@ -168,7 +189,7 @@ export const demoAssignments: Assignment[] = [
     dueDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     maxMarks: 50,
     createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 3rd Year",
   },
   {
     id: "asg4",
@@ -178,7 +199,7 @@ export const demoAssignments: Assignment[] = [
     dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     maxMarks: 75,
     createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 3rd Year",
   },
 ];
 
@@ -284,7 +305,7 @@ export const demoLabSessions: LabSession[] = [
       },
     ],
     createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
   },
   {
     id: "lab2",
@@ -339,7 +360,7 @@ export const demoLabSessions: LabSession[] = [
       },
     ],
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
   },
   {
     id: "lab3",
@@ -392,7 +413,7 @@ export const demoLabSessions: LabSession[] = [
       },
     ],
     createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    class: "IT 3rd Year",
+    class: "IT-1 3rd Year",
   },
 ];
 
@@ -461,7 +482,7 @@ export const demoContests: Contest[] = [
     startDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
     duration: 120,
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
     status: "active",
     problems: [
       {
@@ -506,7 +527,7 @@ export const demoContests: Contest[] = [
     startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     endDate: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
     duration: 180,
-    class: "IT 3rd Year",
+    class: "IT-1 2nd Year",
     status: "upcoming",
     problems: [],
   },
@@ -517,7 +538,7 @@ export const demoContests: Contest[] = [
     startDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
     endDate: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
     duration: 150,
-    class: "IT 3rd Year",
+    class: "IT-1 3rd Year",
     status: "ended",
     problems: [
       {

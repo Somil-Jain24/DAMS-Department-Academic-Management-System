@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ClassProvider } from "./contexts/ClassContext";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/student/StudentDashboard";
@@ -34,8 +35,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
+        <ClassProvider>
+          <Routes>
+            <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           {/* Student Routes */}
           <Route path="/student" element={<StudentDashboard />} />
@@ -59,9 +61,18 @@ const App = () => (
           <Route path="/admin/departments" element={<AdminDepartments />} />
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* Class-Scoped Routes */}
+            <Route path="/faculty/class/:classId/attendance" element={<FacultyAttendance />} />
+            <Route path="/faculty/class/:classId/assignments" element={<FacultyAssignments />} />
+            <Route path="/faculty/class/:classId/labs" element={<FacultyLabs />} />
+            <Route path="/faculty/class/:classId/contests" element={<FacultyContests />} />
+            <Route path="/faculty/class/:classId/analytics" element={<FacultyAnalytics />} />
+            <Route path="/faculty/class/:classId/students" element={<FacultyStudents />} />
+
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ClassProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

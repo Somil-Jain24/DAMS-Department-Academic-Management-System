@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
+import { useClass } from "@/contexts/ClassContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +31,7 @@ import {
   demoAssignmentSubmissions,
   demoStudents,
   demoSubjects,
+  demoClasses,
   getSubjectName,
   getStudentName,
   Assignment,
@@ -35,6 +40,23 @@ import {
 
 const FacultyAssignments = () => {
   const { toast } = useToast();
+  const { classId } = useParams<{ classId?: string }>();
+  const { selectedClass, setSelectedClass, isInClassContext } = useClass();
+
+  // Set selected class from URL if not already set
+  useEffect(() => {
+    if (classId && !selectedClass) {
+      const classData = demoClasses.find((c) => c.id === classId);
+      if (classData) {
+        setSelectedClass({
+          id: classData.id,
+          name: classData.name,
+          department: classData.department,
+          year: classData.year,
+        });
+      }
+    }
+  }, [classId, selectedClass, setSelectedClass]);
   const [assignments, setAssignments] = useState(demoAssignments);
   const [submissions, setSubmissions] = useState(demoAssignmentSubmissions);
   const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
@@ -104,14 +126,21 @@ const FacultyAssignments = () => {
     return { submitted, graded, late, total: demoStudents.length };
   };
 
-  const filteredAssignments = assignments.filter(
+  const classFilteredAssignments = isInClassContext
+    ? assignments.filter((a) => a.class === selectedClass?.name)
+    : assignments;
+
+  const filteredAssignments = classFilteredAssignments.filter(
     (a) =>
       a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       getSubjectName(a.subjectId).toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <motion.div
@@ -447,7 +476,7 @@ const FacultyAssignments = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 

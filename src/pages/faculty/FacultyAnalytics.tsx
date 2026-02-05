@@ -1,5 +1,9 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
+import { useClass } from "@/contexts/ClassContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -38,12 +42,36 @@ import {
   demoLabSubmissions,
   demoContests,
   demoContestSubmissions,
+  demoClasses,
   calculateAttendancePercentage,
   getLowAttendanceStudents,
   getSubjectName,
 } from "@/data/demoData";
 
 const FacultyAnalytics = () => {
+  const { classId } = useParams<{ classId?: string }>();
+  const { selectedClass, setSelectedClass, isInClassContext } = useClass();
+
+  // Set selected class from URL if not already set
+  useEffect(() => {
+    if (classId && !selectedClass) {
+      const classData = demoClasses.find((c) => c.id === classId);
+      if (classData) {
+        setSelectedClass({
+          id: classData.id,
+          name: classData.name,
+          department: classData.department,
+          year: classData.year,
+        });
+      }
+    }
+  }, [classId, selectedClass, setSelectedClass]);
+
+  // Filter students by class if in class context
+  const filteredStudents = isInClassContext
+    ? demoStudents.filter((s) => s.class === selectedClass?.name)
+    : demoStudents;
+
   // Attendance Analytics
   const attendanceBySubject = demoSubjects.map((subject) => {
     const subjectRecords = demoAttendanceRecords.filter((r) => r.subject === subject.id);
@@ -108,8 +136,11 @@ const FacultyAnalytics = () => {
     { week: "Week 4", attendance: 88, submissions: 85 },
   ];
 
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <motion.div
@@ -388,7 +419,7 @@ const FacultyAnalytics = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 

@@ -1,6 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
+import { useClass } from "@/contexts/ClassContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -35,6 +38,7 @@ import {
   demoStudents,
   demoSubjects,
   demoAttendanceRecords,
+  demoClasses,
   getAttendanceForDate,
   getLowAttendanceStudents,
   calculateAttendancePercentage,
@@ -43,6 +47,23 @@ import {
 
 const FacultyAttendance = () => {
   const { toast } = useToast();
+  const { classId } = useParams<{ classId?: string }>();
+  const { selectedClass, setSelectedClass, isInClassContext } = useClass();
+
+  // Set selected class from URL if not already set
+  useEffect(() => {
+    if (classId && !selectedClass) {
+      const classData = demoClasses.find((c) => c.id === classId);
+      if (classData) {
+        setSelectedClass({
+          id: classData.id,
+          name: classData.name,
+          department: classData.department,
+          year: classData.year,
+        });
+      }
+    }
+  }, [classId, selectedClass, setSelectedClass]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedSubject, setSelectedSubject] = useState(demoSubjects[0].id);
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(demoAttendanceRecords);
@@ -50,6 +71,11 @@ const FacultyAttendance = () => {
   const [hasChanges, setHasChanges] = useState(false);
 
   const dateString = selectedDate.toISOString().split("T")[0];
+
+  // Filter students by class if in class context
+  const filteredStudents = isInClassContext
+    ? demoStudents.filter((s) => s.class === selectedClass?.name)
+    : demoStudents;
 
   // Load attendance for selected date and subject
   useMemo(() => {
@@ -72,7 +98,7 @@ const FacultyAttendance = () => {
 
   const markAllPresent = () => {
     const newAttendance = new Map<string, "present" | "absent" | "leave">();
-    demoStudents.forEach((s) => newAttendance.set(s.id, "present"));
+    filteredStudents.forEach((s) => newAttendance.set(s.id, "present"));
     setAttendance(newAttendance);
     setHasChanges(true);
   };
@@ -111,8 +137,11 @@ const FacultyAttendance = () => {
   const absentCount = Array.from(attendance.values()).filter((s) => s === "absent").length;
   const leaveCount = Array.from(attendance.values()).filter((s) => s === "leave").length;
 
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -241,7 +270,7 @@ const FacultyAttendance = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {demoStudents.map((student, index) => {
+                    {filteredStudents.map((student, index) => {
                       const status = attendance.get(student.id);
                       const overallPercentage = calculateAttendancePercentage(student.id, attendanceRecords);
 
@@ -306,7 +335,7 @@ const FacultyAttendance = () => {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 

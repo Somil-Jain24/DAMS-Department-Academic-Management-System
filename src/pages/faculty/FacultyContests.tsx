@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
+import { useClass } from "@/contexts/ClassContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +31,7 @@ import {
   demoContests,
   demoContestSubmissions,
   demoStudents,
+  demoClasses,
   getContestLeaderboard,
   Contest,
   ContestProblem,
@@ -34,6 +39,23 @@ import {
 
 const FacultyContests = () => {
   const { toast } = useToast();
+  const { classId } = useParams<{ classId?: string }>();
+  const { selectedClass, setSelectedClass, isInClassContext } = useClass();
+
+  // Set selected class from URL if not already set
+  useEffect(() => {
+    if (classId && !selectedClass) {
+      const classData = demoClasses.find((c) => c.id === classId);
+      if (classData) {
+        setSelectedClass({
+          id: classData.id,
+          name: classData.name,
+          department: classData.department,
+          year: classData.year,
+        });
+      }
+    }
+  }, [classId, selectedClass, setSelectedClass]);
   const [contests, setContests] = useState(demoContests);
   const [selectedContest, setSelectedContest] = useState<Contest | null>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -123,8 +145,15 @@ const FacultyContests = () => {
     return uniqueStudents.size;
   };
 
+  const filteredContests = isInClassContext
+    ? contests.filter((c) => c.class === selectedClass?.name)
+    : contests;
+
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <motion.div
@@ -379,7 +408,7 @@ const FacultyContests = () => {
           {["active", "upcoming", "ended"].map((status) => (
             <TabsContent key={status} value={status} className="mt-4">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {contests
+                {filteredContests
                   .filter((c) => c.status === status)
                   .map((contest) => (
                     <Card key={contest.id} className="hover:shadow-lg transition-shadow">
@@ -469,7 +498,7 @@ const FacultyContests = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 

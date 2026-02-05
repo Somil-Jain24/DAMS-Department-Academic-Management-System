@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ClassDashboardLayout from "@/components/layout/ClassDashboardLayout";
+import { useClass } from "@/contexts/ClassContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,15 +34,37 @@ import {
   demoLabSessions,
   demoContests,
   demoSubjects,
+  demoClasses,
   calculateAttendancePercentage,
   Student,
 } from "@/data/demoData";
 
 const FacultyStudents = () => {
+  const { classId } = useParams<{ classId?: string }>();
+  const { selectedClass, setSelectedClass, isInClassContext } = useClass();
+
+  // Set selected class from URL if not already set
+  useEffect(() => {
+    if (classId && !selectedClass) {
+      const classData = demoClasses.find((c) => c.id === classId);
+      if (classData) {
+        setSelectedClass({
+          id: classData.id,
+          name: classData.name,
+          department: classData.department,
+          year: classData.year,
+        });
+      }
+    }
+  }, [classId, selectedClass, setSelectedClass]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
-  const filteredStudents = demoStudents.filter(
+  const classFilteredStudents = isInClassContext
+    ? demoStudents.filter((s) => s.class === selectedClass?.name)
+    : demoStudents;
+
+  const filteredStudents = classFilteredStudents.filter(
     (student) =>
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.rollNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -106,8 +132,11 @@ const FacultyStudents = () => {
     return { attendanceBySubject, assignmentGrades, labGrades, contestScores };
   };
 
+  const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
+  const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
+
   return (
-    <DashboardLayout role="faculty">
+    <LayoutComponent {...layoutProps}>
       <div className="space-y-6">
         {/* Header */}
         <motion.div
@@ -361,7 +390,7 @@ const FacultyStudents = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </DashboardLayout>
+    </LayoutComponent>
   );
 };
 
