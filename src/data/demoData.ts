@@ -538,7 +538,7 @@ export const demoContests: Contest[] = [
     startDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
     endDate: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
     duration: 150,
-    class: "IT 3rd Year",
+    class: "IT-1 3rd Year",
     status: "ended",
     problems: [
       {
