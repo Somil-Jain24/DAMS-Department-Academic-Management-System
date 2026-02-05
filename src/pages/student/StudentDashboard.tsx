@@ -51,12 +51,6 @@ const StudentDashboard = () => {
     return { assignments, labs, contests };
   };
 
-  const upcomingDeadlines = [
-    { title: "DSA Assignment 3", subject: "Data Structures", due: "2 days", type: "assignment" },
-    { title: "DBMS Lab 5", subject: "Database Systems", due: "4 days", type: "lab" },
-    { title: "CN Quiz 2", subject: "Computer Networks", due: "1 week", type: "quiz" },
-  ];
-
   return (
     <DashboardLayout role="student">
       <div className="space-y-6">
