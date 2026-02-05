@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,6 +42,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { useSubject } from "@/contexts/SubjectContext";
 import {
   currentStudent,
   demoSubjects,
@@ -49,7 +51,15 @@ import {
 } from "@/data/demoData";
 
 const StudentAttendance = () => {
-  const [selectedSubject, setSelectedSubject] = useState<string>("all");
+  const { selectedSubject } = useSubject();
+  const [selectedSubjectFilter, setSelectedSubjectFilter] = useState<string>("all");
+
+  useEffect(() => {
+    // If a subject is selected from context, use it as the default filter
+    if (selectedSubject) {
+      setSelectedSubjectFilter(selectedSubject.id);
+    }
+  }, [selectedSubject]);
 
   // Calculate overall attendance
   const overallAttendance = useMemo(() => {
