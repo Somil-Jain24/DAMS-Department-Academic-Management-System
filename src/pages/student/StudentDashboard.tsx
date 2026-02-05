@@ -110,48 +110,130 @@ const StudentDashboard = () => {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          {/* Courses */}
+        <div className="grid gap-6">
+          {/* Subjects Grid */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="lg:col-span-2"
           >
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle>My Courses</CardTitle>
-                  <CardDescription>Current semester courses and progress</CardDescription>
-                </div>
-                <Button variant="ghost" size="sm">
-                  View All
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {courses.map((course, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between rounded-xl border bg-muted/30 p-4 transition-colors hover:bg-muted/50"
+            <div>
+              <h2 className="text-xl font-bold mb-4">Your Subjects</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                {demoSubjects.map((subject, index) => {
+                  const stats = getSubjectStats(subject.id);
+                  const isExpanded = expandedSubject === subject.id;
+
+                  return (
+                    <motion.div
+                      key={subject.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 * index }}
                     >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-semibold">{course.name}</h4>
-                          <Badge variant="secondary">{course.code}</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground">{course.faculty}</p>
-                      </div>
-                      <div className="w-32 space-y-1 text-right">
-                        <p className="text-sm font-medium">{course.progress}%</p>
-                        <Progress value={course.progress} className="h-2" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                      <Card
+                        className="cursor-pointer transition-all hover:shadow-lg"
+                        onClick={() => handleSubjectClick(subject.id)}
+                      >
+                        <CardContent className="p-6">
+                          <div className="mb-4">
+                            <div className="flex items-start justify-between mb-3">
+                              <div>
+                                <Badge variant="outline" className="mb-2">{subject.code}</Badge>
+                                <h3 className="font-semibold text-lg">{subject.name}</h3>
+                              </div>
+                              <BookOpen className="h-5 w-5 text-primary/60" />
+                            </div>
+                          </div>
+
+                          {/* Subject Stats */}
+                          <div className="grid grid-cols-3 gap-3 mb-4 text-center text-sm">
+                            <div>
+                              <p className="text-2xl font-bold text-blue-500">{stats.assignments}</p>
+                              <p className="text-xs text-muted-foreground">Assignments</p>
+                            </div>
+                            <div>
+                              <p className="text-2xl font-bold text-purple-500">{stats.labs}</p>
+                              <p className="text-xs text-muted-foreground">Labs</p>
+                            </div>
+                            <div>
+                              <p className="text-2xl font-bold text-orange-500">{stats.contests}</p>
+                              <p className="text-xs text-muted-foreground">Contests</p>
+                            </div>
+                          </div>
+
+                          {/* Subject Options - Show when expanded */}
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="pt-4 border-t space-y-2"
+                            >
+                              <Button
+                                variant="ghost"
+                                className="w-full justify-start text-sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigateWithSubject("/student/attendance", subject.id);
+                                }}
+                              >
+                                <Calendar className="h-4 w-4 mr-2" />
+                                Attendance
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                className="w-full justify-start text-sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigateWithSubject("/student/assignments", subject.id);
+                                }}
+                              >
+                                <FileText className="h-4 w-4 mr-2" />
+                                Assignments
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                className="w-full justify-start text-sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigateWithSubject("/student/labs", subject.id);
+                                }}
+                              >
+                                <FlaskConical className="h-4 w-4 mr-2" />
+                                Lab Sessions
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                className="w-full justify-start text-sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigateWithSubject("/student/contests", subject.id);
+                                }}
+                              >
+                                <Trophy className="h-4 w-4 mr-2" />
+                                Contests
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                className="w-full justify-start text-sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigateWithSubject("/student/marks", subject.id);
+                                }}
+                              >
+                                <BarChart3 className="h-4 w-4 mr-2" />
+                                Marks & Progress
+                              </Button>
+                            </motion.div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
           </motion.div>
 
           {/* Upcoming Deadlines */}
