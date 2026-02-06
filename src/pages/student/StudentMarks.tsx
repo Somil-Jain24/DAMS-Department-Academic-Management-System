@@ -44,8 +44,8 @@ const marksData = [
     credits: 4,
   },
   {
-    subjectId: "sub3",
-    subjectName: "Operating Systems",
+    subjectId: "IT603B",
+    subjectName: "Data Mining",
     internalMarks: [
       { exam: "Mid Term 1", obtained: 18, total: 25, date: "2024-02-17" },
       { exam: "Mid Term 2", obtained: 19, total: 25, date: "2024-03-22" },
