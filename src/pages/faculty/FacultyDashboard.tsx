@@ -190,10 +190,7 @@ const FacultyDashboard = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => {
-                            setEditingNote(undefined);
-                            setShowWhiteboard(true);
-                          }}
+                          onClick={() => handleCreateClassNote(cls.id)}
                           className="flex-1 h-8 text-xs"
                         >
                           <FileText className="h-3 w-3 mr-1" />
