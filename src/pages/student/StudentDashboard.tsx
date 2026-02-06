@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   BookOpen,
   TrendingUp,
+  Trophy,
   ArrowRight,
   Calendar,
   FileText,
