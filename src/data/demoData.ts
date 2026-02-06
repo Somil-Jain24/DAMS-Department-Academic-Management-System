@@ -24,7 +24,8 @@ export interface AttendanceRecord {
   id: string;
   studentId: string;
   date: string;
-  status: "present" | "absent" | "leave";
+  status: "present" | "absent";
+  lectureCount?: number;
   subject: string;
 }
 
@@ -589,40 +590,41 @@ export const demoContestSubmissions = generateContestSubmissions();
 const generateAttendanceRecords = (): AttendanceRecord[] => {
   const records: AttendanceRecord[] = [];
   const today = new Date();
-  
+
   demoStudents.forEach((student) => {
     demoSubjects.forEach((subject) => {
       for (let i = 0; i < 30; i++) {
         const date = new Date(today);
         date.setDate(date.getDate() - i);
-        
+
         // Skip weekends
         if (date.getDay() === 0 || date.getDay() === 6) continue;
-        
+
         // Random attendance with some bias
         const rand = Math.random();
-        let status: "present" | "absent" | "leave";
-        
+        let status: "present" | "absent";
+
         // Make some students have lower attendance
         if (student.id === "s5" || student.id === "s9") {
-          status = rand < 0.4 ? "present" : rand < 0.85 ? "absent" : "leave";
+          status = rand < 0.4 ? "present" : "absent";
         } else if (student.id === "s3" || student.id === "s11") {
-          status = rand < 0.6 ? "present" : rand < 0.9 ? "absent" : "leave";
+          status = rand < 0.6 ? "present" : "absent";
         } else {
-          status = rand < 0.85 ? "present" : rand < 0.95 ? "absent" : "leave";
+          status = rand < 0.85 ? "present" : "absent";
         }
-        
+
         records.push({
           id: `att-${student.id}-${subject.id}-${date.toISOString().split('T')[0]}`,
           studentId: student.id,
           date: date.toISOString().split('T')[0],
           status,
+          lectureCount: 1,
           subject: subject.id,
         });
       }
     });
   });
-  
+
   return records;
 };
 
@@ -663,14 +665,14 @@ export const getAttendanceForDate = (
   date: string,
   subjectId: string,
   records: AttendanceRecord[]
-): Map<string, "present" | "absent" | "leave"> => {
+): Map<string, "present" | "absent"> => {
   const dayRecords = records.filter(
     (r) => r.date === date && r.subject === subjectId
   );
-  
-  const attendanceMap = new Map<string, "present" | "absent" | "leave">();
+
+  const attendanceMap = new Map<string, "present" | "absent">();
   dayRecords.forEach((r) => attendanceMap.set(r.studentId, r.status));
-  
+
   return attendanceMap;
 };
 

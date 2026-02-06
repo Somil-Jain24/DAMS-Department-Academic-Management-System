@@ -7,8 +7,6 @@ import {
   LayoutDashboard,
   Calendar,
   BookOpen,
-  FileText,
-  Trophy,
   BarChart3,
   Users,
   User,
@@ -20,10 +18,10 @@ import {
   ClipboardList,
   Code,
   Award,
-  Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotificationDropdown from "@/components/notifications/NotificationDropdown";
+import NotesSection, { Note } from "@/components/notes/NotesSection";
 import { useScope } from "@/contexts/ScopeContext";
 
 interface NavItem {
@@ -35,9 +33,11 @@ interface NavItem {
 interface DashboardLayoutProps {
   children: React.ReactNode;
   role: "student" | "faculty" | "admin";
+  onNoteSelect?: (note: Note) => void;
+  onCreateNote?: () => void;
 }
 
-const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children, role, onNoteSelect, onCreateNote }: DashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -58,12 +58,6 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
 
   const facultyNav: NavItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/faculty" },
-    { icon: Calendar, label: "Attendance", href: "/faculty/attendance" },
-    { icon: ClipboardList, label: "Assignments", href: "/faculty/assignments" },
-    { icon: BookOpen, label: "Lab Sessions", href: "/faculty/labs" },
-    { icon: Trophy, label: "Contests", href: "/faculty/contests" },
-    { icon: BarChart3, label: "Analytics", href: "/faculty/analytics" },
-    { icon: Users, label: "Students", href: "/faculty/students" },
   ];
 
   const adminNav: NavItem[] = [
@@ -100,7 +94,17 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
       >
         {/* Logo */}
         <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-4">
-          <div className="flex items-center gap-3">
+          <button
+            onClick={() => {
+              const dashboardMap = {
+                student: "/student",
+                faculty: "/faculty",
+                admin: "/admin",
+              };
+              navigate(dashboardMap[role]);
+            }}
+            className="flex items-center gap-3 rounded-lg hover:bg-sidebar-accent transition-colors"
+          >
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sidebar-primary">
               <GraduationCap className="h-5 w-5 text-sidebar-primary-foreground" />
             </div>
@@ -113,7 +117,7 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
                 DAMS
               </motion.div>
             )}
-          </div>
+          </button>
           <Button
             variant="ghost"
             size="icon"
@@ -134,29 +138,37 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
         )}
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto p-4">
-          <ul className="space-y-2">
-            {navItems.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <li key={item.href}>
-                  <NavLink
-                    to={item.href}
-                    className={cn(
-                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
-                      isActive
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
-                    )}
-                  >
-                    <item.icon className="h-5 w-5 shrink-0" />
-                    {sidebarOpen && <span>{item.label}</span>}
-                  </NavLink>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+        {role === "faculty" ? (
+          <NotesSection
+            onNoteSelect={onNoteSelect || (() => {})}
+            onCreateNew={onCreateNote || (() => {})}
+            sidebarOpen={sidebarOpen}
+          />
+        ) : (
+          <nav className="flex-1 overflow-y-auto p-4">
+            <ul className="space-y-2">
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <NavLink
+                      to={item.href}
+                      className={cn(
+                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                        isActive
+                          ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                          : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                      )}
+                    >
+                      <item.icon className="h-5 w-5 shrink-0" />
+                      {sidebarOpen && <span>{item.label}</span>}
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        )}
 
         {/* Logout */}
         <div className="border-t border-sidebar-border p-4">
@@ -193,12 +205,23 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
               className="fixed inset-y-0 left-0 z-50 w-64 flex-col border-r bg-sidebar text-sidebar-foreground lg:hidden flex"
             >
               <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-4">
-                <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    const dashboardMap = {
+                      student: "/student",
+                      faculty: "/faculty",
+                      admin: "/admin",
+                    };
+                    navigate(dashboardMap[role]);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 rounded-lg hover:bg-sidebar-accent transition-colors"
+                >
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sidebar-primary">
                     <GraduationCap className="h-5 w-5 text-sidebar-primary-foreground" />
                   </div>
                   <span className="font-bold">DAMS</span>
-                </div>
+                </button>
                 <Button
                   variant="ghost"
                   size="icon"

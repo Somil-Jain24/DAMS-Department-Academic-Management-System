@@ -27,7 +27,6 @@ import {
   TrendingDown,
   CheckCircle2,
   XCircle,
-  Clock,
 } from "lucide-react";
 import {
   PieChart,
@@ -101,12 +100,10 @@ const StudentAttendance = () => {
     );
     const present = records.filter((r) => r.status === "present").length;
     const absent = records.filter((r) => r.status === "absent").length;
-    const leave = records.filter((r) => r.status === "leave").length;
 
     return [
       { name: "Present", value: present, color: "hsl(var(--success))" },
       { name: "Absent", value: absent, color: "hsl(var(--destructive))" },
-      { name: "Leave", value: leave, color: "hsl(var(--warning))" },
     ];
   }, [selectedSubjectFilter]);
 
@@ -243,26 +240,6 @@ const StudentAttendance = () => {
               </CardContent>
             </Card>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground">On Leave</p>
-                    <p className="text-3xl font-bold text-warning">
-                      {pieData[2].value}
-                    </p>
-                  </div>
-                  <Clock className="h-8 w-8 text-warning" />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
 
         {/* Charts & History Section - Two Column Layout */}
@@ -375,15 +352,11 @@ const StudentAttendance = () => {
                               variant={
                                 record.status === "present"
                                   ? "default"
-                                  : record.status === "absent"
-                                  ? "destructive"
-                                  : "secondary"
+                                  : "destructive"
                               }
                               className={
                                 record.status === "present"
                                   ? "bg-success"
-                                  : record.status === "leave"
-                                  ? "bg-warning"
                                   : ""
                               }
                             >

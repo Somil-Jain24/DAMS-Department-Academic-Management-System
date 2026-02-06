@@ -27,7 +27,6 @@ import { useToast } from "@/hooks/use-toast";
 import {
   Check,
   X,
-  Clock,
   AlertTriangle,
   Save,
   UserCheck,
@@ -66,8 +65,9 @@ const FacultyAttendance = () => {
   }, [classId, selectedClass, setSelectedClass]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedSubject, setSelectedSubject] = useState(demoSubjects[0].id);
+  const [lectureCount, setLectureCount] = useState<1 | 2>(1);
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(demoAttendanceRecords);
-  const [attendance, setAttendance] = useState<Map<string, "present" | "absent" | "leave">>(new Map());
+  const [attendance, setAttendance] = useState<Map<string, "present" | "absent">>(new Map());
   const [hasChanges, setHasChanges] = useState(false);
 
   const dateString = selectedDate.toISOString().split("T")[0];
@@ -89,7 +89,7 @@ const FacultyAttendance = () => {
     [attendanceRecords]
   );
 
-  const markAttendance = (studentId: string, status: "present" | "absent" | "leave") => {
+  const markAttendance = (studentId: string, status: "present" | "absent") => {
     const newAttendance = new Map(attendance);
     newAttendance.set(studentId, status);
     setAttendance(newAttendance);
@@ -97,7 +97,7 @@ const FacultyAttendance = () => {
   };
 
   const markAllPresent = () => {
-    const newAttendance = new Map<string, "present" | "absent" | "leave">();
+    const newAttendance = new Map<string, "present" | "absent">();
     filteredStudents.forEach((s) => newAttendance.set(s.id, "present"));
     setAttendance(newAttendance);
     setHasChanges(true);
@@ -114,14 +114,30 @@ const FacultyAttendance = () => {
       (r) => !(r.date === dateString && r.subject === selectedSubject)
     );
 
+    // Mark marked students with their status
     attendance.forEach((status, studentId) => {
       newRecords.push({
         id: `att-${studentId}-${selectedSubject}-${dateString}`,
         studentId,
         date: dateString,
         status,
+        lectureCount,
         subject: selectedSubject,
       });
+    });
+
+    // Auto-absent: Mark unmarked students as absent
+    filteredStudents.forEach((student) => {
+      if (!attendance.has(student.id)) {
+        newRecords.push({
+          id: `att-${student.id}-${selectedSubject}-${dateString}`,
+          studentId: student.id,
+          date: dateString,
+          status: "absent",
+          lectureCount,
+          subject: selectedSubject,
+        });
+      }
     });
 
     setAttendanceRecords(newRecords);
@@ -129,13 +145,12 @@ const FacultyAttendance = () => {
 
     toast({
       title: "Attendance Saved",
-      description: `Attendance for ${selectedDate.toLocaleDateString()} has been saved successfully.`,
+      description: `Attendance for ${selectedDate.toLocaleDateString()} has been saved successfully. (${lectureCount} lecture${lectureCount === 2 ? 's' : ''})`,
     });
   };
 
   const presentCount = Array.from(attendance.values()).filter((s) => s === "present").length;
   const absentCount = Array.from(attendance.values()).filter((s) => s === "absent").length;
-  const leaveCount = Array.from(attendance.values()).filter((s) => s === "leave").length;
 
   const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
   const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
@@ -149,7 +164,16 @@ const FacultyAttendance = () => {
             <h1 className="text-2xl font-bold">Attendance Management</h1>
             <p className="text-muted-foreground">Mark and manage student attendance</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <Select value={lectureCount.toString()} onValueChange={(val) => setLectureCount(parseInt(val) as 1 | 2)}>
+              <SelectTrigger className="w-24">
+                <SelectValue placeholder="Lectures" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1 Lecture</SelectItem>
+                <SelectItem value="2">2 Lectures</SelectItem>
+              </SelectContent>
+            </Select>
             <Button variant="outline" onClick={markAllPresent}>
               <UserCheck className="mr-2 h-4 w-4" />
               Mark All Present
@@ -202,7 +226,7 @@ const FacultyAttendance = () => {
                 <CardTitle className="text-lg">Today's Summary</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-success">{presentCount}</div>
                     <div className="text-xs text-muted-foreground">Present</div>
@@ -210,10 +234,6 @@ const FacultyAttendance = () => {
                   <div className="text-center">
                     <div className="text-2xl font-bold text-destructive">{absentCount}</div>
                     <div className="text-xs text-muted-foreground">Absent</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-warning">{leaveCount}</div>
-                    <div className="text-xs text-muted-foreground">Leave</div>
                   </div>
                 </div>
               </CardContent>
@@ -314,14 +334,6 @@ const FacultyAttendance = () => {
                                 onClick={() => markAttendance(student.id, "absent")}
                               >
                                 <X className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant={status === "leave" ? "default" : "outline"}
-                                className={status === "leave" ? "bg-warning hover:bg-warning/90" : ""}
-                                onClick={() => markAttendance(student.id, "leave")}
-                              >
-                                <Clock className="h-4 w-4" />
                               </Button>
                             </div>
                           </TableCell>
