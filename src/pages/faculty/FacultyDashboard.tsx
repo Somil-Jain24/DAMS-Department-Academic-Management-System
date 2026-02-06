@@ -8,13 +8,11 @@ import { Progress } from "@/components/ui/progress";
 import {
   Users,
   FileText,
-  Calendar,
   CheckCircle,
   Clock,
   ArrowRight,
   BookOpen,
   AlertTriangle,
-  PlusCircle,
   ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
