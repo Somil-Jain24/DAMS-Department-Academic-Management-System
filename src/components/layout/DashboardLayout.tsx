@@ -58,12 +58,6 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
 
   const facultyNav: NavItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/faculty" },
-    { icon: Calendar, label: "Attendance", href: "/faculty/attendance" },
-    { icon: ClipboardList, label: "Assignments", href: "/faculty/assignments" },
-    { icon: BookOpen, label: "Lab Sessions", href: "/faculty/labs" },
-    { icon: Trophy, label: "Contests", href: "/faculty/contests" },
-    { icon: BarChart3, label: "Analytics", href: "/faculty/analytics" },
-    { icon: Users, label: "Students", href: "/faculty/students" },
   ];
 
   const adminNav: NavItem[] = [
