@@ -402,19 +402,22 @@ const StudentAttendance = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Attendance History</CardTitle>
-            <Select value={selectedSubjectFilter} onValueChange={setSelectedSubjectFilter}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="All Subjects" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Subjects</SelectItem>
-                {demoSubjects.map((subject) => (
-                  <SelectItem key={subject.id} value={subject.id}>
-                    {subject.code} - {subject.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {/* Subject filter dropdown - Hide when in subject context */}
+            {!isInScope && (
+              <Select value={selectedSubjectFilter} onValueChange={setSelectedSubjectFilter}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="All Subjects" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Subjects</SelectItem>
+                  {demoSubjects.map((subject) => (
+                    <SelectItem key={subject.id} value={subject.id}>
+                      {subject.code} - {subject.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </CardHeader>
           <CardContent>
             <Table>
