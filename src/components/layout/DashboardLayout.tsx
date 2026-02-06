@@ -42,6 +42,12 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isInScope } = useScope();
+
+  // If in a scoped context (class/subject), hide global sidebar and just render children
+  if (isInScope) {
+    return <>{children}</>;
+  }
 
   const studentNav: NavItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/student" },
