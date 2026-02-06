@@ -5,10 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   GraduationCap,
   LayoutDashboard,
-  Calendar,
   BookOpen,
-  FileText,
-  Trophy,
   BarChart3,
   Users,
   User,
@@ -20,7 +17,6 @@ import {
   ClipboardList,
   Code,
   Award,
-  Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotificationDropdown from "@/components/notifications/NotificationDropdown";
