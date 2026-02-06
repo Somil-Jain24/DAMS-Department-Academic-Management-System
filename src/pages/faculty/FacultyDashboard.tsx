@@ -20,10 +20,29 @@ import { useNavigate } from "react-router-dom";
 import { useClass } from "@/contexts/ClassContext";
 import { demoClasses } from "@/data/demoData";
 
+interface Note {
+  id: string;
+  title: string;
+  drawing: string;
+  text: string;
+  savedAt: string;
+}
+
 const FacultyDashboard = () => {
   const [showWhiteboard, setShowWhiteboard] = useState(false);
+  const [editingNote, setEditingNote] = useState<Note | undefined>(undefined);
   const navigate = useNavigate();
   const { setSelectedClass } = useClass();
+
+  const handleNoteSelect = (note: Note) => {
+    setEditingNote(note);
+    setShowWhiteboard(true);
+  };
+
+  const handleCreateNote = () => {
+    setEditingNote(undefined);
+    setShowWhiteboard(true);
+  };
 
   const handleClassSelect = (classId: string) => {
     const classData = demoClasses.find((c) => c.id === classId);
