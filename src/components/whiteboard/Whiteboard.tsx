@@ -100,21 +100,32 @@ const Whiteboard = ({ isOpen, onClose, editingNote }: WhiteboardProps) => {
   };
 
   const saveNotes = () => {
-    const timestamp = new Date().toLocaleString();
-    const noteContent = {
-      drawing: canvasRef.current?.toDataURL(),
+    if (!title.trim()) {
+      toast({
+        title: "Title Required",
+        description: "Please enter a title for your notes",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const timestamp = editingNote ? editingNote.savedAt : new Date().toLocaleString();
+    const noteContent: Note = {
+      id: editingNote?.id || `note_${Date.now()}`,
+      title: title.trim(),
+      drawing: canvasRef.current?.toDataURL() || "",
       text: notes,
       savedAt: timestamp,
     };
 
     localStorage.setItem(
-      `note_${Date.now()}`,
+      noteContent.id,
       JSON.stringify(noteContent)
     );
 
     toast({
       title: "Notes Saved",
-      description: `Your notes have been saved at ${timestamp}`,
+      description: `"${title}" has been saved successfully`,
     });
 
     onClose();
