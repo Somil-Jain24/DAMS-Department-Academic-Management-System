@@ -101,12 +101,10 @@ const StudentAttendance = () => {
     );
     const present = records.filter((r) => r.status === "present").length;
     const absent = records.filter((r) => r.status === "absent").length;
-    const leave = records.filter((r) => r.status === "leave").length;
 
     return [
       { name: "Present", value: present, color: "hsl(var(--success))" },
       { name: "Absent", value: absent, color: "hsl(var(--destructive))" },
-      { name: "Leave", value: leave, color: "hsl(var(--warning))" },
     ];
   }, [selectedSubjectFilter]);
 
