@@ -66,8 +66,9 @@ const FacultyAttendance = () => {
   }, [classId, selectedClass, setSelectedClass]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedSubject, setSelectedSubject] = useState(demoSubjects[0].id);
+  const [lectureCount, setLectureCount] = useState<1 | 2>(1);
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(demoAttendanceRecords);
-  const [attendance, setAttendance] = useState<Map<string, "present" | "absent" | "leave">>(new Map());
+  const [attendance, setAttendance] = useState<Map<string, "present" | "absent">>(new Map());
   const [hasChanges, setHasChanges] = useState(false);
 
   const dateString = selectedDate.toISOString().split("T")[0];
