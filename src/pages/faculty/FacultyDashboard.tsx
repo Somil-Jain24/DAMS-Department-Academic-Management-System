@@ -79,6 +79,13 @@ const FacultyDashboard = () => {
               You have 3 classes scheduled today.
             </p>
           </div>
+          <Button
+            onClick={() => setShowWhiteboard(true)}
+            className="gap-2 w-full sm:w-auto"
+          >
+            <PlusCircle className="h-4 w-4" />
+            Create Notes
+          </Button>
         </motion.div>
 
         {/* Stats Grid */}
