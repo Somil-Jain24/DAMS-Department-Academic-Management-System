@@ -72,20 +72,23 @@ const StudentSubjectPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header - LEFT ALIGNED like faculty class pages */}
+      {/* Header with DAMS Logo */}
       <div className="border-b bg-card">
-        <div className="flex items-center gap-4 px-6 py-6">
+        <div className="flex items-center gap-4 px-6 py-4">
+          {/* DAMS Logo - Clickable */}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate("/student")}
-            className="h-10 w-10 shrink-0"
+            className="h-12 w-12 rounded-xl bg-sidebar hover:bg-sidebar/90 shrink-0"
           >
-            <ArrowLeft className="h-5 w-5" />
+            <GraduationCap className="h-6 w-6 text-white" />
           </Button>
-          <div>
-            <h1 className="text-3xl font-bold">{subject.code}</h1>
-            <p className="text-muted-foreground">{subject.name}</p>
+
+          {/* Subject Code and Name */}
+          <div className="flex flex-col">
+            <h1 className="text-lg font-bold">{subject.code}</h1>
+            <p className="text-sm text-muted-foreground">{subject.name}</p>
           </div>
         </div>
       </div>
