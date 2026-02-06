@@ -115,14 +115,30 @@ const FacultyAttendance = () => {
       (r) => !(r.date === dateString && r.subject === selectedSubject)
     );
 
+    // Mark marked students with their status
     attendance.forEach((status, studentId) => {
       newRecords.push({
         id: `att-${studentId}-${selectedSubject}-${dateString}`,
         studentId,
         date: dateString,
         status,
+        lectureCount,
         subject: selectedSubject,
       });
+    });
+
+    // Auto-absent: Mark unmarked students as absent
+    filteredStudents.forEach((student) => {
+      if (!attendance.has(student.id)) {
+        newRecords.push({
+          id: `att-${student.id}-${selectedSubject}-${dateString}`,
+          studentId: student.id,
+          date: dateString,
+          status: "absent",
+          lectureCount,
+          subject: selectedSubject,
+        });
+      }
     });
 
     setAttendanceRecords(newRecords);
@@ -130,7 +146,7 @@ const FacultyAttendance = () => {
 
     toast({
       title: "Attendance Saved",
-      description: `Attendance for ${selectedDate.toLocaleDateString()} has been saved successfully.`,
+      description: `Attendance for ${selectedDate.toLocaleDateString()} has been saved successfully. (${lectureCount} lecture${lectureCount === 2 ? 's' : ''})`,
     });
   };
 
