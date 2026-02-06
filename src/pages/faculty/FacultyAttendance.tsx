@@ -90,7 +90,7 @@ const FacultyAttendance = () => {
     [attendanceRecords]
   );
 
-  const markAttendance = (studentId: string, status: "present" | "absent" | "leave") => {
+  const markAttendance = (studentId: string, status: "present" | "absent") => {
     const newAttendance = new Map(attendance);
     newAttendance.set(studentId, status);
     setAttendance(newAttendance);
@@ -98,7 +98,7 @@ const FacultyAttendance = () => {
   };
 
   const markAllPresent = () => {
-    const newAttendance = new Map<string, "present" | "absent" | "leave">();
+    const newAttendance = new Map<string, "present" | "absent">();
     filteredStudents.forEach((s) => newAttendance.set(s.id, "present"));
     setAttendance(newAttendance);
     setHasChanges(true);
