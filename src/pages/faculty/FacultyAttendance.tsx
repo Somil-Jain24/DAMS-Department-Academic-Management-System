@@ -336,14 +336,6 @@ const FacultyAttendance = () => {
                               >
                                 <X className="h-4 w-4" />
                               </Button>
-                              <Button
-                                size="sm"
-                                variant={status === "leave" ? "default" : "outline"}
-                                className={status === "leave" ? "bg-warning hover:bg-warning/90" : ""}
-                                onClick={() => markAttendance(student.id, "leave")}
-                              >
-                                <Clock className="h-4 w-4" />
-                              </Button>
                             </div>
                           </TableCell>
                         </motion.tr>
