@@ -110,12 +110,19 @@ const getGradePoints = (grade: string) => {
 };
 
 const StudentMarks = () => {
-  const totalCredits = marksData.reduce((sum, subject) => sum + subject.credits, 0);
-  const totalGradePoints = marksData.reduce(
+  const { selectedSubject } = useSubject();
+
+  // Filter marks based on selected subject
+  const filteredMarksData = selectedSubject
+    ? marksData.filter(m => m.subjectId === selectedSubject.id)
+    : marksData;
+
+  const totalCredits = filteredMarksData.reduce((sum, subject) => sum + subject.credits, 0);
+  const totalGradePoints = filteredMarksData.reduce(
     (sum, subject) => sum + getGradePoints(subject.grade) * subject.credits,
     0
   );
-  const cgpa = (totalGradePoints / totalCredits).toFixed(2);
+  const cgpa = totalCredits > 0 ? (totalGradePoints / totalCredits).toFixed(2) : "N/A";
 
   const calculateTotalPercentage = (subject: typeof marksData[0]) => {
     const internalTotal = subject.internalMarks.reduce((sum, m) => sum + m.obtained, 0);
