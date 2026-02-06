@@ -153,31 +153,56 @@ const FacultyDashboard = () => {
             <CardContent>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {demoClasses.map((cls, index) => (
-                  <motion.button
+                  <motion.div
                     key={cls.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.4 + index * 0.05 }}
-                    onClick={() => handleClassSelect(cls.id)}
                     className="group relative overflow-hidden rounded-xl border bg-card p-6 text-left transition-all duration-300 hover:border-primary hover:shadow-lg hover:shadow-primary/10"
                   >
-                    <div className="space-y-3">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="font-semibold text-lg">{cls.name}</h3>
-                          <p className="text-sm text-muted-foreground">{cls.department}</p>
+                    <div className="space-y-4 h-full flex flex-col">
+                      {/* Class Info */}
+                      <div className="space-y-3 flex-1">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="font-semibold text-lg">{cls.name}</h3>
+                            <p className="text-sm text-muted-foreground">{cls.department}</p>
+                          </div>
+                          <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
                         </div>
-                        <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
+                        <div className="flex items-center gap-4 pt-2">
+                          <div className="flex items-center gap-2">
+                            <Users className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-sm text-muted-foreground">{cls.students} students</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-4 pt-2">
-                        <div className="flex items-center gap-2">
-                          <Users className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">{cls.students} students</span>
-                        </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 pt-2 border-t">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setEditingNote(undefined);
+                            setShowWhiteboard(true);
+                          }}
+                          className="flex-1 h-8 text-xs"
+                        >
+                          <FileText className="h-3 w-3 mr-1" />
+                          Notes
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => handleClassSelect(cls.id)}
+                          className="flex-1 h-8 text-xs"
+                        >
+                          View Class
+                        </Button>
                       </div>
                     </div>
                     <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                  </motion.button>
+                  </motion.div>
                 ))}
               </div>
             </CardContent>
