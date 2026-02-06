@@ -56,12 +56,13 @@ const Whiteboard = ({ isOpen, onClose, editingNote, classId, className }: Whiteb
             ctx.drawImage(img, 0, 0);
           };
         } else {
-          setTitle("");
+          // Set title for class-scoped note
+          setTitle(className ? `${className} – Notes` : "");
           setNotes("");
         }
       }
     }
-  }, [isOpen, editingNote]);
+  }, [isOpen, editingNote, className]);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!context || !canvasRef.current) return;
