@@ -1,48 +1,19 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import StatCard from "@/components/dashboard/StatCard";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import {
-  Calendar,
   BookOpen,
   Trophy,
-  FileText,
-  Clock,
-  ArrowRight,
   TrendingUp,
-  BarChart3,
-  ClipboardList,
-  FlaskConical,
-  Target,
+  ArrowRight,
 } from "lucide-react";
-import { useSubject } from "@/contexts/SubjectContext";
 import { demoSubjects, currentStudent, demoAssignments, demoLabSessions, demoContests } from "@/data/demoData";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
-  const { setSelectedSubject, selectedSubject } = useSubject();
-  const [expandedSubject, setExpandedSubject] = useState<string | null>(null);
-
-  const handleSubjectClick = (subjectId: string) => {
-    setExpandedSubject(expandedSubject === subjectId ? null : subjectId);
-    const subject = demoSubjects.find(s => s.id === subjectId);
-    if (subject) {
-      setSelectedSubject(subject);
-    }
-  };
-
-  const navigateWithSubject = (path: string, subjectId: string) => {
-    const subject = demoSubjects.find(s => s.id === subjectId);
-    if (subject) {
-      setSelectedSubject(subject);
-    }
-    navigate(path);
-  };
 
   const getSubjectStats = (subjectId: string) => {
     const assignments = demoAssignments.filter(a => a.subjectId === subjectId).length;
