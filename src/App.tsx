@@ -50,6 +50,14 @@ const App = () => (
           <Route path="/student/labs" element={<StudentLabs />} />
           <Route path="/student/contests" element={<StudentContests />} />
           <Route path="/student/marks" element={<StudentMarks />} />
+          {/* Subject-Scoped Routes (Student) */}
+          <Route path="/student/subject/:subjectId" element={<StudentSubjectPage />}>
+            <Route path="/student/subject/:subjectId/attendance" element={<StudentAttendance />} />
+            <Route path="/student/subject/:subjectId/assignments" element={<StudentAssignments />} />
+            <Route path="/student/subject/:subjectId/labs" element={<StudentLabs />} />
+            <Route path="/student/subject/:subjectId/contests" element={<StudentContests />} />
+            <Route path="/student/subject/:subjectId/marks" element={<StudentMarks />} />
+          </Route>
           {/* Faculty Routes */}
           <Route path="/faculty" element={<FacultyDashboard />} />
           <Route path="/faculty/attendance" element={<FacultyAttendance />} />
