@@ -18,8 +18,8 @@ import { demoSubjects } from "@/data/demoData";
 
 const marksData = [
   {
-    subjectId: "sub1",
-    subjectName: "Data Structures & Algorithms",
+    subjectId: "IT601",
+    subjectName: "Computer Graphics and Multimedia",
     internalMarks: [
       { exam: "Mid Term 1", obtained: 22, total: 25, date: "2024-02-15" },
       { exam: "Mid Term 2", obtained: 20, total: 25, date: "2024-03-20" },
