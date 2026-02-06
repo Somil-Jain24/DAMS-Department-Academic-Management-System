@@ -273,7 +273,11 @@ const FacultyDashboard = () => {
       {/* Whiteboard Sidebar */}
       <Whiteboard
         isOpen={showWhiteboard}
-        onClose={() => setShowWhiteboard(false)}
+        onClose={() => {
+          setShowWhiteboard(false);
+          setEditingNote(undefined);
+        }}
+        editingNote={editingNote}
       />
     </DashboardLayout>
   );
