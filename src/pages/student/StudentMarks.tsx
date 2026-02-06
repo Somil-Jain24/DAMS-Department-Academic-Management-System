@@ -236,7 +236,7 @@ const StudentMarks = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {marksData.map((subject) => {
+                    {filteredMarksData.map((subject) => {
                       const internalTotal = subject.internalMarks.reduce(
                         (sum, m) => sum + m.obtained,
                         0
@@ -285,7 +285,7 @@ const StudentMarks = () => {
           </TabsContent>
 
           <TabsContent value="internal" className="space-y-4">
-            {marksData.map((subject) => (
+            {filteredMarksData.map((subject) => (
               <Card key={subject.subjectId}>
                 <CardHeader>
                   <CardTitle className="text-lg">{subject.subjectName}</CardTitle>
@@ -347,7 +347,7 @@ const StudentMarks = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {marksData.map((subject) => (
+                    {filteredMarksData.map((subject) => (
                       <TableRow key={subject.subjectId}>
                         <TableCell className="font-medium">{subject.subjectName}</TableCell>
                         <TableCell className="text-center">{subject.external.obtained}</TableCell>
