@@ -22,7 +22,7 @@ interface WhiteboardProps {
   className?: string;
 }
 
-const Whiteboard = ({ isOpen, onClose, editingNote }: WhiteboardProps) => {
+const Whiteboard = ({ isOpen, onClose, editingNote, classId, className }: WhiteboardProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isErasing, setIsErasing] = useState(false);
