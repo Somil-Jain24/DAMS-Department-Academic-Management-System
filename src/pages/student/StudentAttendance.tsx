@@ -308,50 +308,52 @@ const StudentAttendance = () => {
             </Card>
           </motion.div>
 
-          {/* Bar Chart - Subject-wise */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <Card>
-              <CardHeader>
-                <CardTitle>Subject-wise Attendance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={barData}>
-                      <XAxis dataKey="name" />
-                      <YAxis domain={[0, 100]} />
-                      <Tooltip
-                        formatter={(value: number) => [`${value}%`, "Attendance"]}
-                      />
-                      <Bar dataKey="attendance" radius={[4, 4, 0, 0]}>
-                        {barData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.fill} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="mt-4 flex justify-center gap-4 text-xs">
-                  <div className="flex items-center gap-1">
-                    <div className="h-2 w-2 rounded-full bg-success" />
-                    <span>≥75%</span>
+          {/* Bar Chart - Subject-wise (Hide when in subject context) */}
+          {!isInScope && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle>Subject-wise Attendance</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={barData}>
+                        <XAxis dataKey="name" />
+                        <YAxis domain={[0, 100]} />
+                        <Tooltip
+                          formatter={(value: number) => [`${value}%`, "Attendance"]}
+                        />
+                        <Bar dataKey="attendance" radius={[4, 4, 0, 0]}>
+                          {barData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <div className="h-2 w-2 rounded-full bg-warning" />
-                    <span>60-74%</span>
+                  <div className="mt-4 flex justify-center gap-4 text-xs">
+                    <div className="flex items-center gap-1">
+                      <div className="h-2 w-2 rounded-full bg-success" />
+                      <span>≥75%</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="h-2 w-2 rounded-full bg-warning" />
+                      <span>60-74%</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="h-2 w-2 rounded-full bg-destructive" />
+                      <span>&lt;60%</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <div className="h-2 w-2 rounded-full bg-destructive" />
-                    <span>&lt;60%</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
         </div>
 
         {/* Subject Cards - Hide when in subject context */}
