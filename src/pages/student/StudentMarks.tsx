@@ -69,19 +69,6 @@ const marksData = [
     grade: "A+",
     credits: 3,
   },
-  {
-    subjectId: "sub5",
-    subjectName: "Software Engineering",
-    internalMarks: [
-      { exam: "Mid Term 1", obtained: 19, total: 25, date: "2024-02-19" },
-      { exam: "Mid Term 2", obtained: 20, total: 25, date: "2024-03-24" },
-    ],
-    assignments: { obtained: 18, total: 20 },
-    lab: null,
-    external: { obtained: 70, total: 100 },
-    grade: "A",
-    credits: 3,
-  },
 ];
 
 const getGradeColor = (grade: string) => {
