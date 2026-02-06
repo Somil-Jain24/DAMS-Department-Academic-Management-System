@@ -110,42 +110,6 @@ const FacultyDashboard = () => {
           </Button>
         </motion.div>
 
-        {/* Stats Grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            title="Total Students"
-            value="173"
-            subtitle="Across 3 classes"
-            icon={Users}
-            color="info"
-            delay={0}
-          />
-          <StatCard
-            title="Pending Grading"
-            value="77"
-            subtitle="Submissions to review"
-            icon={FileText}
-            color="warning"
-            delay={0.1}
-          />
-          <StatCard
-            title="Avg Attendance"
-            value="84%"
-            subtitle="This month"
-            icon={Calendar}
-            color="success"
-            delay={0.2}
-          />
-          <StatCard
-            title="Labs Created"
-            value="12"
-            subtitle="This semester"
-            icon={BookOpen}
-            color="accent"
-            delay={0.3}
-          />
-        </div>
-
         {/* Classes Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
