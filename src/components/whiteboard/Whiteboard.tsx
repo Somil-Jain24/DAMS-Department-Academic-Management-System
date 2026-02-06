@@ -33,7 +33,7 @@ const Whiteboard = ({ isOpen, onClose, editingNote }: WhiteboardProps) => {
       const canvas = canvasRef.current;
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
-      
+
       const ctx = canvas.getContext("2d");
       if (ctx) {
         ctx.lineCap = "round";
@@ -41,9 +41,23 @@ const Whiteboard = ({ isOpen, onClose, editingNote }: WhiteboardProps) => {
         ctx.lineWidth = brushSize;
         ctx.strokeStyle = "#000000";
         setContext(ctx);
+
+        // Load existing note if editing
+        if (editingNote) {
+          setTitle(editingNote.title);
+          setNotes(editingNote.text);
+          const img = new Image();
+          img.src = editingNote.drawing;
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0);
+          };
+        } else {
+          setTitle("");
+          setNotes("");
+        }
       }
     }
-  }, [isOpen]);
+  }, [isOpen, editingNote]);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!context || !canvasRef.current) return;
