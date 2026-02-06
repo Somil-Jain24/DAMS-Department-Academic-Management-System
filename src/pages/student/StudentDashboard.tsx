@@ -87,7 +87,6 @@ const StudentDashboard = () => {
               <div className="grid gap-4 md:grid-cols-2">
                 {demoSubjects.map((subject, index) => {
                   const stats = getSubjectStats(subject.id);
-                  const isExpanded = expandedSubject === subject.id;
 
                   return (
                     <motion.div
@@ -97,22 +96,20 @@ const StudentDashboard = () => {
                       transition={{ delay: 0.1 * index }}
                     >
                       <Card
-                        className="cursor-pointer transition-all hover:shadow-lg"
-                        onClick={() => handleSubjectClick(subject.id)}
+                        className="cursor-pointer transition-all hover:shadow-lg hover:border-primary"
+                        onClick={() => navigate(`/student/subject/${subject.id}`)}
                       >
                         <CardContent className="p-6">
-                          <div className="mb-4">
-                            <div className="flex items-start justify-between mb-3">
-                              <div>
-                                <Badge variant="outline" className="mb-2">{subject.code}</Badge>
-                                <h3 className="font-semibold text-lg">{subject.name}</h3>
-                              </div>
-                              <BookOpen className="h-5 w-5 text-primary/60" />
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <Badge variant="outline" className="mb-2">{subject.code}</Badge>
+                              <h3 className="font-semibold text-lg">{subject.name}</h3>
                             </div>
+                            <BookOpen className="h-5 w-5 text-primary/60 flex-shrink-0 ml-2" />
                           </div>
 
                           {/* Subject Stats */}
-                          <div className="grid grid-cols-3 gap-3 mb-4 text-center text-sm">
+                          <div className="grid grid-cols-3 gap-3 text-center text-sm">
                             <div>
                               <p className="text-2xl font-bold text-blue-500">{stats.assignments}</p>
                               <p className="text-xs text-muted-foreground">Assignments</p>
@@ -127,71 +124,10 @@ const StudentDashboard = () => {
                             </div>
                           </div>
 
-                          {/* Subject Options - Show when expanded */}
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: "auto" }}
-                              exit={{ opacity: 0, height: 0 }}
-                              className="pt-4 border-t space-y-2"
-                            >
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start text-sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigateWithSubject("/student/attendance", subject.id);
-                                }}
-                              >
-                                <Calendar className="h-4 w-4 mr-2" />
-                                Attendance
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start text-sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigateWithSubject("/student/assignments", subject.id);
-                                }}
-                              >
-                                <FileText className="h-4 w-4 mr-2" />
-                                Assignments
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start text-sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigateWithSubject("/student/labs", subject.id);
-                                }}
-                              >
-                                <FlaskConical className="h-4 w-4 mr-2" />
-                                Lab Sessions
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start text-sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigateWithSubject("/student/contests", subject.id);
-                                }}
-                              >
-                                <Trophy className="h-4 w-4 mr-2" />
-                                Contests
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start text-sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigateWithSubject("/student/marks", subject.id);
-                                }}
-                              >
-                                <BarChart3 className="h-4 w-4 mr-2" />
-                                Marks & Progress
-                              </Button>
-                            </motion.div>
-                          )}
+                          {/* Click to open hint */}
+                          <div className="mt-4 pt-4 border-t flex items-center justify-center gap-1 text-xs text-muted-foreground">
+                            Click to open <ArrowRight className="h-3 w-3" />
+                          </div>
                         </CardContent>
                       </Card>
                     </motion.div>
