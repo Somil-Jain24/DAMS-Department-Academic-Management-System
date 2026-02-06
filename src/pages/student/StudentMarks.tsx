@@ -145,7 +145,12 @@ const StudentMarks = () => {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Academic Performance</h1>
-          <p className="text-muted-foreground">View your marks and grades across all subjects</p>
+          <p className="text-muted-foreground">
+            {selectedSubject
+              ? `View your marks for ${selectedSubject.code} - ${selectedSubject.name}`
+              : "View your marks and grades across all subjects"
+            }
+          </p>
         </div>
 
         {/* Summary Cards */}
