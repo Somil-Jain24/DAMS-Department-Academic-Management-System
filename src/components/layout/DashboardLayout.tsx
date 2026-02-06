@@ -37,7 +37,7 @@ interface DashboardLayoutProps {
   onCreateNote?: () => void;
 }
 
-const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children, role, onNoteSelect, onCreateNote }: DashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
