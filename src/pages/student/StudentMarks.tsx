@@ -57,8 +57,8 @@ const marksData = [
     credits: 3,
   },
   {
-    subjectId: "sub4",
-    subjectName: "Computer Networks",
+    subjectId: "IT604B",
+    subjectName: "Software Engineering",
     internalMarks: [
       { exam: "Mid Term 1", obtained: 21, total: 25, date: "2024-02-18" },
       { exam: "Mid Term 2", obtained: 22, total: 25, date: "2024-03-23" },
