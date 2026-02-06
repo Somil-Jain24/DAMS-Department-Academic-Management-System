@@ -18,6 +18,7 @@ const StudentSubjectPage = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
   const navigate = useNavigate();
   const { setSelectedSubject } = useSubject();
+  const { setScope } = useScope();
 
   // Find subject data
   const subject = demoSubjects.find((s) => s.id === subjectId);
@@ -25,8 +26,15 @@ const StudentSubjectPage = () => {
   useEffect(() => {
     if (subject) {
       setSelectedSubject(subject);
+      // Set scope to subject mode - this will hide global sidebar
+      setScope({ type: "subject", id: subjectId });
     }
-  }, [subject, setSelectedSubject]);
+
+    // Cleanup: reset scope when leaving subject page
+    return () => {
+      setScope({ type: null, id: null });
+    };
+  }, [subject, subjectId, setSelectedSubject, setScope]);
 
   if (!subject) {
     return (
