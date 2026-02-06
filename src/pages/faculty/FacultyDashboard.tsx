@@ -297,8 +297,11 @@ const FacultyDashboard = () => {
         onClose={() => {
           setShowWhiteboard(false);
           setEditingNote(undefined);
+          setSelectedClassForNote(undefined);
         }}
         editingNote={editingNote}
+        classId={selectedClassForNote}
+        className={selectedClassForNote ? demoClasses.find(c => c.id === selectedClassForNote)?.name : undefined}
       />
     </DashboardLayout>
   );
