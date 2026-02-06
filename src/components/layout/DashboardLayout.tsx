@@ -94,7 +94,17 @@ const DashboardLayout = ({ children, role, onNoteSelect, onCreateNote }: Dashboa
       >
         {/* Logo */}
         <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-4">
-          <div className="flex items-center gap-3">
+          <button
+            onClick={() => {
+              const dashboardMap = {
+                student: "/student",
+                faculty: "/faculty",
+                admin: "/admin",
+              };
+              navigate(dashboardMap[role]);
+            }}
+            className="flex items-center gap-3 rounded-lg hover:bg-sidebar-accent transition-colors"
+          >
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sidebar-primary">
               <GraduationCap className="h-5 w-5 text-sidebar-primary-foreground" />
             </div>
@@ -107,7 +117,7 @@ const DashboardLayout = ({ children, role, onNoteSelect, onCreateNote }: Dashboa
                 DAMS
               </motion.div>
             )}
-          </div>
+          </button>
           <Button
             variant="ghost"
             size="icon"
