@@ -354,45 +354,47 @@ const StudentAttendance = () => {
           </motion.div>
         </div>
 
-        {/* Subject Cards */}
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
-          {subjectAttendance.map(({ subject, percentage }, index) => (
-            <motion.div
-              key={subject.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * index }}
-            >
-              <Card
-                className={`cursor-pointer transition-all hover:shadow-md ${
-                  percentage < 75 ? "border-destructive/50" : ""
-                }`}
-                onClick={() => setSelectedSubjectFilter(subject.id)}
+        {/* Subject Cards - Hide when in subject context */}
+        {!isInScope && (
+          <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
+            {subjectAttendance.map(({ subject, percentage }, index) => (
+              <motion.div
+                key={subject.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index }}
               >
-                <CardContent className="pt-4">
-                  <div className="text-center">
-                    <p className="text-xs font-medium text-muted-foreground">
-                      {subject.code}
-                    </p>
-                    <p className="text-sm font-semibold">{subject.name}</p>
-                    <p
-                      className={`mt-2 text-2xl font-bold ${
-                        percentage >= 75
-                          ? "text-success"
-                          : percentage >= 60
-                          ? "text-warning"
-                          : "text-destructive"
-                      }`}
-                    >
-                      {percentage}%
-                    </p>
-                    <Progress value={percentage} className="mt-2 h-1.5" />
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                <Card
+                  className={`cursor-pointer transition-all hover:shadow-md ${
+                    percentage < 75 ? "border-destructive/50" : ""
+                  }`}
+                  onClick={() => setSelectedSubjectFilter(subject.id)}
+                >
+                  <CardContent className="pt-4">
+                    <div className="text-center">
+                      <p className="text-xs font-medium text-muted-foreground">
+                        {subject.code}
+                      </p>
+                      <p className="text-sm font-semibold">{subject.name}</p>
+                      <p
+                        className={`mt-2 text-2xl font-bold ${
+                          percentage >= 75
+                            ? "text-success"
+                            : percentage >= 60
+                            ? "text-warning"
+                            : "text-destructive"
+                        }`}
+                      >
+                        {percentage}%
+                      </p>
+                      <Progress value={percentage} className="mt-2 h-1.5" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* Detailed Records */}
         <Card>
