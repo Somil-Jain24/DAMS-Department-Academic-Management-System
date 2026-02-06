@@ -4,17 +4,27 @@ import { Button } from "@/components/ui/button";
 import { X, Trash2, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+export interface Note {
+  id: string;
+  title: string;
+  drawing: string;
+  text: string;
+  savedAt: string;
+}
+
 interface WhiteboardProps {
   isOpen: boolean;
   onClose: () => void;
+  editingNote?: Note;
 }
 
-const Whiteboard = ({ isOpen, onClose }: WhiteboardProps) => {
+const Whiteboard = ({ isOpen, onClose, editingNote }: WhiteboardProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isErasing, setIsErasing] = useState(false);
   const [brushSize, setBrushSize] = useState(3);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
+  const [title, setTitle] = useState("");
   const [notes, setNotes] = useState("");
   const { toast } = useToast();
 
