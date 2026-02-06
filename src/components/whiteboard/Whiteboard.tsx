@@ -236,6 +236,23 @@ const Whiteboard = ({ isOpen, onClose, editingNote }: WhiteboardProps) => {
 
             {/* Footer */}
             <div className="border-t bg-muted/30 p-4 flex gap-2">
+              {editingNote && (
+                <Button
+                  variant="destructive"
+                  onClick={() => {
+                    localStorage.removeItem(editingNote.id);
+                    toast({
+                      title: "Note Deleted",
+                      description: `"${editingNote.title}" has been deleted`,
+                    });
+                    onClose();
+                  }}
+                  className="gap-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  Delete
+                </Button>
+              )}
               <Button
                 variant="outline"
                 onClick={onClose}
