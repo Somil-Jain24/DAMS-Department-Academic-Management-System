@@ -56,7 +56,8 @@ const StudentAttendance = () => {
   const [selectedSubjectFilter, setSelectedSubjectFilter] = useState<string>("all");
 
   useEffect(() => {
-    // If a subject is selected from context, use it as the default filter
+    // If in subject context, lock filter to that subject
+    // If not in subject context, allow "all" option
     if (selectedSubject) {
       setSelectedSubjectFilter(selectedSubject.id);
     }
