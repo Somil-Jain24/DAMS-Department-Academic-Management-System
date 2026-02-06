@@ -344,8 +344,8 @@ const StudentAttendance = () => {
                 )}
               </CardHeader>
               <CardContent className="p-0 overflow-hidden">
-                <div className="max-h-80 overflow-y-auto">
-                  <Table className="text-sm">
+                <div className="max-h-80 overflow-y-auto p-6">
+                  <Table>
                     <TableHeader>
                       <TableRow>
                         <TableHead>Date</TableHead>
