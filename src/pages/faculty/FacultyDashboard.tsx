@@ -246,6 +246,12 @@ const FacultyDashboard = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Whiteboard Sidebar */}
+      <Whiteboard
+        isOpen={showWhiteboard}
+        onClose={() => setShowWhiteboard(false)}
+      />
     </DashboardLayout>
   );
 };
