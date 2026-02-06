@@ -227,7 +227,7 @@ const FacultyAttendance = () => {
                 <CardTitle className="text-lg">Today's Summary</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-success">{presentCount}</div>
                     <div className="text-xs text-muted-foreground">Present</div>
@@ -235,10 +235,6 @@ const FacultyAttendance = () => {
                   <div className="text-center">
                     <div className="text-2xl font-bold text-destructive">{absentCount}</div>
                     <div className="text-xs text-muted-foreground">Absent</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-warning">{leaveCount}</div>
-                    <div className="text-xs text-muted-foreground">Leave</div>
                   </div>
                 </div>
               </CardContent>
