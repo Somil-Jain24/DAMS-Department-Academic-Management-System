@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Trophy, TrendingUp, BookOpen, Award } from "lucide-react";
+import { useSubject } from "@/contexts/SubjectContext";
 import { demoSubjects } from "@/data/demoData";
 
 const marksData = [
