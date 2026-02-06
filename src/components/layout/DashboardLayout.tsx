@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotificationDropdown from "@/components/notifications/NotificationDropdown";
+import { useScope } from "@/contexts/ScopeContext";
 
 interface NavItem {
   icon: React.ElementType;
