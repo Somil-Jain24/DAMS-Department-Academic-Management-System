@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useNavigate, Outlet } from "react-router-dom";
 import { useSubject } from "@/contexts/SubjectContext";
+import { useScope } from "@/contexts/ScopeContext";
 import { demoSubjects } from "@/data/demoData";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
