@@ -167,7 +167,7 @@ const StudentAttendance = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">
-                      Overall Attendance
+                      {isInScope ? "Subject Attendance" : "Overall Attendance"}
                     </p>
                     <p
                       className={`text-3xl font-bold ${
@@ -178,7 +178,11 @@ const StudentAttendance = () => {
                           : "text-destructive"
                       }`}
                     >
-                      {overallAttendance}%
+                      {selectedSubjectFilter !== "all" && isInScope
+                        ? subjectAttendance.find((sa) => sa.subject.id === selectedSubjectFilter)
+                            ?.percentage || overallAttendance
+                        : overallAttendance}
+                      %
                     </p>
                   </div>
                   {overallAttendance >= 75 ? (
@@ -188,7 +192,12 @@ const StudentAttendance = () => {
                   )}
                 </div>
                 <Progress
-                  value={overallAttendance}
+                  value={
+                    selectedSubjectFilter !== "all" && isInScope
+                      ? subjectAttendance.find((sa) => sa.subject.id === selectedSubjectFilter)
+                          ?.percentage || overallAttendance
+                      : overallAttendance
+                  }
                   className="mt-3 h-2"
                 />
               </CardContent>
