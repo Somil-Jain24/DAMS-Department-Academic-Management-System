@@ -154,19 +154,28 @@ const Whiteboard = ({ isOpen, onClose, editingNote }: WhiteboardProps) => {
             className="fixed right-0 top-0 z-50 h-screen w-full max-w-2xl bg-white shadow-2xl flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b bg-gradient-to-r from-primary/5 to-accent/5 p-4">
-              <div>
-                <h2 className="text-xl font-bold">Create Notes</h2>
-                <p className="text-sm text-muted-foreground">Draw or type your notes</p>
+            <div className="border-b bg-gradient-to-r from-primary/5 to-accent/5 p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <h2 className="text-xl font-bold">{editingNote ? "Edit Note" : "Create Notes"}</h2>
+                  <p className="text-sm text-muted-foreground">Draw or type your notes</p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={onClose}
+                  className="h-8 w-8"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onClose}
-                className="h-8 w-8"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Note title (required)"
+                className="w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              />
             </div>
 
             {/* Main Content */}
