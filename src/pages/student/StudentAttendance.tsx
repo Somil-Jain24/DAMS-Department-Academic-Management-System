@@ -241,26 +241,6 @@ const StudentAttendance = () => {
               </CardContent>
             </Card>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground">On Leave</p>
-                    <p className="text-3xl font-bold text-warning">
-                      {pieData[2].value}
-                    </p>
-                  </div>
-                  <Clock className="h-8 w-8 text-warning" />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
 
         {/* Charts & History Section - Two Column Layout */}
