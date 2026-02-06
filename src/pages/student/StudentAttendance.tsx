@@ -265,23 +265,23 @@ const StudentAttendance = () => {
           </motion.div>
         </div>
 
-        {/* Charts Section */}
+        {/* Charts & History Section - Two Column Layout */}
         <div className="grid gap-6 lg:grid-cols-2">
-          {/* Pie Chart */}
+          {/* Left Column: Pie Chart */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card>
+            <Card className="h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
                   Attendance Distribution
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-64">
+              <CardContent className="flex flex-col items-center justify-center">
+                <div className="h-64 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -317,53 +317,134 @@ const StudentAttendance = () => {
             </Card>
           </motion.div>
 
-          {/* Bar Chart - Subject-wise (Hide when in subject context) */}
-          {!isInScope && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle>Subject-wise Attendance</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={barData}>
-                        <XAxis dataKey="name" />
-                        <YAxis domain={[0, 100]} />
-                        <Tooltip
-                          formatter={(value: number) => [`${value}%`, "Attendance"]}
-                        />
-                        <Bar dataKey="attendance" radius={[4, 4, 0, 0]}>
-                          {barData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                          ))}
-                        </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                  <div className="mt-4 flex justify-center gap-4 text-xs">
-                    <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-success" />
-                      <span>≥75%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-warning" />
-                      <span>60-74%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-destructive" />
-                      <span>&lt;60%</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
+          {/* Right Column: Attendance History */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="lg:flex lg:flex-col"
+          >
+            <Card className="h-full flex flex-col">
+              <CardHeader className="flex flex-row items-center justify-between shrink-0">
+                <CardTitle>Attendance History</CardTitle>
+                {/* Subject filter dropdown - Hide when in subject context */}
+                {!isInScope && (
+                  <Select value={selectedSubjectFilter} onValueChange={setSelectedSubjectFilter}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue placeholder="All Subjects" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Subjects</SelectItem>
+                      {demoSubjects.map((subject) => (
+                        <SelectItem key={subject.id} value={subject.id}>
+                          {subject.code} - {subject.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </CardHeader>
+              <CardContent className="flex-1 overflow-y-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Subject</TableHead>
+                      <TableHead className="text-right">Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredRecords.map((record, index) => (
+                      <motion.tr
+                        key={record.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.03 }}
+                      >
+                        <TableCell>
+                          {new Date(record.date).toLocaleDateString("en-US", {
+                            weekday: "short",
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </TableCell>
+                        <TableCell>{getSubjectName(record.subject)}</TableCell>
+                        <TableCell className="text-right">
+                          <Badge
+                            variant={
+                              record.status === "present"
+                                ? "default"
+                                : record.status === "absent"
+                                ? "destructive"
+                                : "secondary"
+                            }
+                            className={
+                              record.status === "present"
+                                ? "bg-success"
+                                : record.status === "leave"
+                                ? "bg-warning"
+                                : ""
+                            }
+                          >
+                            {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
+                          </Badge>
+                        </TableCell>
+                      </motion.tr>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
+
+        {/* Subject-wise Bar Chart - Full width below, only show when not in subject context */}
+        {!isInScope && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle>Subject-wise Attendance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={barData}>
+                      <XAxis dataKey="name" />
+                      <YAxis domain={[0, 100]} />
+                      <Tooltip
+                        formatter={(value: number) => [`${value}%`, "Attendance"]}
+                      />
+                      <Bar dataKey="attendance" radius={[4, 4, 0, 0]}>
+                        {barData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.fill} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="mt-4 flex justify-center gap-4 text-xs">
+                  <div className="flex items-center gap-1">
+                    <div className="h-2 w-2 rounded-full bg-success" />
+                    <span>≥75%</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="h-2 w-2 rounded-full bg-warning" />
+                    <span>60-74%</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="h-2 w-2 rounded-full bg-destructive" />
+                    <span>&lt;60%</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
 
         {/* Subject Cards - Hide when in subject context */}
         {!isInScope && (
