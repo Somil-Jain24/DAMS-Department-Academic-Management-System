@@ -23,6 +23,7 @@ import { demoClasses } from "@/data/demoData";
 const FacultyDashboard = () => {
   const [showWhiteboard, setShowWhiteboard] = useState(false);
   const [editingNote, setEditingNote] = useState<Note | undefined>(undefined);
+  const [selectedClassForNote, setSelectedClassForNote] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
   const { setSelectedClass } = useClass();
 
@@ -32,6 +33,12 @@ const FacultyDashboard = () => {
   };
 
   const handleCreateNote = () => {
+    setEditingNote(undefined);
+    setShowWhiteboard(true);
+  };
+
+  const handleCreateClassNote = (classId: string) => {
+    setSelectedClassForNote(classId);
     setEditingNote(undefined);
     setShowWhiteboard(true);
   };
