@@ -184,10 +184,12 @@ const StudentMarks = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {Math.round(
-                  marksData.reduce((sum, s) => sum + calculateTotalPercentage(s), 0) /
-                    marksData.length
-                )}
+                {filteredMarksData.length > 0
+                  ? Math.round(
+                      filteredMarksData.reduce((sum, s) => sum + calculateTotalPercentage(s), 0) /
+                        filteredMarksData.length
+                    )
+                  : "N/A"}
                 %
               </div>
               <p className="text-xs text-muted-foreground">across all subjects</p>
