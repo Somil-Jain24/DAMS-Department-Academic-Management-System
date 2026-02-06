@@ -42,6 +42,7 @@ import {
   Legend,
 } from "recharts";
 import { useSubject } from "@/contexts/SubjectContext";
+import { useScope } from "@/contexts/ScopeContext";
 import {
   currentStudent,
   demoSubjects,
@@ -51,6 +52,7 @@ import {
 
 const StudentAttendance = () => {
   const { selectedSubject } = useSubject();
+  const { isInScope } = useScope();
   const [selectedSubjectFilter, setSelectedSubjectFilter] = useState<string>("all");
 
   useEffect(() => {
