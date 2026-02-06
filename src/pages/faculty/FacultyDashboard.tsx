@@ -10,9 +10,6 @@ import { Progress } from "@/components/ui/progress";
 import {
   Users,
   FileText,
-  Calendar,
-  BookOpen,
-  AlertTriangle,
   ChevronRight,
   PlusCircle,
 } from "lucide-react";
