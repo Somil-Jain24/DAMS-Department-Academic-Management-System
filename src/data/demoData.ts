@@ -665,14 +665,14 @@ export const getAttendanceForDate = (
   date: string,
   subjectId: string,
   records: AttendanceRecord[]
-): Map<string, "present" | "absent" | "leave"> => {
+): Map<string, "present" | "absent"> => {
   const dayRecords = records.filter(
     (r) => r.date === date && r.subject === subjectId
   );
-  
-  const attendanceMap = new Map<string, "present" | "absent" | "leave">();
+
+  const attendanceMap = new Map<string, "present" | "absent">();
   dayRecords.forEach((r) => attendanceMap.set(r.studentId, r.status));
-  
+
   return attendanceMap;
 };
 
