@@ -21,21 +21,13 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotificationDropdown from "@/components/notifications/NotificationDropdown";
-import NotesSection from "@/components/notes/NotesSection";
+import NotesSection, { Note } from "@/components/notes/NotesSection";
 import { useScope } from "@/contexts/ScopeContext";
 
 interface NavItem {
   icon: React.ElementType;
   label: string;
   href: string;
-}
-
-interface Note {
-  id: string;
-  title: string;
-  drawing: string;
-  text: string;
-  savedAt: string;
 }
 
 interface DashboardLayoutProps {
