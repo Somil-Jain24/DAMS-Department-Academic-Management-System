@@ -95,7 +95,7 @@ const FacultyDashboard = () => {
             </p>
           </div>
           <Button
-            onClick={() => setShowWhiteboard(true)}
+            onClick={handleCreateNote}
             className="gap-2 w-full sm:w-auto"
           >
             <PlusCircle className="h-4 w-4" />
