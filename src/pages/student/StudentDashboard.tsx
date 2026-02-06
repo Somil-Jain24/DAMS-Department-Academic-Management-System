@@ -6,9 +6,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   BookOpen,
-  Trophy,
   TrendingUp,
   ArrowRight,
+  Calendar,
+  FileText,
 } from "lucide-react";
 import { demoSubjects, currentStudent, demoAssignments, demoLabSessions, demoContests } from "@/data/demoData";
 
