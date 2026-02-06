@@ -50,31 +50,6 @@ const FacultyDashboard = () => {
     }
   };
 
-  const classes = [
-    { name: "IT 3rd Year A", subject: "Data Structures", students: 60, nextClass: "10:00 AM" },
-    { name: "IT 3rd Year B", subject: "Data Structures", students: 58, nextClass: "11:30 AM" },
-    { name: "DS 2nd Year A", subject: "Algorithms", students: 55, nextClass: "2:00 PM" },
-  ];
-
-  const pendingTasks = [
-    { title: "Grade DSA Assignment 2", class: "IT 3rd Year A", count: 45, type: "grading" },
-    { title: "Review Lab Submissions", class: "IT 3rd Year B", count: 32, type: "lab" },
-    { title: "Prepare Quiz 3", class: "DS 2nd Year A", count: null, type: "quiz" },
-  ];
-
-  const attendanceAlerts = [
-    { name: "Amit Kumar", class: "IT 3rd Year A", attendance: 68 },
-    { name: "Priya Sharma", class: "IT 3rd Year B", attendance: 72 },
-    { name: "Rahul Singh", class: "DS 2nd Year A", attendance: 70 },
-  ];
-
-  const recentActivity = [
-    { action: "Marked attendance", class: "IT 3rd Year A", time: "30 mins ago" },
-    { action: "Posted assignment", class: "IT 3rd Year B", time: "2 hours ago" },
-    { action: "Graded 15 submissions", class: "DS 2nd Year A", time: "4 hours ago" },
-    { action: "Created lab session", class: "IT 3rd Year A", time: "Yesterday" },
-  ];
-
   return (
     <DashboardLayout
       role="faculty"
