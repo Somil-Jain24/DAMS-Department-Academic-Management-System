@@ -322,7 +322,6 @@ const StudentAttendance = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="lg:flex lg:flex-col"
           >
             <Card className="h-full flex flex-col">
               <CardHeader className="flex flex-row items-center justify-between shrink-0">
@@ -344,56 +343,58 @@ const StudentAttendance = () => {
                   </Select>
                 )}
               </CardHeader>
-              <CardContent className="flex-1 overflow-y-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Subject</TableHead>
-                      <TableHead className="text-right">Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredRecords.map((record, index) => (
-                      <motion.tr
-                        key={record.id}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.03 }}
-                      >
-                        <TableCell>
-                          {new Date(record.date).toLocaleDateString("en-US", {
-                            weekday: "short",
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </TableCell>
-                        <TableCell>{getSubjectName(record.subject)}</TableCell>
-                        <TableCell className="text-right">
-                          <Badge
-                            variant={
-                              record.status === "present"
-                                ? "default"
-                                : record.status === "absent"
-                                ? "destructive"
-                                : "secondary"
-                            }
-                            className={
-                              record.status === "present"
-                                ? "bg-success"
-                                : record.status === "leave"
-                                ? "bg-warning"
-                                : ""
-                            }
-                          >
-                            {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
-                          </Badge>
-                        </TableCell>
-                      </motion.tr>
-                    ))}
-                  </TableBody>
-                </Table>
+              <CardContent className="overflow-hidden" style={{ maxHeight: "320px", overflow: "hidden" }}>
+                <div className="overflow-y-auto" style={{ maxHeight: "100%" }}>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Subject</TableHead>
+                        <TableHead className="text-right">Status</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredRecords.map((record, index) => (
+                        <motion.tr
+                          key={record.id}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.03 }}
+                        >
+                          <TableCell>
+                            {new Date(record.date).toLocaleDateString("en-US", {
+                              weekday: "short",
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </TableCell>
+                          <TableCell>{getSubjectName(record.subject)}</TableCell>
+                          <TableCell className="text-right">
+                            <Badge
+                              variant={
+                                record.status === "present"
+                                  ? "default"
+                                  : record.status === "absent"
+                                  ? "destructive"
+                                  : "secondary"
+                              }
+                              className={
+                                record.status === "present"
+                                  ? "bg-success"
+                                  : record.status === "leave"
+                                  ? "bg-warning"
+                                  : ""
+                              }
+                            >
+                              {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
+                            </Badge>
+                          </TableCell>
+                        </motion.tr>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
