@@ -8,6 +8,7 @@ import { SubjectProvider } from "./contexts/SubjectContext";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/student/StudentDashboard";
+import StudentSubjectPage from "./pages/student/StudentSubjectPage";
 import StudentAttendance from "./pages/student/StudentAttendance";
 import StudentAssignments from "./pages/student/StudentAssignments";
 import StudentLabs from "./pages/student/StudentLabs";
