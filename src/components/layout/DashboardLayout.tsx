@@ -136,29 +136,37 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
         )}
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto p-4">
-          <ul className="space-y-2">
-            {navItems.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <li key={item.href}>
-                  <NavLink
-                    to={item.href}
-                    className={cn(
-                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
-                      isActive
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
-                    )}
-                  >
-                    <item.icon className="h-5 w-5 shrink-0" />
-                    {sidebarOpen && <span>{item.label}</span>}
-                  </NavLink>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+        {role === "faculty" ? (
+          <NotesSection
+            onNoteSelect={onNoteSelect || (() => {})}
+            onCreateNew={onCreateNote || (() => {})}
+            sidebarOpen={sidebarOpen}
+          />
+        ) : (
+          <nav className="flex-1 overflow-y-auto p-4">
+            <ul className="space-y-2">
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <NavLink
+                      to={item.href}
+                      className={cn(
+                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                        isActive
+                          ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                          : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                      )}
+                    >
+                      <item.icon className="h-5 w-5 shrink-0" />
+                      {sidebarOpen && <span>{item.label}</span>}
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        )}
 
         {/* Logout */}
         <div className="border-t border-sidebar-border p-4">
