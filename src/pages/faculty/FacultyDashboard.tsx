@@ -79,16 +79,6 @@ const FacultyDashboard = () => {
               You have 3 classes scheduled today.
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline">
-              <Calendar className="mr-2 h-4 w-4" />
-              Mark Attendance
-            </Button>
-            <Button variant="accent">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Create Assignment
-            </Button>
-          </div>
         </motion.div>
 
         {/* Stats Grid */}
