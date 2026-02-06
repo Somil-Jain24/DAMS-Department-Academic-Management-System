@@ -31,8 +31,8 @@ const marksData = [
     credits: 4,
   },
   {
-    subjectId: "sub2",
-    subjectName: "Database Management Systems",
+    subjectId: "IT602",
+    subjectName: "Wireless and Mobile Computing",
     internalMarks: [
       { exam: "Mid Term 1", obtained: 20, total: 25, date: "2024-02-16" },
       { exam: "Mid Term 2", obtained: 21, total: 25, date: "2024-03-21" },
