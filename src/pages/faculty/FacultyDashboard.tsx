@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import StatCard from "@/components/dashboard/StatCard";
-import Whiteboard from "@/components/whiteboard/Whiteboard";
+import Whiteboard, { Note } from "@/components/whiteboard/Whiteboard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,14 +19,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useClass } from "@/contexts/ClassContext";
 import { demoClasses } from "@/data/demoData";
-
-interface Note {
-  id: string;
-  title: string;
-  drawing: string;
-  text: string;
-  savedAt: string;
-}
 
 const FacultyDashboard = () => {
   const [showWhiteboard, setShowWhiteboard] = useState(false);
