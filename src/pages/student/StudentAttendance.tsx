@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,6 +41,8 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { useSubject } from "@/contexts/SubjectContext";
+import { useScope } from "@/contexts/ScopeContext";
 import {
   currentStudent,
   demoSubjects,
@@ -49,7 +51,17 @@ import {
 } from "@/data/demoData";
 
 const StudentAttendance = () => {
-  const [selectedSubject, setSelectedSubject] = useState<string>("all");
+  const { selectedSubject } = useSubject();
+  const { isInScope } = useScope();
+  const [selectedSubjectFilter, setSelectedSubjectFilter] = useState<string>("all");
+
+  useEffect(() => {
+    // If in subject context, lock filter to that subject
+    // If not in subject context, allow "all" option
+    if (selectedSubject) {
+      setSelectedSubjectFilter(selectedSubject.id);
+    }
+  }, [selectedSubject]);
 
   // Calculate overall attendance
   const overallAttendance = useMemo(() => {
@@ -74,18 +86,18 @@ const StudentAttendance = () => {
       .filter(
         (r) =>
           r.studentId === currentStudent.id &&
-          (selectedSubject === "all" || r.subject === selectedSubject)
+          (selectedSubjectFilter === "all" || r.subject === selectedSubjectFilter)
       )
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 20);
-  }, [selectedSubject]);
+  }, [selectedSubjectFilter]);
 
   // Pie chart data
   const pieData = useMemo(() => {
     const records = demoAttendanceRecords.filter(
       (r) =>
         r.studentId === currentStudent.id &&
-        (selectedSubject === "all" || r.subject === selectedSubject)
+        (selectedSubjectFilter === "all" || r.subject === selectedSubjectFilter)
     );
     const present = records.filter((r) => r.status === "present").length;
     const absent = records.filter((r) => r.status === "absent").length;
@@ -96,7 +108,7 @@ const StudentAttendance = () => {
       { name: "Absent", value: absent, color: "hsl(var(--destructive))" },
       { name: "Leave", value: leave, color: "hsl(var(--warning))" },
     ];
-  }, [selectedSubject]);
+  }, [selectedSubjectFilter]);
 
   // Bar chart data for subject-wise
   const barData = subjectAttendance.map((sa) => ({
@@ -119,7 +131,9 @@ const StudentAttendance = () => {
         <div>
           <h1 className="text-2xl font-bold">Attendance Tracker</h1>
           <p className="text-muted-foreground">
-            Monitor your attendance across all subjects
+            {isInScope
+              ? `Monitor your attendance for ${selectedSubject?.code}`
+              : "Monitor your attendance across all subjects"}
           </p>
         </div>
 
@@ -153,7 +167,7 @@ const StudentAttendance = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">
-                      Overall Attendance
+                      {isInScope ? "Subject Attendance" : "Overall Attendance"}
                     </p>
                     <p
                       className={`text-3xl font-bold ${
@@ -164,7 +178,11 @@ const StudentAttendance = () => {
                           : "text-destructive"
                       }`}
                     >
-                      {overallAttendance}%
+                      {selectedSubjectFilter !== "all" && isInScope
+                        ? subjectAttendance.find((sa) => sa.subject.id === selectedSubjectFilter)
+                            ?.percentage || overallAttendance
+                        : overallAttendance}
+                      %
                     </p>
                   </div>
                   {overallAttendance >= 75 ? (
@@ -174,7 +192,12 @@ const StudentAttendance = () => {
                   )}
                 </div>
                 <Progress
-                  value={overallAttendance}
+                  value={
+                    selectedSubjectFilter !== "all" && isInScope
+                      ? subjectAttendance.find((sa) => sa.subject.id === selectedSubjectFilter)
+                          ?.percentage || overallAttendance
+                      : overallAttendance
+                  }
                   className="mt-3 h-2"
                 />
               </CardContent>
@@ -242,23 +265,23 @@ const StudentAttendance = () => {
           </motion.div>
         </div>
 
-        {/* Charts Section */}
+        {/* Charts & History Section - Two Column Layout */}
         <div className="grid gap-6 lg:grid-cols-2">
-          {/* Pie Chart */}
+          {/* Left Column: Pie Chart */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card>
+            <Card className="h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
                   Attendance Distribution
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-64">
+              <CardContent className="flex flex-col items-center justify-center">
+                <div className="h-64 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -294,11 +317,95 @@ const StudentAttendance = () => {
             </Card>
           </motion.div>
 
-          {/* Bar Chart - Subject-wise */}
+          {/* Right Column: Attendance History */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
+          >
+            <Card className="h-full flex flex-col">
+              <CardHeader className="flex flex-row items-center justify-between shrink-0">
+                <CardTitle>Attendance History</CardTitle>
+                {/* Subject filter dropdown - Hide when in subject context */}
+                {!isInScope && (
+                  <Select value={selectedSubjectFilter} onValueChange={setSelectedSubjectFilter}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue placeholder="All Subjects" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Subjects</SelectItem>
+                      {demoSubjects.map((subject) => (
+                        <SelectItem key={subject.id} value={subject.id}>
+                          {subject.code} - {subject.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </CardHeader>
+              <CardContent className="p-0 overflow-hidden">
+                <div className="max-h-80 overflow-y-auto p-6">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Subject</TableHead>
+                        <TableHead className="text-right">Status</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredRecords.map((record, index) => (
+                        <motion.tr
+                          key={record.id}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.03 }}
+                        >
+                          <TableCell>
+                            {new Date(record.date).toLocaleDateString("en-US", {
+                              weekday: "short",
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </TableCell>
+                          <TableCell>{getSubjectName(record.subject)}</TableCell>
+                          <TableCell className="text-right">
+                            <Badge
+                              variant={
+                                record.status === "present"
+                                  ? "default"
+                                  : record.status === "absent"
+                                  ? "destructive"
+                                  : "secondary"
+                              }
+                              className={
+                                record.status === "present"
+                                  ? "bg-success"
+                                  : record.status === "leave"
+                                  ? "bg-warning"
+                                  : ""
+                              }
+                            >
+                              {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
+                            </Badge>
+                          </TableCell>
+                        </motion.tr>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+
+        {/* Subject-wise Bar Chart - Full width below, only show when not in subject context */}
+        {!isInScope && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
           >
             <Card>
               <CardHeader>
@@ -338,118 +445,49 @@ const StudentAttendance = () => {
               </CardContent>
             </Card>
           </motion.div>
-        </div>
+        )}
 
-        {/* Subject Cards */}
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
-          {subjectAttendance.map(({ subject, percentage }, index) => (
-            <motion.div
-              key={subject.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * index }}
-            >
-              <Card
-                className={`cursor-pointer transition-all hover:shadow-md ${
-                  percentage < 75 ? "border-destructive/50" : ""
-                }`}
-                onClick={() => setSelectedSubject(subject.id)}
+        {/* Subject Cards - Hide when in subject context */}
+        {!isInScope && (
+          <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
+            {subjectAttendance.map(({ subject, percentage }, index) => (
+              <motion.div
+                key={subject.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index }}
               >
-                <CardContent className="pt-4">
-                  <div className="text-center">
-                    <p className="text-xs font-medium text-muted-foreground">
-                      {subject.code}
-                    </p>
-                    <p className="text-sm font-semibold">{subject.name}</p>
-                    <p
-                      className={`mt-2 text-2xl font-bold ${
-                        percentage >= 75
-                          ? "text-success"
-                          : percentage >= 60
-                          ? "text-warning"
-                          : "text-destructive"
-                      }`}
-                    >
-                      {percentage}%
-                    </p>
-                    <Progress value={percentage} className="mt-2 h-1.5" />
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Detailed Records */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Attendance History</CardTitle>
-            <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="All Subjects" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Subjects</SelectItem>
-                {demoSubjects.map((subject) => (
-                  <SelectItem key={subject.id} value={subject.id}>
-                    {subject.code} - {subject.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Subject</TableHead>
-                  <TableHead className="text-right">Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredRecords.map((record, index) => (
-                  <motion.tr
-                    key={record.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.03 }}
-                  >
-                    <TableCell>
-                      {new Date(record.date).toLocaleDateString("en-US", {
-                        weekday: "short",
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </TableCell>
-                    <TableCell>{getSubjectName(record.subject)}</TableCell>
-                    <TableCell className="text-right">
-                      <Badge
-                        variant={
-                          record.status === "present"
-                            ? "default"
-                            : record.status === "absent"
-                            ? "destructive"
-                            : "secondary"
-                        }
-                        className={
-                          record.status === "present"
-                            ? "bg-success"
-                            : record.status === "leave"
-                            ? "bg-warning"
-                            : ""
-                        }
+                <Card
+                  className={`cursor-pointer transition-all hover:shadow-md ${
+                    percentage < 75 ? "border-destructive/50" : ""
+                  }`}
+                  onClick={() => setSelectedSubjectFilter(subject.id)}
+                >
+                  <CardContent className="pt-4">
+                    <div className="text-center">
+                      <p className="text-xs font-medium text-muted-foreground">
+                        {subject.code}
+                      </p>
+                      <p className="text-sm font-semibold">{subject.name}</p>
+                      <p
+                        className={`mt-2 text-2xl font-bold ${
+                          percentage >= 75
+                            ? "text-success"
+                            : percentage >= 60
+                            ? "text-warning"
+                            : "text-destructive"
+                        }`}
                       >
-                        {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
-                      </Badge>
-                    </TableCell>
-                  </motion.tr>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                        {percentage}%
+                      </p>
+                      <Progress value={percentage} className="mt-2 h-1.5" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </DashboardLayout>
   );

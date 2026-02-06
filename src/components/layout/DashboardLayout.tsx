@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotificationDropdown from "@/components/notifications/NotificationDropdown";
+import { useScope } from "@/contexts/ScopeContext";
 
 interface NavItem {
   icon: React.ElementType;
@@ -41,12 +42,16 @@ const DashboardLayout = ({ children, role }: DashboardLayoutProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isInScope } = useScope();
+
+  // If in a scoped context (class/subject), hide global sidebar and just render children
+  if (isInScope) {
+    return <>{children}</>;
+  }
 
   const studentNav: NavItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/student" },
     { icon: Calendar, label: "Attendance", href: "/student/attendance" },
-    { icon: FileText, label: "Assignments", href: "/student/assignments" },
-    { icon: BookOpen, label: "Lab Sessions", href: "/student/labs" },
     { icon: Code, label: "Contests", href: "/student/contests" },
     { icon: Award, label: "Marks", href: "/student/marks" },
   ];

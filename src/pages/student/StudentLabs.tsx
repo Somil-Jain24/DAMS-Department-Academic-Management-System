@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,7 @@ import {
   Target,
 } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useSubject } from "@/contexts/SubjectContext";
 import {
   currentStudent,
   demoLabSessions,
@@ -25,11 +26,17 @@ import LabReviewMode from "@/components/lab/LabReviewMode";
 
 const StudentLabs = () => {
   const { toast } = useToast();
+  const { selectedSubject } = useSubject();
   const [selectedLab, setSelectedLab] = useState<LabSession | null>(null);
   const [reviewingLab, setReviewingLab] = useState<{
     lab: LabSession;
     submission: LabSubmission;
   } | null>(null);
+
+  // Filter labs based on selected subject
+  const filteredLabs = selectedSubject
+    ? demoLabSessions.filter(lab => lab.subjectId === selectedSubject.id)
+    : demoLabSessions;
 
   const getSubmission = (labId: string): LabSubmission | undefined => {
     return demoLabSubmissions.find(
@@ -37,12 +44,12 @@ const StudentLabs = () => {
     );
   };
 
-  const pendingLabs = demoLabSessions.filter((lab) => {
+  const pendingLabs = filteredLabs.filter((lab) => {
     const sub = getSubmission(lab.id);
     return !sub || sub.status === "pending";
   });
 
-  const completedLabs = demoLabSessions.filter((lab) => {
+  const completedLabs = filteredLabs.filter((lab) => {
     const sub = getSubmission(lab.id);
     return sub && sub.status !== "pending";
   });
@@ -75,7 +82,12 @@ const StudentLabs = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Lab Sessions</h1>
-          <p className="text-muted-foreground mt-1">Complete lab exercises and submit your work</p>
+          <p className="text-muted-foreground mt-1">
+            {selectedSubject
+              ? `Complete lab exercises for ${selectedSubject.code} - ${selectedSubject.name}`
+              : "Complete lab exercises and submit your work"
+            }
+          </p>
         </div>
 
         {/* Stats */}
@@ -86,7 +98,7 @@ const StudentLabs = () => {
                 <FlaskConical className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{demoLabSessions.length}</p>
+                <p className="text-2xl font-bold">{filteredLabs.length}</p>
                 <p className="text-xs text-muted-foreground">Total Labs</p>
               </div>
             </CardContent>

@@ -4,9 +4,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ClassProvider } from "./contexts/ClassContext";
+import { SubjectProvider } from "./contexts/SubjectContext";
+import { ScopeProvider } from "./contexts/ScopeContext";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/student/StudentDashboard";
+import StudentSubjectPage from "./pages/student/StudentSubjectPage";
 import StudentAttendance from "./pages/student/StudentAttendance";
 import StudentAssignments from "./pages/student/StudentAssignments";
 import StudentLabs from "./pages/student/StudentLabs";
@@ -36,7 +39,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ClassProvider>
-          <Routes>
+          <SubjectProvider>
+            <ScopeProvider>
+              <Routes>
             <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           {/* Student Routes */}
@@ -47,6 +52,14 @@ const App = () => (
           <Route path="/student/labs" element={<StudentLabs />} />
           <Route path="/student/contests" element={<StudentContests />} />
           <Route path="/student/marks" element={<StudentMarks />} />
+          {/* Subject-Scoped Routes (Student) */}
+          <Route path="/student/subject/:subjectId" element={<StudentSubjectPage />}>
+            <Route path="/student/subject/:subjectId/attendance" element={<StudentAttendance />} />
+            <Route path="/student/subject/:subjectId/assignments" element={<StudentAssignments />} />
+            <Route path="/student/subject/:subjectId/labs" element={<StudentLabs />} />
+            <Route path="/student/subject/:subjectId/contests" element={<StudentContests />} />
+            <Route path="/student/subject/:subjectId/marks" element={<StudentMarks />} />
+          </Route>
           {/* Faculty Routes */}
           <Route path="/faculty" element={<FacultyDashboard />} />
           <Route path="/faculty/attendance" element={<FacultyAttendance />} />
@@ -71,7 +84,9 @@ const App = () => (
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
-          </Routes>
+              </Routes>
+            </ScopeProvider>
+          </SubjectProvider>
         </ClassProvider>
       </BrowserRouter>
     </TooltipProvider>

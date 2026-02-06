@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import {
   Star,
 } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useSubject } from "@/contexts/SubjectContext";
 import {
   currentStudent,
   demoAssignments,
@@ -27,9 +28,15 @@ import {
 
 const StudentAssignments = () => {
   const { toast } = useToast();
+  const { selectedSubject } = useSubject();
   const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
   const [submissionContent, setSubmissionContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Filter assignments based on selected subject
+  const filteredAssignments = selectedSubject
+    ? demoAssignments.filter(asg => asg.subjectId === selectedSubject.id)
+    : demoAssignments;
 
   const getSubmission = (assignmentId: string): AssignmentSubmission | undefined => {
     return demoAssignmentSubmissions.find(
@@ -37,12 +44,12 @@ const StudentAssignments = () => {
     );
   };
 
-  const pendingAssignments = demoAssignments.filter((asg) => {
+  const pendingAssignments = filteredAssignments.filter((asg) => {
     const sub = getSubmission(asg.id);
     return !sub || sub.status === "pending";
   });
 
-  const submittedAssignments = demoAssignments.filter((asg) => {
+  const submittedAssignments = filteredAssignments.filter((asg) => {
     const sub = getSubmission(asg.id);
     return sub && sub.status !== "pending";
   });
@@ -200,7 +207,12 @@ const StudentAssignments = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Assignments</h1>
-          <p className="text-muted-foreground mt-1">View and submit your assignments</p>
+          <p className="text-muted-foreground mt-1">
+            {selectedSubject
+              ? `View and submit your assignments for ${selectedSubject.code} - ${selectedSubject.name}`
+              : "View and submit your assignments"
+            }
+          </p>
         </div>
 
         {/* Stats */}
@@ -211,7 +223,7 @@ const StudentAssignments = () => {
                 <FileText className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{demoAssignments.length}</p>
+                <p className="text-2xl font-bold">{filteredAssignments.length}</p>
                 <p className="text-xs text-muted-foreground">Total</p>
               </div>
             </CardContent>

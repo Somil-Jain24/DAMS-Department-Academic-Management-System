@@ -1,33 +1,29 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import StatCard from "@/components/dashboard/StatCard";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import {
-  Calendar,
   BookOpen,
-  Trophy,
-  FileText,
-  Clock,
-  ArrowRight,
   TrendingUp,
+  Trophy,
+  ArrowRight,
+  Calendar,
+  FileText,
 } from "lucide-react";
+import { demoSubjects, currentStudent, demoAssignments, demoLabSessions, demoContests } from "@/data/demoData";
 
 const StudentDashboard = () => {
-  const courses = [
-    { name: "Data Structures", code: "CS301", faculty: "Dr. Smith", progress: 75 },
-    { name: "Database Systems", code: "CS302", faculty: "Prof. Johnson", progress: 60 },
-    { name: "Computer Networks", code: "CS303", faculty: "Dr. Williams", progress: 85 },
-    { name: "Software Engineering", code: "CS304", faculty: "Prof. Brown", progress: 45 },
-  ];
+  const navigate = useNavigate();
 
-  const upcomingDeadlines = [
-    { title: "DSA Assignment 3", subject: "Data Structures", due: "2 days", type: "assignment" },
-    { title: "DBMS Lab 5", subject: "Database Systems", due: "4 days", type: "lab" },
-    { title: "CN Quiz 2", subject: "Computer Networks", due: "1 week", type: "quiz" },
-  ];
+  const getSubjectStats = (subjectId: string) => {
+    const assignments = demoAssignments.filter(a => a.subjectId === subjectId).length;
+    const labs = demoLabSessions.filter(l => l.subjectId === subjectId).length;
+    const contests = demoContests.filter(c => c.subjectId === subjectId).length;
+    return { assignments, labs, contests };
+  };
 
   return (
     <DashboardLayout role="student">
@@ -82,83 +78,68 @@ const StudentDashboard = () => {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          {/* Courses */}
+        <div className="grid gap-6">
+          {/* Subjects Grid */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="lg:col-span-2"
           >
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle>My Courses</CardTitle>
-                  <CardDescription>Current semester courses and progress</CardDescription>
-                </div>
-                <Button variant="ghost" size="sm">
-                  View All
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {courses.map((course, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between rounded-xl border bg-muted/30 p-4 transition-colors hover:bg-muted/50"
+            <div>
+              <h2 className="text-xl font-bold mb-4">Your Subjects</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                {demoSubjects.map((subject, index) => {
+                  const stats = getSubjectStats(subject.id);
+
+                  return (
+                    <motion.div
+                      key={subject.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 * index }}
                     >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-semibold">{course.name}</h4>
-                          <Badge variant="secondary">{course.code}</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground">{course.faculty}</p>
-                      </div>
-                      <div className="w-32 space-y-1 text-right">
-                        <p className="text-sm font-medium">{course.progress}%</p>
-                        <Progress value={course.progress} className="h-2" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                      <Card
+                        className="cursor-pointer transition-all hover:shadow-lg hover:border-primary"
+                        onClick={() => navigate(`/student/subject/${subject.id}`)}
+                      >
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <Badge variant="outline" className="mb-2">{subject.code}</Badge>
+                              <h3 className="font-semibold text-lg">{subject.name}</h3>
+                            </div>
+                            <BookOpen className="h-5 w-5 text-primary/60 flex-shrink-0 ml-2" />
+                          </div>
+
+                          {/* Subject Stats */}
+                          <div className="grid grid-cols-3 gap-3 text-center text-sm">
+                            <div>
+                              <p className="text-2xl font-bold text-blue-500">{stats.assignments}</p>
+                              <p className="text-xs text-muted-foreground">Assignments</p>
+                            </div>
+                            <div>
+                              <p className="text-2xl font-bold text-purple-500">{stats.labs}</p>
+                              <p className="text-xs text-muted-foreground">Labs</p>
+                            </div>
+                            <div>
+                              <p className="text-2xl font-bold text-orange-500">{stats.contests}</p>
+                              <p className="text-xs text-muted-foreground">Contests</p>
+                            </div>
+                          </div>
+
+                          {/* Click to open hint */}
+                          <div className="mt-4 pt-4 border-t flex items-center justify-center gap-1 text-xs text-muted-foreground">
+                            Click to open <ArrowRight className="h-3 w-3" />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
           </motion.div>
 
-          {/* Upcoming Deadlines */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-warning" />
-                  Upcoming Deadlines
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {upcomingDeadlines.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start gap-3 rounded-lg border-l-4 border-warning bg-warning/5 p-3"
-                    >
-                      <div className="flex-1 space-y-1">
-                        <p className="font-medium">{item.title}</p>
-                        <p className="text-sm text-muted-foreground">{item.subject}</p>
-                      </div>
-                      <Badge variant="outline" className="shrink-0">
-                        {item.due}
-                      </Badge>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
 
 

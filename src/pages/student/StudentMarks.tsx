@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -12,12 +13,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Trophy, TrendingUp, BookOpen, Award } from "lucide-react";
+import { useSubject } from "@/contexts/SubjectContext";
 import { demoSubjects } from "@/data/demoData";
 
 const marksData = [
   {
-    subjectId: "sub1",
-    subjectName: "Data Structures & Algorithms",
+    subjectId: "IT601",
+    subjectName: "Computer Graphics and Multimedia",
     internalMarks: [
       { exam: "Mid Term 1", obtained: 22, total: 25, date: "2024-02-15" },
       { exam: "Mid Term 2", obtained: 20, total: 25, date: "2024-03-20" },
@@ -29,8 +31,8 @@ const marksData = [
     credits: 4,
   },
   {
-    subjectId: "sub2",
-    subjectName: "Database Management Systems",
+    subjectId: "IT602",
+    subjectName: "Wireless and Mobile Computing",
     internalMarks: [
       { exam: "Mid Term 1", obtained: 20, total: 25, date: "2024-02-16" },
       { exam: "Mid Term 2", obtained: 21, total: 25, date: "2024-03-21" },
@@ -42,8 +44,8 @@ const marksData = [
     credits: 4,
   },
   {
-    subjectId: "sub3",
-    subjectName: "Operating Systems",
+    subjectId: "IT603B",
+    subjectName: "Data Mining",
     internalMarks: [
       { exam: "Mid Term 1", obtained: 18, total: 25, date: "2024-02-17" },
       { exam: "Mid Term 2", obtained: 19, total: 25, date: "2024-03-22" },
@@ -55,8 +57,8 @@ const marksData = [
     credits: 3,
   },
   {
-    subjectId: "sub4",
-    subjectName: "Computer Networks",
+    subjectId: "IT604B",
+    subjectName: "Software Engineering",
     internalMarks: [
       { exam: "Mid Term 1", obtained: 21, total: 25, date: "2024-02-18" },
       { exam: "Mid Term 2", obtained: 22, total: 25, date: "2024-03-23" },
@@ -65,19 +67,6 @@ const marksData = [
     lab: { obtained: 24, total: 25 },
     external: { obtained: 78, total: 100 },
     grade: "A+",
-    credits: 3,
-  },
-  {
-    subjectId: "sub5",
-    subjectName: "Software Engineering",
-    internalMarks: [
-      { exam: "Mid Term 1", obtained: 19, total: 25, date: "2024-02-19" },
-      { exam: "Mid Term 2", obtained: 20, total: 25, date: "2024-03-24" },
-    ],
-    assignments: { obtained: 18, total: 20 },
-    lab: null,
-    external: { obtained: 70, total: 100 },
-    grade: "A",
     credits: 3,
   },
 ];
@@ -121,12 +110,19 @@ const getGradePoints = (grade: string) => {
 };
 
 const StudentMarks = () => {
-  const totalCredits = marksData.reduce((sum, subject) => sum + subject.credits, 0);
-  const totalGradePoints = marksData.reduce(
+  const { selectedSubject } = useSubject();
+
+  // Filter marks based on selected subject
+  const filteredMarksData = selectedSubject
+    ? marksData.filter(m => m.subjectId === selectedSubject.id)
+    : marksData;
+
+  const totalCredits = filteredMarksData.reduce((sum, subject) => sum + subject.credits, 0);
+  const totalGradePoints = filteredMarksData.reduce(
     (sum, subject) => sum + getGradePoints(subject.grade) * subject.credits,
     0
   );
-  const cgpa = (totalGradePoints / totalCredits).toFixed(2);
+  const cgpa = totalCredits > 0 ? (totalGradePoints / totalCredits).toFixed(2) : "N/A";
 
   const calculateTotalPercentage = (subject: typeof marksData[0]) => {
     const internalTotal = subject.internalMarks.reduce((sum, m) => sum + m.obtained, 0);
@@ -149,7 +145,12 @@ const StudentMarks = () => {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Academic Performance</h1>
-          <p className="text-muted-foreground">View your marks and grades across all subjects</p>
+          <p className="text-muted-foreground">
+            {selectedSubject
+              ? `View your marks for ${selectedSubject.code} - ${selectedSubject.name}`
+              : "View your marks and grades across all subjects"
+            }
+          </p>
         </div>
 
         {/* Summary Cards */}
@@ -183,10 +184,12 @@ const StudentMarks = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {Math.round(
-                  marksData.reduce((sum, s) => sum + calculateTotalPercentage(s), 0) /
-                    marksData.length
-                )}
+                {filteredMarksData.length > 0
+                  ? Math.round(
+                      filteredMarksData.reduce((sum, s) => sum + calculateTotalPercentage(s), 0) /
+                        filteredMarksData.length
+                    )
+                  : "N/A"}
                 %
               </div>
               <p className="text-xs text-muted-foreground">across all subjects</p>
@@ -233,7 +236,7 @@ const StudentMarks = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {marksData.map((subject) => {
+                    {filteredMarksData.map((subject) => {
                       const internalTotal = subject.internalMarks.reduce(
                         (sum, m) => sum + m.obtained,
                         0
@@ -282,7 +285,7 @@ const StudentMarks = () => {
           </TabsContent>
 
           <TabsContent value="internal" className="space-y-4">
-            {marksData.map((subject) => (
+            {filteredMarksData.map((subject) => (
               <Card key={subject.subjectId}>
                 <CardHeader>
                   <CardTitle className="text-lg">{subject.subjectName}</CardTitle>
@@ -344,7 +347,7 @@ const StudentMarks = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {marksData.map((subject) => (
+                    {filteredMarksData.map((subject) => (
                       <TableRow key={subject.subjectId}>
                         <TableCell className="font-medium">{subject.subjectName}</TableCell>
                         <TableCell className="text-center">{subject.external.obtained}</TableCell>
