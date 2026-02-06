@@ -131,7 +131,9 @@ const StudentAttendance = () => {
         <div>
           <h1 className="text-2xl font-bold">Attendance Tracker</h1>
           <p className="text-muted-foreground">
-            Monitor your attendance across all subjects
+            {isInScope
+              ? `Monitor your attendance for ${selectedSubject?.code}`
+              : "Monitor your attendance across all subjects"}
           </p>
         </div>
 
