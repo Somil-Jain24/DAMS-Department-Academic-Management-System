@@ -152,7 +152,6 @@ const FacultyAttendance = () => {
 
   const presentCount = Array.from(attendance.values()).filter((s) => s === "present").length;
   const absentCount = Array.from(attendance.values()).filter((s) => s === "absent").length;
-  const leaveCount = Array.from(attendance.values()).filter((s) => s === "leave").length;
 
   const LayoutComponent = isInClassContext ? ClassDashboardLayout : DashboardLayout;
   const layoutProps = isInClassContext ? {} : { role: "faculty" as const };
