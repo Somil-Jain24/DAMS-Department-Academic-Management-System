@@ -10,12 +10,16 @@ export interface Note {
   drawing: string;
   text: string;
   savedAt: string;
+  classId?: string;
+  className?: string;
 }
 
 interface WhiteboardProps {
   isOpen: boolean;
   onClose: () => void;
   editingNote?: Note;
+  classId?: string;
+  className?: string;
 }
 
 const Whiteboard = ({ isOpen, onClose, editingNote }: WhiteboardProps) => {
