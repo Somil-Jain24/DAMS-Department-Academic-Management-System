@@ -165,7 +165,16 @@ const FacultyAttendance = () => {
             <h1 className="text-2xl font-bold">Attendance Management</h1>
             <p className="text-muted-foreground">Mark and manage student attendance</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <Select value={lectureCount.toString()} onValueChange={(val) => setLectureCount(parseInt(val) as 1 | 2)}>
+              <SelectTrigger className="w-24">
+                <SelectValue placeholder="Lectures" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1 Lecture</SelectItem>
+                <SelectItem value="2">2 Lectures</SelectItem>
+              </SelectContent>
+            </Select>
             <Button variant="outline" onClick={markAllPresent}>
               <UserCheck className="mr-2 h-4 w-4" />
               Mark All Present
