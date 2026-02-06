@@ -343,9 +343,9 @@ const StudentAttendance = () => {
                   </Select>
                 )}
               </CardHeader>
-              <CardContent className="overflow-hidden" style={{ maxHeight: "320px", overflow: "hidden" }}>
-                <div className="overflow-y-auto" style={{ maxHeight: "100%" }}>
-                  <Table>
+              <CardContent className="p-0 overflow-hidden">
+                <div className="max-h-80 overflow-y-auto">
+                  <Table className="text-sm">
                     <TableHeader>
                       <TableRow>
                         <TableHead>Date</TableHead>
