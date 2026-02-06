@@ -352,15 +352,11 @@ const StudentAttendance = () => {
                               variant={
                                 record.status === "present"
                                   ? "default"
-                                  : record.status === "absent"
-                                  ? "destructive"
-                                  : "secondary"
+                                  : "destructive"
                               }
                               className={
                                 record.status === "present"
                                   ? "bg-success"
-                                  : record.status === "leave"
-                                  ? "bg-warning"
                                   : ""
                               }
                             >
