@@ -121,6 +121,8 @@ const Whiteboard = ({ isOpen, onClose, editingNote, classId, className }: Whiteb
       drawing: canvasRef.current?.toDataURL() || "",
       text: notes,
       savedAt: timestamp,
+      classId: classId || editingNote?.classId,
+      className: className || editingNote?.className,
     };
 
     localStorage.setItem(
