@@ -83,7 +83,11 @@ const FacultyDashboard = () => {
   ];
 
   return (
-    <DashboardLayout role="faculty">
+    <DashboardLayout
+      role="faculty"
+      onNoteSelect={handleNoteSelect}
+      onCreateNote={handleCreateNote}
+    >
       <div className="space-y-6">
         {/* Welcome Section */}
         <motion.div
