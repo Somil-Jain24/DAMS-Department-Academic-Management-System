@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   GraduationCap,
   LayoutDashboard,
+  Calendar,
   BookOpen,
   BarChart3,
   Users,
