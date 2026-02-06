@@ -12,7 +12,7 @@ import {
   FlaskConical,
   Trophy,
   BarChart3,
-  ArrowLeft,
+  GraduationCap,
 } from "lucide-react";
 
 interface NavItem {
