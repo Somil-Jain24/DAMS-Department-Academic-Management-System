@@ -24,7 +24,8 @@ export interface AttendanceRecord {
   id: string;
   studentId: string;
   date: string;
-  status: "present" | "absent" | "leave";
+  status: "present" | "absent";
+  lectureCount?: number;
   subject: string;
 }
 
